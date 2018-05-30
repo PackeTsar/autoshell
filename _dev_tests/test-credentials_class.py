@@ -2,12 +2,30 @@
 import os
 import sys
 import json
+import time
 import logging
 sys.path.append(os.pardir)  # Add parent directory to path
 print("\nAdded (%s) to path" % os.pardir)
-from shell_tools import credentials_class
+from autoshell import credentials_class
 print("Imported credentials_class\n\n")
 
+
+#######################################
+
+# Logging Setup
+global log
+global datalog
+log = logging.getLogger("shared")
+datalog = logging.getLogger("data")
+logHandler = logging.StreamHandler()
+dataHandler = logging.StreamHandler(sys.stdout)
+fmt = "%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s"
+format = logging.Formatter(fmt)
+logHandler.setFormatter(format)
+log.addHandler(logHandler)
+datalog.addHandler(dataHandler)
+log.setLevel(logging.INFO)
+datalog.setLevel(logging.INFO)
 
 #######################################
 
@@ -30,6 +48,33 @@ def run_tests(input_data):
             f.close
 
 
+def run_tests(input_data):
+    for test in input_data:
+        cred_input = []
+        del_files = []
+        for cred_entry in test["input_data"]:
+            if "string" in cred_entry:
+                cred_input.append(cred_entry["string"])
+            else:
+                filename = cred_entry["file"]
+                f = open(filename, "w")
+                f.write(json.dumps(cred_entry["data"], indent=4))
+                f.close
+                del f
+                cred_input.append(filename)
+                del_files.append(filename)
+        print("Instantiating with '%s'" % cred_input)
+        creds = credentials_class(cred_input)
+        if creds.creds == test["expect"]:
+            print("     - creds.creds: Pass\n")
+        else:
+            print("     - creds.creds: Fail")
+            print("          - Expected: %s\n" % each["expect"])
+            print("          - Recieved: %s\n" % creds.creds)
+        for filename in del_files:
+            os.remove(filename)
+
+
 #######################################
 
 
@@ -42,108 +87,33 @@ log.setLevel(logging.DEBUG)
 
 tests = [
     {
-        "input_data": [
-            "admin:password123"
-            ],
-        "expect": [
-            {
-                "username": "admin",
-                "password": "password123",
-                "secret": "password123",
-                "device_type": "cisco_ios",
-            }
-        ],
-        "type": "string"
-    },
-    {
-        "input_data": [
-            "admin:password123:enablepass123"
-        ],
-        "expect": [
-            {
-                "username": "admin",
-                "password": "password123",
-                "secret": "enablepass123",
-                "device_type": "cisco_ios",
-            }
-        ],
-        "type": "string"
-    },
-    {
-        "input_data": [
-            "admin:password123:enablepass@cisco_test"
-            ],
-        "expect": [
-            {
-                "username": "admin",
-                "password": "password123",
-                "secret": "enablepass",
-                "device_type": "cisco_test",
-            }
-        ],
-        "type": "string"
-    },
-    {
-        "input_data": [
-            ";$--admin;password123;enablepass$cisco_test"
-            ],
-        "expect": [
-            {
-                "username": "admin",
-                "password": "password123",
-                "secret": "enablepass",
-                "device_type": "cisco_test",
-            }
-        ],
-        "type": "string"
-    },
-    {
-        "input_data": [
-            ";$--admin;password123;enablepass$cisco_test",
-            "admin2:password321@cisco_test2"
-            ],
-        "expect": [
-            {
-                "username": "admin",
-                "password": "password123",
-                "secret": "enablepass",
-                "device_type": "cisco_test",
-            },
-            {
-                "username": "admin2",
-                "password": "password321",
-                "secret": "password321",
-                "device_type": "cisco_test2",
-            }
-        ],
-        "type": "string"
-    },
-    {
-        "comment": "##### First file test. One file, one entry",
+        "comment": "File and complex string entry",
         "input_data": [
             {
-                "filename": "something.json",
+                "file": "test1.json",
                 "data": {
-                    "username": "admin",
-                    "password": "password123"
+                    "username": "admin1",
+                    "password": "1password123"
                 }
-            }
+            },
+            {
+                "string": ";$--admin2;2password123;enablepass$cisco_test"
+            },
         ],
         "expect": [
             {
-                "username": "admin",
-                "password": "password123",
-                "secret": "enablepass",
-                "device_type": "cisco_test",
+                "username": "admin1",
+                "password": "1password123",
+                "secret": "1password123",
+                "device_type": "cisco_ios",
             },
             {
                 "username": "admin2",
-                "password": "password321",
-                "secret": "password321",
-                "device_type": "cisco_test2",
+                "password": "2password123",
+                "secret": "enablepass",
+                "device_type": "cisco_test",
             }
-        ],
-        "type": "file"
+        ]
     }
 ]
 

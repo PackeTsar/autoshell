@@ -13,7 +13,12 @@ class cdpwalk:
         self._thread_count = 10
         self._workers = []
         self.filters = []
-        ball.modparser.add_argument(
+        modparser = ball.parser.add_argument_group(
+            'CDPWalk Arguments',
+            description="""CDP Walk - \
+Walk CDP neighbors and attempt to log in to each one"""
+            )
+        modparser.add_argument(
                         '-f', "--filter",
                         help="""Regex filters for walking devices (optional)
     Attributes: platform,ip,name,localif,
@@ -25,7 +30,7 @@ class cdpwalk:
                         metavar='ATTRIB:REGEX',
                         dest="filter",
                         action="append")
-        ball.modparser.add_argument(
+        modparser.add_argument(
                             '-a', "--and",
                             help="Change default filter OR logic to AND logic",
                             dest="and_logic",

@@ -393,7 +393,6 @@ class ball_class:  # Container class for all shared objects
         self.creds = None
         self.args = None
         self.parser = None
-        self.modparser = None
         self.modules = []
         self.log = None
         self.datalog = None
@@ -448,8 +447,6 @@ def import_modules(startlogs):
         if word == "-m" and len(sys.argv) > index + 1:
             try:
                 module = importlib.import_module(sys.argv[index + 1])
-                ball.modparser = ball.parser.add_argument_group(
-                    sys.argv[index + 1] + ' module arguments')
                 object = getattr(module, sys.argv[index + 1])(ball)
                 ball.modules.append({
                     "name": sys.argv[index + 1],
@@ -548,11 +545,12 @@ if __name__ == "__main__":
         "message": "Starting Up"
         })
     ball.parser = argparse.ArgumentParser(
+        description='AutoShell - A Shell-Based Automation Utility',
         formatter_class=argparse.RawTextHelpFormatter,
         add_help=False)
-    misc = ball.parser.add_argument_group('misc arguments')
-    required = ball.parser.add_argument_group('required arguments')
-    optional = ball.parser.add_argument_group('optional arguments')
+    misc = ball.parser.add_argument_group('Misc Arguments')
+    required = ball.parser.add_argument_group('Required Arguments')
+    optional = ball.parser.add_argument_group('Optional Arguments')
     import_modules(startlogs)
     startlogs.put({
         "level": "debug",
