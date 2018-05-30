@@ -332,6 +332,7 @@ class host_object:
             try:
                 self.device = netmiko.ConnectHandler(timeout=10, **asmb_cred)
                 self.hostname = self.device.find_prompt().replace("#", "")
+                self.hostname = self.hostname.replace(">", "")
                 log.info(
                     "host_object._connect: Connected to (%s) with IP (%s)"
                     % (self.hostname, self.host))
