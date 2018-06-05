@@ -63,19 +63,19 @@ class autoqueue:
                             busy = True
             if kill:
                 self.log.info("autoqueue.block:\
-     Blocking complete. Killing threads...")
+ Blocking complete. Killing threads...")
                 self.kill_all()
             else:
                 self.log.info("autoqueue.block:\
-     Blocking complete. Continuing")
+ Blocking complete. Continuing")
         except KeyboardInterrupt:
             if kill:
                 self.log.warning("autoqueue.block:\
-     Interrupted. Killing threads...")
+ Interrupted. Killing threads...")
                 self.kill_all()
             else:
                 self.log.info("autoqueue.block:\
-     Blocking complete. Continuing")
+ Blocking complete. Continuing")
 
 
 class autothread:

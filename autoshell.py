@@ -311,7 +311,7 @@ Host (%s) is not a file. Parsing as a string"
             log.debug("hosts_class.connect: Trying assembled credential:\n%s"
                       % json.dumps(asmb_cred, indent=4))
             try:
-                hostobj.device = netmiko.ConnectHandler(timeout=60,
+                hostobj.device = netmiko.ConnectHandler(timeout=10,
                                                         **asmb_cred)
                 hostobj.hostname = hostobj.device.find_prompt().replace("#",
                                                                         "")
