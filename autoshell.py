@@ -456,11 +456,11 @@ def import_modules(startlogs):
                     "message": "import_modules: Imported module (%s)" %
                     sys.argv[index + 1]
                     })
-            except ImportError:
+            except ImportError as e:
                 startlogs.put({
                     "level": "error",
-                    "message": "import_modules: Error importing module (%s)" %
-                    sys.argv[index + 1]
+                    "message": "import_modules:\
+ Error importing module (%s): %s" % (sys.argv[index + 1], e)
                     })
         index += 1
     startlogs.put({
