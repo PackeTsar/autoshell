@@ -16,6 +16,8 @@ from builtins import input
 # FIXME Remove native class dependencies on ball
 # FIXME Write unit tests
 # FIXME Comment Everything
+# FIXME -p to edit profile (timeout, threads, etc) '-p 10:25:60'
+# FIXME -X to add module directory '-X ~/tools/extras/'
 # FIXME Modules: (config, cmd, cdp2desc)
 
 
@@ -203,8 +205,6 @@ class hosts_class:
         for host in self.init_hosts:
             self.add_host(host)
         self.connect_queue.block(kill=False)
-        # for host in self.hosts:
-        #     host.connect_thread.join()  # Wait for threads to term
 
     def _parse_hosts(self, hosts):
         result = []

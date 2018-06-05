@@ -57,12 +57,12 @@ Walk CDP neighbors and attempt to log in to each one"""
 
     def walk(self, parent, host):
         if host.idle and host.connected:
-            log.debug("cdpwalk.worker_class._walk: Walking host (%s) (%s)"
+            log.debug("cdpwalk.walk: Walking host (%s) (%s)"
                       % (host.hostname, host.host))
             host.info.update({"cdp": []})
             cdpdata = host.send_command("show cdp neighbors detail")
             cdpdata = cdp.convert_cdp_output(cdpdata)
-            log.debug("cdpwalk.worker_class._walk:\
+            log.debug("cdpwalk.walk:\
  CDP neighbors on (%s) (%s):\n%s"
                       % (host.hostname, host.host,
                          json.dumps(cdpdata, indent=4)))
@@ -76,7 +76,7 @@ Walk CDP neighbors and attempt to log in to each one"""
                         "device_type": cdp.guess_cdp_dev_type(device),
                     })
                     if newhost:
-                        log.info("cdpwalk.worker_class._walk:\
+                        log.info("cdpwalk.walk:\
  Added new host (%s) (%s) found on (%s) (%s). Queueing for CDP walk"
                                  % (device["name"],
                                     device["ip"],
@@ -84,7 +84,7 @@ Walk CDP neighbors and attempt to log in to each one"""
                         self._walkqueue.put(newhost)
         else:
             if host.failed:
-                log.warning("cdpwalk.worker_class._walk:\
+                log.warning("cdpwalk.walk:\
  Host (%s) failed. Discarding" % host.host)
             else:
                 self._walkqueue.put(host)
