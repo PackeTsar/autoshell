@@ -42,7 +42,7 @@ class autoqueue:
             while somelive:
                 somelive = False
                 for athread in self.auto_threads:
-                    if athread.thread.isAlive():
+                    if athread.alive:
                         somelive = True
         except KeyboardInterrupt:
             self.log.warning("autoqueue.block:\
