@@ -15,9 +15,9 @@ from builtins import input
 
 # FIXME Remove native class dependencies on ball
 # FIXME Write unit tests
+# FIXME Go through and replace all % uses with .format
 # FIXME Comment Everything
 # FIXME -p to edit profile (timeout, threads, etc) '-p 10:25:60'
-# FIXME -X to add module directory '-X ~/tools/extras/'
 # FIXME Modules: (config, cmd, cdp2desc)
 
 
@@ -63,6 +63,8 @@ Credential (%s) is a string" % cred)
 Credential string (%s) loaded" % cred)
 
     def _add_cred_ui(self):
+        self.log.info("credentials_class._add_cred_file:\
+ No credentials input. Getting interactively")
         import getpass
         username = input("Username: ")
         password = getpass.getpass("Password: ")
@@ -201,6 +203,7 @@ class hosts_class:
         self._hostargs = hostargs
         self.init_hosts = self._parse_hosts(self._hostargs)
         self.connect_queue = commons.autoqueue(25, self.connect, None)
+        self.attempts = []
         self.hosts = []
         for host in self.init_hosts:
             self.add_host(host)
@@ -271,15 +274,14 @@ Host (%s) is not a file. Parsing as a string"
             log.debug(
                 "hosts_class.add_host: Host is None. Skipping")
             return None
-        for host in self.hosts:
-            if hostdict["host"] == host.host:
-                log.debug(
-                    "hosts_class.add_host: Host is a duplicate. Skipping")
-                return None
+        if hostdict["host"] in self.attempts:
+            log.debug(
+                "hosts_class.add_host: Host is a duplicate. Skipping")
+            return None
         log.debug("hosts_class.add_host: Adding host (%s)" % hostdict["host"])
+        self.attempts.append(hostdict["host"])
         host = host_object(hostdict)
         self.connect_queue.put(host)
-        # self.hosts.append(host)
         return host
 
     def disconnect_all(self):
@@ -428,16 +430,59 @@ def main():
 def import_modules(startlogs):
     startlogs.put({
         "level": "debug",
-        "message": "import_modules: Adding subdirs of (%s) to sys.path"
+        "message": "import_modules:\
+ Adding subdirs of current directory (%s) to sys.path"
         % os.getcwd()
         })
     for each in os.walk(os.getcwd()):
-        startlogs.put({
-            "level": "debug",
-            "message": "import_modules: Adding (%s) to sys.path"
-            % each[0]
-            })
-        sys.path.append(each[0])
+        if "/." not in each[0]:  # Skip hidden dirs
+            startlogs.put({
+                "level": "debug",
+                "message": "import_modules: Added path (%s) to sys.path"
+                % each[0]
+                })
+            sys.path.append(each[0])
+    # Add paths
+    startlogs.put({
+        "level": "debug",
+        "message": "import_modules: Checking user input module paths"})
+    index = 0
+    for word in sys.argv:
+        if word == "-x" and len(sys.argv) > index + 1:
+            try:
+                path = sys.argv[index + 1]
+                if os.path.isdir(sys.argv[index + 1]):
+                    sys.path.append(sys.argv[index + 1])
+                    startlogs.put({
+                        "level": "debug",
+                        "message": "import_modules:\
+ Added path (%s) to sys.path. Adding subdirs..."
+                        % sys.argv[index + 1]
+                        })
+                    for each in os.walk(sys.argv[index + 1]):
+                        if "/." not in each[0]:  # Skip hidden dirs
+                            sys.path.append(each[0])
+                            startlogs.put({
+                                "level": "debug",
+                                "message": "import_modules:\
+ Added path (%s) to sys.path from parent (%s)"
+                                % (each[0], sys.argv[index + 1])
+                                })
+                else:
+                    startlogs.put({
+                        "level": "warning",
+                        "message": "import_modules:\
+ Module path (%s) appears to be invalid (nonexistant or not a directory)"
+                        % sys.argv[index + 1]
+                        })
+            except Exception as e:
+                startlogs.put({
+                    "level": "error",
+                    "message": "import_modules:\
+ Error adding module path (%s): %s" % (sys.argv[index + 1], e)
+                    })
+        index += 1
+    # Add modules
     startlogs.put({
         "level": "debug",
         "message": "import_modules: Starting module imports"
@@ -508,17 +553,23 @@ def start_logging(startlogs):
         logging.getLogger("netmiko").setLevel(logging.ERROR)
     elif ball.args.debug == 2:
         log.setLevel(logging.INFO)
-        ball.modlog.setLevel(logging.DEBUG)
+        ball.modlog.setLevel(logging.INFO)
         logging.getLogger("paramiko").setLevel(logging.ERROR)
         logging.getLogger("paramiko.transport").setLevel(logging.ERROR)
         logging.getLogger("netmiko").setLevel(logging.ERROR)
     elif ball.args.debug == 3:
+        log.setLevel(logging.INFO)
+        ball.modlog.setLevel(logging.DEBUG)
+        logging.getLogger("paramiko").setLevel(logging.ERROR)
+        logging.getLogger("paramiko.transport").setLevel(logging.ERROR)
+        logging.getLogger("netmiko").setLevel(logging.ERROR)
+    elif ball.args.debug == 4:
         log.setLevel(logging.DEBUG)
         ball.modlog.setLevel(logging.DEBUG)
         logging.getLogger("paramiko").setLevel(logging.INFO)
         logging.getLogger("paramiko.transport").setLevel(logging.INFO)
         logging.getLogger("netmiko").setLevel(logging.INFO)
-    elif ball.args.debug > 3:
+    elif ball.args.debug > 4:
         log.setLevel(logging.DEBUG)
         ball.modlog.setLevel(logging.DEBUG)
         logging.getLogger("paramiko").setLevel(logging.DEBUG)
@@ -587,14 +638,20 @@ if __name__ == "__main__":
                         metavar='FILES/STRINGS',
                         nargs='+')
     optional.add_argument(
+                        '-u', "--dump_hostinfo",
+                        help="Dump all host data to stdout as JSON",
+                        dest="dump_hostinfo",
+                        action='store_true')
+    optional.add_argument(
                         '-d', "--debug",
                         help="""Set debug level (off by default)
-    Examples for debug levesl in main,modules,netmiko:
+    Examples for debug levels in main,modules,netmiko:
         defaults are WARNING,WARNING,ERROR
-            Debug levels WARNING,INFO,ERROR:  '-d'
-            Debug levels INFO,DEBUG,ERROR:  '-dd'
-            Debug levels DEBUG,DEBUG,INFO:  '-ddd'
-            Debug levels DEBUG,DEBUG,DEBUG: '-dddd'""",
+            Debug levels WARNING,INFO,ERROR: '-d'
+            Debug levels INFO,INFO,ERROR:    '-dd'
+            Debug levels INFO,DEBUG,ERROR:   '-ddd'
+            Debug levels DEBUG,DEBUG,INFO:   '-dddd'
+            Debug levels DEBUG,DEBUG,DEBUG:  '-ddddd'""",
                         dest="debug",
                         action='count')
     optional.add_argument(
@@ -610,14 +667,17 @@ if __name__ == "__main__":
                         help="""File for logging output
     Examples:
         '-l /home/user/logs/mylogfile.txt'""",
-                        metavar='LOGFILE_PATH',
+                        metavar='PATH',
                         dest="logfiles",
                         action="append")
     optional.add_argument(
-                        '-u', "--dump_hostinfo",
-                        help="Dump all host data as JSON",
-                        dest="dump_hostinfo",
-                        action='store_true')
+                        '-x', "--module_dir",
+                        help="""Add additional search directory for modules
+    Examples:
+        '-x /home/user/custom_mods/'""",
+                        metavar='PATH',
+                        dest="module_dir",
+                        action="append")
     ball.args = ball.parser.parse_args()
     start_logging(startlogs)
     log.debug("\n###### INPUT ARGUMENTS #######\n" +
