@@ -192,16 +192,19 @@ Credential string (%s) loaded" % cred)
 
 class hosts_class:
     def __init__(self, hostargs):
+        import commons
         log.debug(
             "hosts_class.__init__: Starting. Hosts Input:\n%s"
             % json.dumps(hostargs, indent=4))
         self._hostargs = hostargs
         self.init_hosts = self._parse_hosts(self._hostargs)
+        self.connect_queue = commons.autoqueue(25, self.connect, None)
         self.hosts = []
         for host in self.init_hosts:
             self.add_host(host)
-        for host in self.hosts:
-            host.connect_thread.join()  # Wait for threads to term
+        self.connect_queue.block(kill=False)
+        # for host in self.hosts:
+        #     host.connect_thread.join()  # Wait for threads to term
 
     def _parse_hosts(self, hosts):
         result = []
@@ -275,7 +278,8 @@ Host (%s) is not a file. Parsing as a string"
                 return None
         log.debug("hosts_class.add_host: Adding host (%s)" % hostdict["host"])
         host = host_object(hostdict)
-        self.hosts.append(host)
+        self.connect_queue.put(host)
+        # self.hosts.append(host)
         return host
 
     def disconnect_all(self):
@@ -285,6 +289,57 @@ Host (%s) is not a file. Parsing as a string"
             threads.append(host.disconnect())
         for thread in threads:
             thread.join()
+
+    def connect(self, parent, hostobj):
+        import netmiko
+        log.info("hosts_class.connect: Connecting to IP (%s)"
+                 % hostobj.host)
+        for credential in ball.creds.creds:
+            log.debug("hosts_class.connect: Assembling credential:\n%s"
+                      % json.dumps(credential, indent=4))
+            if hostobj.type:
+                type = hostobj.type
+            else:
+                type = credential["device_type"]
+            asmb_cred = {
+                "ip": hostobj.host,
+                "device_type": type,
+                "username": credential["username"],
+                "password": credential["password"],
+                "secret": credential["secret"]
+            }
+            log.debug("hosts_class.connect: Trying assembled credential:\n%s"
+                      % json.dumps(asmb_cred, indent=4))
+            try:
+                hostobj.device = netmiko.ConnectHandler(timeout=60,
+                                                        **asmb_cred)
+                hostobj.hostname = hostobj.device.find_prompt().replace("#",
+                                                                        "")
+                hostobj.hostname = hostobj.hostname.replace(">", "")
+                log.info(
+                    "host_object._connect: Connected to (%s) with IP (%s)"
+                    % (hostobj.hostname, hostobj.host))
+                hostobj.info.update({"credential": credential})
+                hostobj.connected = True
+                hostobj._update_info()
+                hostobj.idle = True
+                break
+            except netmiko.ssh_exception.NetMikoTimeoutException:
+                log.warning(
+                    "host_object._connect: Device (%s) timed out. Discarding"
+                    % hostobj.host)
+                hostobj.idle = True
+                hostobj.failed = True
+                break
+            except Exception as e:
+                log.warning(
+                    "host_object._connect: Device (%s) Connect Error: %s"
+                    % (hostobj.host, str(e)))
+                hostobj.idle = True
+        if not hostobj.connected:
+            hostobj.failed = True
+        else:
+            self.hosts.append(hostobj)
 
 
 class host_object:
@@ -300,61 +355,6 @@ class host_object:
         self.hostname = None
         self.commands = {}
         self.info = {}
-        self.connect_thread = False
-        self._connect()
-
-    def _connect(self):
-        if not self.connect_thread:
-            log.debug("host_object._connect: Starting connect thread")
-            self.connect_thread = threading.Thread(
-                target=self._connect)
-            self.connect_thread.start()
-            return None
-        import netmiko
-        log.info("host_object._connect: Connecting to IP (%s)"
-                 % self.host)
-        for credential in ball.creds.creds:
-            log.debug("host_object._connect: Assembling credential:\n%s"
-                      % json.dumps(credential, indent=4))
-            if self.type:
-                type = self.type
-            else:
-                type = credential["device_type"]
-            asmb_cred = {
-                "ip": self.host,
-                "device_type": type,
-                "username": credential["username"],
-                "password": credential["password"],
-                "secret": credential["secret"]
-            }
-            log.debug("host_object._connect: Trying assembled credential:\n%s"
-                      % json.dumps(asmb_cred, indent=4))
-            try:
-                self.device = netmiko.ConnectHandler(timeout=10, **asmb_cred)
-                self.hostname = self.device.find_prompt().replace("#", "")
-                self.hostname = self.hostname.replace(">", "")
-                log.info(
-                    "host_object._connect: Connected to (%s) with IP (%s)"
-                    % (self.hostname, self.host))
-                self.info.update({"credential": credential})
-                self.connected = True
-                self._update_info()
-                self.idle = True
-                break
-            except netmiko.ssh_exception.NetMikoTimeoutException:
-                log.warning(
-                    "host_object._connect: Device (%s) timed out. Discarding"
-                    % self.host)
-                self.idle = True
-                self.failed = True
-                break
-            except Exception as e:
-                log.warning(
-                    "host_object._connect: Device (%s) Connect Error: %s"
-                    % (self.host, str(e)))
-                self.idle = True
-        if not self.connected:
-            self.failed = True
 
     def _update_info(self):
         self.info.update({

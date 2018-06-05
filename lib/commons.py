@@ -38,7 +38,7 @@ class autoqueue:
         for athread in self.auto_threads:
             athread.thread.join()
 
-    def block(self):
+    def block(self, kill=True):
         self.log.debug("autoqueue.block:\
  Blocking until queue emptied and threads idle")
         busy = True
@@ -49,13 +49,21 @@ class autoqueue:
                     for athread in self.auto_threads:
                         if not athread.idle:
                             busy = True
-            self.log.info("autoqueue.block:\
- Blocking complete. Killing threads...")
-            self.kill_all()
+            if kill:
+                self.log.info("autoqueue.block:\
+     Blocking complete. Killing threads...")
+                self.kill_all()
+            else:
+                self.log.info("autoqueue.block:\
+     Blocking complete. Continuing")
         except KeyboardInterrupt:
-            self.log.warning("autoqueue.block:\
- Interrupted. Killing threads...")
-            self.kill_all()
+            if kill:
+                self.log.warning("autoqueue.block:\
+     Interrupted. Killing threads...")
+                self.kill_all()
+            else:
+                self.log.info("autoqueue.block:\
+     Blocking complete. Continuing")
 
 
 class autothread:
