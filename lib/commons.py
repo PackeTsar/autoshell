@@ -35,11 +35,16 @@ class autoqueue:
     def kill_all(self):
         for athread in self.auto_threads:
             athread.terminate = True
-        for athread in self.auto_threads:
+
             self.log.warning("autoqueue.block:\
  Threads being shut down. Press CTRL-C to force unblock")
             try:
-                athread.thread.join()
+                somelive = True
+                while somelive:
+                    somelive = False
+                    for athread in self.auto_threads:
+                        if athread.thread.isAlive():
+                            somelive = True
             except KeyboardInterrupt:
                 self.log.warning("autoqueue.block:\
  Forcing unblock")
