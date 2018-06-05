@@ -36,12 +36,12 @@ class autoqueue:
         for athread in self.auto_threads:
             athread.terminate = True
         for athread in self.auto_threads:
-            self.log.debug("autoqueue.block:\
+            self.log.warning("autoqueue.block:\
  Threads being shut down. Press CTRL-C to force unblock")
             try:
                 athread.thread.join()
             except KeyboardInterrupt:
-                self.log.debug("autoqueue.block:\
+                self.log.warning("autoqueue.block:\
  Forcing unblock")
                 return None
 
