@@ -1,10 +1,11 @@
 #!/usr/bin/python
 
 """
-cdpwalk is an included AutoShell module which uses output from the
+cdpwalk is a bundled AutoShell module which uses output from the
 "show cdp neighbors detail" command to walk a network, dynamically add CDP
 neighbors into the hosts, log into those CDP devices, and recurse over them
-until no more devices can be added.
+until no more devices can be added. cdpwalk also adds each device's CDP data
+into host.info so it can be dumped and parsed.
 
 cdpwalk has some custom command-line arguments it adds into argparser which
 can be used to control its behavior and limit the scope of what it recurses
@@ -93,7 +94,8 @@ Walk CDP neighbors and attempt to log in to each one"""
         if host.idle and host.connected:
             self.log.debug("cdpwalk.walk: Walking host (%s) (%s)"
                            % (host.hostname, host.host))
-            # Add empty CDP data to avoid future parsing issues
+            # Add empty data to avoid future parsing issues in case
+            # we error out
             host.info.update({"cdp": []})
             # Send command to device
             cdpdata = host.send_command("show cdp neighbors detail")

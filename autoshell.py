@@ -292,6 +292,17 @@ Host (%s) is not a file. Parsing as a string"
         for thread in threads:
             thread.join()
 
+    def active_hosts(self):
+        result = []
+        for host in self.hosts:
+            if host.idle and host.connected:
+                result.append(host)
+            else:
+                self.log.debug(
+                    "hosts_class.active_hosts:\
+ Skipping host (%s) (%s) since not connected" % (host.hostname, host.host))
+        return result
+
     def connect(self, parent, hostobj):
         import netmiko
         log.info("hosts_class.connect: Connecting to IP (%s)"
@@ -683,4 +694,7 @@ if __name__ == "__main__":
     log.debug("\n###### INPUT ARGUMENTS #######\n" +
               json.dumps(ball.args.__dict__, indent=4) +
               "\n##############################\n")
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        sys.exit()
