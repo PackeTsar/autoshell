@@ -1,27 +1,35 @@
 #!/usr/bin/python
 
 """
-The commons library contains classes and functions used by the main program
-but are available for use in shared libraries and custom modules.
+The common.autoqueue library contains classes and functions used for creating
+thread pools and queues with automatic supervision and blocking
 """
 
+
 import time
-import queue
-import Queue
 import logging
 import threading
+from builtins import input
+
+try:
+    import Queue as queue  # For Python2
+except ModuleNotFoundError:
+    import queue  # For Python3
+
+
+log = logging.getLogger("shared")
 
 
 class autoqueue:
     """
-    autoqueue is a wrapper for the queue library; adding in a thread-pool
-    functionaliy (using the autothread class). It provides functionality to
-    track all the running threads and block the main thread until workers
-    are finished and the queue is empty. It also includes options to interrupt
-    thread activity and gracefully kill the threads upon interruption.
+    common.autoqueue is a wrapper for the queue library; adding in a
+    thread-pool functionaliy (using the autothread class). It provides
+    functionality to track all the running threads and block the main thread
+    until workers are finished and the queue is empty. It also includes
+    options to interrupt thread activity; gracefully killing the threads upon
+    interruption.
     """
     def __init__(self, thread_count, worker_func, worker_args):
-        self.log = logging.getLogger("modules")
         self.queue = queue.Queue(maxsize=0)
         self.thread_count = thread_count
         self.worker_func = worker_func  # Worker function passed in
@@ -30,7 +38,7 @@ class autoqueue:
         self._start_threads()
 
     def _start_threads(self):
-        self.log.debug("commons.autoqueue._start_threads:\
+        log.debug("common.autoqueue._start_threads:\
  Starting %s threads" % str(self.thread_count))
         for i in range(0, self.thread_count):
             auto_thread = autothread(self.worker_func,
@@ -50,7 +58,7 @@ class autoqueue:
         for athread in self.auto_threads:
             # Tell all supervisors to terminate their thread
             athread.terminate = True
-        self.log.info("autoqueue.block:\
+        log.info("common.autoqueue.block:\
  Threads being shut down. Press CTRL-C to force unblock")
         # Loop through checking queue and threads before unblock
         try:
@@ -64,15 +72,15 @@ class autoqueue:
                         still_running = True
         # CTRL-C was pressed to force unblocking of main thread
         except KeyboardInterrupt:
-            self.log.warning("autoqueue.block:\
+            log.warning("common.autoqueue.block:\
  Forcing unblock")
             return None
         # Proper graceful shutdown occured. Unblocking main thread
-        self.log.info("autoqueue.block:\
+        log.debug("common.autoqueue.block:\
  All threads shut down gracefully. Continuing ")
 
     def block(self, kill=True):
-        self.log.debug("autoqueue.block:\
+        log.debug("common.autoqueue.block:\
  Blocking until queue emptied and threads idle")
         busy = True
         try:
@@ -85,36 +93,43 @@ class autoqueue:
                             busy = True
             # If we are to kill the threads instead of leaving them running
             if kill:
-                self.log.info("autoqueue.block:\
+                log.debug("common.autoqueue.block:\
  Blocking complete. Killing threads...")
                 self.kill_all()
             else:
-                self.log.info("autoqueue.block:\
- Blocking complete. Continuing")
+                log.debug("common.autoqueue.block:\
+ Blocking complete. Leaving threads running...")
         except KeyboardInterrupt:
+            log.debug("common.autoqueue.block:\
+ User-Interrupt Detected: Clearing Block.")
+            for athread in self.auto_threads:
+                log.debug("common.autoqueue.block:\
+ Thread (%s) Idle: %s" % (athread.thread.name, athread.idle))
             if kill:
-                self.log.warning("autoqueue.block:\
- Interrupted. Killing threads...")
+                log.warning("common.autoqueue.block:\
+ Killing threads...")
                 self.kill_all()
             else:
-                self.log.info("autoqueue.block:\
- Blocking complete. Continuing")
+                log.debug("common.autoqueue.block:\
+ Not killing threads. Continuing...")
 
 
 class autothread:
     """
-    autothread is a wrapper class for the threading library. It adds
+    common.autothread is a wrapper class for the threading library. It adds
     in functionality of supervising running tasks, feeding tasks items
-    from a queue, and terminating the thread when instructed. autothread
-    is used by the autoqueue class for threading
+    from a queue, and terminating the thread when instructed. common.autothread
+    is used by the common.autoqueue class for threading
     """
     def __init__(self, worker_func, worker_args, worker_queue):
-        self.log = logging.getLogger("modules")
         self.idle = False
         self.alive = True
         self.terminate = False
         self.worker_func = worker_func  # Worker function passed in
-        self.worker_args = worker_args  # Args for worker function
+        if not worker_args:
+            self.worker_args = ()  # Args for worker function
+        else:
+            self.worker_args = worker_args  # Args for worker function
         self.queue = worker_queue  # Queue containing items for worker
         self.thread = threading.Thread(target=self._supervisor)
         self.thread.daemon = True
@@ -130,17 +145,21 @@ class autothread:
                 self.idle = False
                 # Protect supervisor from exception
                 try:
-                    self.worker_func(self, item)
+                    self.worker_func(self, item, *self.worker_args)
                 except Exception as e:
                     # Log exception to logging facility
-                    self.log.exception('Exception raised in %s:' %
-                                       threading.current_thread().name)
+                    log.exception('common.autothread._supervisor:\
+ Exception raised in %s:' % threading.current_thread().name)
+                # Give a second before setting idle in case worker_func
+                #  put something back in the queue and we need to
+                #  detect it in autoqueue.block
+                time.sleep(1)
                 # Now we are idle again
                 self.idle = True
-            except Queue.Empty:
+            except queue.Empty:
                 # Kill time to keep CPU from going to 100%
-                time.sleep(0.1)
+                time.sleep(1)
         # self.terminate was marked true. Shut down gracefully now
-        self.log.debug('Thread terminating')
+        log.debug('common.autothread._supervisor: Thread terminating')
         self.idle = True
         self.alive = False
