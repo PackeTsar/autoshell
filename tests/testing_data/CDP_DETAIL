@@ -1,0 +1,640 @@
+-------------------------
+Device ID: AP1
+Entry address(es):
+  IP address: 10.1.1.100
+Platform: cisco AIR-AP2802I-B-K9,  Capabilities: Router Trans-Bridge
+Interface: GigabitEthernet5/48,  Port ID (outgoing port): GigabitEthernet0
+Holdtime : 129 sec
+
+Version :
+Cisco AP Software, ap3g3-k9w8 Version: 8.3.140.6
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2014-2015 by Cisco Systems, Inc.
+
+advertisement version: 2
+Duplex: full
+Power drawn: 26.100 Watts
+Power request id: 8449, Power management id: 4
+Power request levels are:26100 15400 0 0 0
+Management address(es):
+  IP address: 10.1.1.100
+
+-------------------------
+Device ID: AP2
+Entry address(es):
+  IP address: 10.1.1.108
+Platform: cisco AIR-AP2802I-B-K9,  Capabilities: Router Trans-Bridge
+Interface: GigabitEthernet5/28,  Port ID (outgoing port): GigabitEthernet0
+Holdtime : 117 sec
+
+Version :
+Cisco AP Software, ap3g3-k9w8 Version: 8.3.140.6
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2014-2015 by Cisco Systems, Inc.
+
+advertisement version: 2
+Duplex: full
+Power drawn: 26.100 Watts
+Power request id: 29210, Power management id: 2
+Power request levels are:26100 15400 0 0 0
+Management address(es):
+  IP address: 10.1.1.108
+
+-------------------------
+Device ID: AP3
+Entry address(es):
+  IP address: 10.1.1.111
+Platform: cisco AIR-AP2802I-B-K9,  Capabilities: Router Trans-Bridge
+Interface: GigabitEthernet5/32,  Port ID (outgoing port): GigabitEthernet0
+Holdtime : 162 sec
+
+Version :
+Cisco AP Software, ap3g3-k9w8 Version: 8.3.140.6
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2014-2015 by Cisco Systems, Inc.
+
+advertisement version: 2
+Duplex: full
+Power drawn: 26.100 Watts
+Power request id: 57806, Power management id: 2
+Power request levels are:26100 15400 0 0 0
+Management address(es):
+  IP address: 10.1.1.111
+
+-------------------------
+Device ID: AP4
+Entry address(es):
+  IP address: 10.1.1.107
+Platform: cisco AIR-AP2802I-B-K9,  Capabilities: Router Trans-Bridge
+Interface: GigabitEthernet5/27,  Port ID (outgoing port): GigabitEthernet0
+Holdtime : 168 sec
+
+Version :
+Cisco AP Software, ap3g3-k9w8 Version: 8.3.140.6
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2014-2015 by Cisco Systems, Inc.
+
+advertisement version: 2
+Duplex: full
+Power drawn: 26.100 Watts
+Power request id: 47845, Power management id: 2
+Power request levels are:26100 15400 0 0 0
+Management address(es):
+  IP address: 10.1.1.107
+
+-------------------------
+Device ID: AP5
+Entry address(es):
+  IP address: 10.1.1.110
+Platform: cisco AIR-AP2802I-B-K9,  Capabilities: Router Trans-Bridge
+Interface: GigabitEthernet5/36,  Port ID (outgoing port): GigabitEthernet0
+Holdtime : 139 sec
+
+Version :
+Cisco AP Software, ap3g3-k9w8 Version: 8.3.140.6
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2014-2015 by Cisco Systems, Inc.
+
+advertisement version: 2
+Duplex: full
+Power drawn: 26.100 Watts
+Power request id: 6885, Power management id: 2
+Power request levels are:26100 15400 0 0 0
+Management address(es):
+  IP address: 10.1.1.110
+
+-------------------------
+Device ID: SEP000000000001
+Entry address(es):
+  IP address: 10.1.1.18
+Platform: Cisco IP Phone 7841,  Capabilities: Host Phone Two-port Mac Relay
+Interface: GigabitEthernet4/45,  Port ID (outgoing port): Port 1
+Holdtime : 148 sec
+Second Port Status: Up
+
+Version :
+sip78xx.10-2-1-12.loads
+
+advertisement version: 2
+Duplex: full
+Power drawn: 3.745 Watts
+Power request id: 36474, Power management id: 3
+Power request levels are:3745 0 0 0 0
+Management address(es):
+
+-------------------------
+Device ID: SEP000000000002
+Entry address(es):
+  IP address: 10.1.1.14
+Platform: Cisco IP Phone 7821,  Capabilities: Host Phone Two-port Mac Relay
+Interface: GigabitEthernet4/4,  Port ID (outgoing port): Port 1
+Holdtime : 127 sec
+Second Port Status: Up
+
+Version :
+sip78xx.10-2-1-12.loads
+
+advertisement version: 2
+Duplex: full
+Power drawn: 3.282 Watts
+Power request id: 48998, Power management id: 3
+Power request levels are:3282 0 0 0 0
+Management address(es):
+
+-------------------------
+Device ID: SWITCH1
+Entry address(es):
+  IP address: 10.1.1.70
+Platform: cisco WS-C2960X-24PD-L,  Capabilities: Switch IGMP
+Interface: GigabitEthernet3/7,  Port ID (outgoing port): GigabitEthernet1/0/25
+Holdtime : 156 sec
+
+Version :
+Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.2(2)E7, RELEASE SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2017 by Cisco Systems, Inc.
+Compiled Wed 12-Jul-17 13:06 by prod_rel_team
+
+advertisement version: 2
+Protocol Hello:  OUI=0x00000C, Protocol ID=0x0112; payload len=27, value=00000000FFFFFFFF010221FF000000000000682C7B6E3900FF0000
+VTP Management Domain: ''
+Native VLAN: 1
+Duplex: full
+Management address(es):
+  IP address: 10.1.1.70
+Unidirectional Mode: off
+
+-------------------------
+Device ID: SEP000000000003
+Entry address(es):
+  IP address: 10.1.1.11
+Platform: Cisco IP Phone 7821,  Capabilities: Host Phone Two-port Mac Relay
+Interface: GigabitEthernet4/7,  Port ID (outgoing port): Port 1
+Holdtime : 158 sec
+Second Port Status: Down
+
+Version :
+sip78xx.10-2-1-12.loads
+
+advertisement version: 2
+Duplex: full
+Power drawn: 3.282 Watts
+Power request id: 57661, Power management id: 3
+Power request levels are:3282 0 0 0 0
+Management address(es):
+
+-------------------------
+Device ID: SEP000000000004
+Entry address(es):
+  IP address: 10.1.1.17
+Platform: Cisco IP Phone 7841,  Capabilities: Host Phone Two-port Mac Relay
+Interface: GigabitEthernet4/16,  Port ID (outgoing port): Port 1
+Holdtime : 163 sec
+Second Port Status: Down
+
+Version :
+sip78xx.10-2-1-12.loads
+
+advertisement version: 2
+Duplex: full
+Power drawn: 3.745 Watts
+Power request id: 17531, Power management id: 3
+Power request levels are:3745 0 0 0 0
+Management address(es):
+
+-------------------------
+Device ID: SEP000000000005
+Entry address(es):
+  IP address: 10.1.1.12
+Platform: Cisco IP Phone 7821,  Capabilities: Host Phone Two-port Mac Relay
+Interface: GigabitEthernet4/6,  Port ID (outgoing port): Port 1
+Holdtime : 127 sec
+Second Port Status: Down
+
+Version :
+sip78xx.10-2-1-12.loads
+
+advertisement version: 2
+Duplex: full
+Power drawn: 3.282 Watts
+Power request id: 8000, Power management id: 3
+Power request levels are:3282 0 0 0 0
+Management address(es):
+
+-------------------------
+Device ID: SEP000000000006
+Entry address(es):
+  IP address: 10.1.1.15
+Platform: Cisco IP Phone 7821,  Capabilities: Host Phone Two-port Mac Relay
+Interface: GigabitEthernet4/2,  Port ID (outgoing port): Port 1
+Holdtime : 150 sec
+Second Port Status: Down
+
+Version :
+sip78xx.10-2-1-12.loads
+
+advertisement version: 2
+Duplex: full
+Power drawn: 3.282 Watts
+Power request id: 21864, Power management id: 3
+Power request levels are:3282 0 0 0 0
+Management address(es):
+
+-------------------------
+Device ID: SEP000000000007
+Entry address(es):
+  IP address: 10.1.1.20
+Platform: Cisco IP Phone 7841,  Capabilities: Host Phone Two-port Mac Relay
+Interface: GigabitEthernet4/15,  Port ID (outgoing port): Port 1
+Holdtime : 175 sec
+Second Port Status: Down
+
+Version :
+sip78xx.10-2-1-12.loads
+
+advertisement version: 2
+Duplex: full
+Power drawn: 3.745 Watts
+Power request id: 30332, Power management id: 3
+Power request levels are:3745 0 0 0 0
+Management address(es):
+
+-------------------------
+Device ID: SWITCH2
+Entry address(es):
+  IP address: 10.1.1.60
+Platform: cisco WS-C2960X-48FPD-L,  Capabilities: Switch IGMP
+Interface: GigabitEthernet3/6,  Port ID (outgoing port): GigabitEthernet1/0/46
+Holdtime : 155 sec
+
+Version :
+Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.2(2)E7, RELEASE SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2017 by Cisco Systems, Inc.
+Compiled Wed 12-Jul-17 13:06 by prod_rel_team
+
+advertisement version: 2
+Protocol Hello:  OUI=0x00000C, Protocol ID=0x0112; payload len=27, value=00000000FFFFFFFF010221FF000000000000007278CDC700FF0000
+VTP Management Domain: ''
+Native VLAN: 1
+Duplex: full
+Management address(es):
+  IP address: 10.1.1.60
+Unidirectional Mode: off
+
+-------------------------
+Device ID: SWITCH3
+Entry address(es):
+  IP address: 10.1.1.50
+Platform: cisco WS-C2960X-48FPD-L,  Capabilities: Switch IGMP
+Interface: GigabitEthernet3/5,  Port ID (outgoing port): GigabitEthernet1/0/49
+Holdtime : 160 sec
+
+Version :
+Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.2(2)E7, RELEASE SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2017 by Cisco Systems, Inc.
+Compiled Wed 12-Jul-17 13:06 by prod_rel_team
+
+advertisement version: 2
+Protocol Hello:  OUI=0x00000C, Protocol ID=0x0112; payload len=27, value=00000000FFFFFFFF010221FF000000000000007278CDDD80FF0000
+VTP Management Domain: ''
+Native VLAN: 1
+Duplex: full
+Management address(es):
+  IP address: 10.1.1.50
+Unidirectional Mode: off
+
+-------------------------
+Device ID: SWITCH4
+Entry address(es):
+  IP address: 10.1.1.40
+Platform: cisco WS-C2960X-48FPD-L,  Capabilities: Switch IGMP
+Interface: GigabitEthernet3/4,  Port ID (outgoing port): GigabitEthernet1/0/49
+Holdtime : 168 sec
+
+Version :
+Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.2(2)E7, RELEASE SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2017 by Cisco Systems, Inc.
+Compiled Wed 12-Jul-17 13:06 by prod_rel_team
+
+advertisement version: 2
+Protocol Hello:  OUI=0x00000C, Protocol ID=0x0112; payload len=27, value=00000000FFFFFFFF010221FF0000000000000072785D1B80FF0000
+VTP Management Domain: ''
+Native VLAN: 1
+Duplex: full
+Management address(es):
+  IP address: 10.1.1.40
+Unidirectional Mode: off
+
+-------------------------
+Device ID: SEP000000000008
+Entry address(es):
+  IP address: 10.1.1.16
+Platform: Cisco IP Phone 7841,  Capabilities: Host Phone Two-port Mac Relay
+Interface: GigabitEthernet4/1,  Port ID (outgoing port): Port 1
+Holdtime : 128 sec
+Second Port Status: Down
+
+Version :
+sip78xx.10-2-1-12.loads
+
+advertisement version: 2
+Duplex: full
+Power drawn: 3.745 Watts
+Power request id: 8057, Power management id: 3
+Power request levels are:3745 0 0 0 0
+Management address(es):
+
+-------------------------
+Device ID: SWITCH5
+Entry address(es):
+  IP address: 10.1.1.30
+Platform: cisco WS-C2960X-48FPD-L,  Capabilities: Switch IGMP
+Interface: GigabitEthernet3/3,  Port ID (outgoing port): GigabitEthernet1/0/49
+Holdtime : 144 sec
+
+Version :
+Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.2(2)E7, RELEASE SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2017 by Cisco Systems, Inc.
+Compiled Wed 12-Jul-17 13:06 by prod_rel_team
+
+advertisement version: 2
+Protocol Hello:  OUI=0x00000C, Protocol ID=0x0112; payload len=27, value=00000000FFFFFFFF010221FF0000000000000072785D0E80FF0000
+VTP Management Domain: ''
+Native VLAN: 1
+Duplex: full
+Management address(es):
+  IP address: 10.1.1.30
+Unidirectional Mode: off
+
+-------------------------
+Device ID: SWITCH6
+Entry address(es):
+  IP address: 10.1.1.20
+Platform: cisco WS-C2960X-48FPD-L,  Capabilities: Switch IGMP
+Interface: GigabitEthernet3/2,  Port ID (outgoing port): GigabitEthernet1/0/49
+Holdtime : 164 sec
+
+Version :
+Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.2(2)E7, RELEASE SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2017 by Cisco Systems, Inc.
+Compiled Wed 12-Jul-17 13:06 by prod_rel_team
+
+advertisement version: 2
+Protocol Hello:  OUI=0x00000C, Protocol ID=0x0112; payload len=27, value=00000000FFFFFFFF010231FF00000000000000727873F480FF0000
+VTP Management Domain: ''
+Native VLAN: 1
+Duplex: full
+Management address(es):
+  IP address: 10.1.1.20
+Unidirectional Mode: off
+
+-------------------------
+Device ID: SWITCH7
+Entry address(es):
+  IP address: 10.1.1.10
+Platform: cisco WS-C2960X-48FPD-L,  Capabilities: Switch IGMP
+Interface: GigabitEthernet3/1,  Port ID (outgoing port): GigabitEthernet1/0/49
+Holdtime : 136 sec
+
+Version :
+Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.2(2)E7, RELEASE SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2017 by Cisco Systems, Inc.
+Compiled Wed 12-Jul-17 13:06 by prod_rel_team
+
+advertisement version: 2
+Protocol Hello:  OUI=0x00000C, Protocol ID=0x0112; payload len=27, value=00000000FFFFFFFF010221FF000000000000007278CDD180FF0000
+VTP Management Domain: ''
+Native VLAN: 1
+Duplex: full
+Management address(es):
+  IP address: 10.1.1.10
+Unidirectional Mode: off
+
+-------------------------
+Device ID: SEP000000000009
+Entry address(es):
+  IP address: 10.1.1.13
+Platform: Cisco IP Phone 7821,  Capabilities: Host Phone Two-port Mac Relay
+Interface: GigabitEthernet4/31,  Port ID (outgoing port): Port 1
+Holdtime : 147 sec
+Second Port Status: Down
+
+Version :
+sip78xx.10-2-1-12.loads
+
+advertisement version: 2
+Duplex: full
+Power drawn: 3.282 Watts
+Power request id: 41793, Power management id: 3
+Power request levels are:3282 0 0 0 0
+Management address(es):
+
+-------------------------
+Device ID: AP6
+Entry address(es):
+  IP address: 10.1.1.99
+Platform: cisco AIR-AP2802I-B-K9,  Capabilities: Router Trans-Bridge
+Interface: GigabitEthernet5/46,  Port ID (outgoing port): GigabitEthernet0
+Holdtime : 156 sec
+
+Version :
+Cisco AP Software, ap3g3-k9w8 Version: 8.3.140.6
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2014-2015 by Cisco Systems, Inc.
+
+advertisement version: 2
+Duplex: full
+Power drawn: 26.100 Watts
+Power request id: 15501, Power management id: 4
+Power request levels are:26100 15400 0 0 0
+Management address(es):
+  IP address: 10.1.1.99
+
+-------------------------
+Device ID: SWITCH8
+Entry address(es):
+  IP address: 10.1.1.2
+Platform: Cisco CISCO3925-CHASSIS,  Capabilities: Router Source-Route-Bridge Switch IGMP
+Interface: GigabitEthernet4/48,  Port ID (outgoing port): GigabitEthernet0/1
+Holdtime : 152 sec
+
+Version :
+Cisco IOS Software, C3900e Software (C3900e-UNIVERSALK9-M), Version 15.4(3)M, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2014 by Cisco Systems, Inc.
+Compiled Mon 21-Jul-14 12:23 by prod_rel_team
+
+advertisement version: 2
+VTP Management Domain: ''
+Duplex: full
+Management address(es):
+  IP address: 10.1.1.2
+
+-------------------------
+Device ID: SEP00000000000A
+Entry address(es):
+  IP address: 10.1.1.19
+Platform: Cisco IP Phone 7841,  Capabilities: Host Phone Two-port Mac Relay
+Interface: GigabitEthernet4/18,  Port ID (outgoing port): Port 1
+Holdtime : 129 sec
+Second Port Status: Down
+
+Version :
+sip78xx.10-2-1-12.loads
+
+advertisement version: 2
+Duplex: full
+Power drawn: 3.745 Watts
+Power request id: 35708, Power management id: 2
+Power request levels are:3745 0 0 0 0
+Management address(es):
+
+-------------------------
+Device ID: ATA1
+Entry address(es):
+  IP address: 10.1.1.66
+Platform: Cisco ATA 187,  Capabilities: Host Phone
+Interface: GigabitEthernet4/19,  Port ID (outgoing port): Port 1
+Holdtime : 161 sec
+
+Version :
+ATA 9-2-3-1
+
+
+advertisement version: 2
+Duplex: full
+Management address(es):
+
+-------------------------
+Device ID: AP7
+Entry address(es):
+  IP address: 10.1.1.97
+Platform: cisco AIR-AP2802I-B-K9,  Capabilities: Router Trans-Bridge
+Interface: GigabitEthernet5/44,  Port ID (outgoing port): GigabitEthernet0
+Holdtime : 120 sec
+
+Version :
+Cisco AP Software, ap3g3-k9w8 Version: 8.3.140.6
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2014-2015 by Cisco Systems, Inc.
+
+advertisement version: 2
+Duplex: full
+Power drawn: 26.100 Watts
+Power request id: 15580, Power management id: 4
+Power request levels are:26100 15400 0 0 0
+Management address(es):
+  IP address: 10.1.1.97
+
+-------------------------
+Device ID: AP8
+Entry address(es):
+  IP address: 10.1.1.109
+Platform: cisco AIR-AP2802I-B-K9,  Capabilities: Router Trans-Bridge
+Interface: GigabitEthernet5/25,  Port ID (outgoing port): GigabitEthernet0
+Holdtime : 175 sec
+
+Version :
+Cisco AP Software, ap3g3-k9w8 Version: 8.3.140.6
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2014-2015 by Cisco Systems, Inc.
+
+advertisement version: 2
+Duplex: full
+Power drawn: 26.100 Watts
+Power request id: 15337, Power management id: 2
+Power request levels are:26100 15400 0 0 0
+Management address(es):
+  IP address: 10.1.1.109
+
+-------------------------
+Device ID: AP9
+Entry address(es):
+  IP address: 10.1.1.112
+Platform: cisco AIR-AP2802I-B-K9,  Capabilities: Router Trans-Bridge
+Interface: GigabitEthernet5/26,  Port ID (outgoing port): GigabitEthernet0
+Holdtime : 168 sec
+
+Version :
+Cisco AP Software, ap3g3-k9w8 Version: 8.3.140.6
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2014-2015 by Cisco Systems, Inc.
+
+advertisement version: 2
+Duplex: full
+Power drawn: 26.100 Watts
+Power request id: 58404, Power management id: 2
+Power request levels are:26100 15400 0 0 0
+Management address(es):
+  IP address: 10.1.1.112
+
+-------------------------
+Device ID: AP101010101010101010111111
+Entry address(es):
+  IP address: 10.1.1.113
+Platform: cisco AIR-AP2802I-B-K9,  Capabilities: Router Trans-Bridge
+Interface: GigabitEthernet5/30,  Port ID (outgoing port): GigabitEthernet0
+Holdtime : 131 sec
+
+Version :
+Cisco AP Software, ap3g3-k9w8 Version: 8.3.140.6
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2014-2015 by Cisco Systems, Inc.
+
+advertisement version: 2
+Duplex: full
+Power drawn: 26.100 Watts
+Power request id: 62851, Power management id: 2
+Power request levels are:26100 15400 0 0 0
+Management address(es):
+  IP address: 10.1.1.113
+
+-------------------------
+Device ID: WLC1
+Entry address(es):
+  IP address: 10.1.1.2
+Platform: AIR-CT5508-K9,  Capabilities: Host
+Interface: GigabitEthernet4/43,  Port ID (outgoing port): GigabitEthernet0/0/1
+Holdtime : 127 sec
+
+Version :
+Manufacturer's Name: Cisco Systems Inc.  Product Name: Cisco Controller  Product Version: 7.4.100.60  RTOS Version: Erro  Bootloader Version: 1.0.1  Build Type: DATA + WPS
+
+advertisement version: 2
+Duplex: full
+Management address(es):
+
+-------------------------
+Device ID: WLC1
+Entry address(es):
+  IP address: 10.1.1.2
+Platform: AIR-CT5508-K9,  Capabilities: Host
+Interface: GigabitEthernet4/44,  Port ID (outgoing port): GigabitEthernet0/0/2
+Holdtime : 126 sec
+
+Version :
+Manufacturer's Name: Cisco Systems Inc.  Product Name: Cisco Controller  Product Version: 7.4.100.60  RTOS Version: Erro  Bootloader Version: 1.0.1  Build Type: DATA + WPS
+
+advertisement version: 2
+Duplex: full
+Management address(es):
+
+-------------------------
+Device ID: WLC1
+Entry address(es):
+  IP address: 10.1.1.2
+Platform: AIR-CT5508-K9,  Capabilities: Host
+Interface: GigabitEthernet4/43,  Port ID (outgoing port): LAGInterface0/3/1
+Holdtime : 126 sec
+
+Version :
+Manufacturer's Name: Cisco Systems Inc.  Product Name: Cisco Controller  Product Version: 7.4.100.60  RTOS Version: Erro  Bootloader Version: 1.0.1  Build Type: DATA + WPS
+
+advertisement version: 2
+Management address(es):

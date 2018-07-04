@@ -1,0 +1,4 @@
+- attribute: platform
+  regex: WS
+- attribute: addresses
+  regex: 192.168

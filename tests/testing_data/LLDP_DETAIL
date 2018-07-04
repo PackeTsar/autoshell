@@ -1,0 +1,763 @@
+------------------------------------------------
+Chassis id: aaaa.aaaa.aaa9
+Port id: 0
+Port Description: eth0
+System Name: AP9
+
+System Description:
+8.3.140.6 (AIR-AP2802I-B-K9), Version 8.3.140.6
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Mon Mar 19 15:30:36 PDT 2018 by vipendya
+
+Time remaining: 104 seconds
+System Capabilities: B
+Enabled Capabilities: B
+Management Addresses:
+    IP: 10.1.1.112
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    1000baseT(FD)
+    1000baseT(HD)
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 30
+Vlan ID: - not advertised
+
+------------------------------------------------
+Chassis id: aaaa.aaaa.aaa4
+Port id: 0
+Port Description: eth0
+System Name: AP4
+
+System Description:
+8.3.140.6 (AIR-AP2802I-B-K9), Version 8.3.140.6
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Mon Mar 19 15:30:36 PDT 2018 by vipendya
+
+Time remaining: 89 seconds
+System Capabilities: B
+Enabled Capabilities: B
+Management Addresses:
+    IP: 10.1.1.107
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    1000baseT(FD)
+    1000baseT(HD)
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 30
+Vlan ID: - not advertised
+
+------------------------------------------------
+Chassis id: aaaa.aaaa.aaa3
+Port id: 0
+Port Description: eth0
+System Name: AP3
+
+System Description:
+8.3.140.6 (AIR-AP2802I-B-K9), Version 8.3.140.6
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Mon Mar 19 15:30:36 PDT 2018 by vipendya
+
+Time remaining: 116 seconds
+System Capabilities: B
+Enabled Capabilities: B
+Management Addresses:
+    IP: 10.1.1.111
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    1000baseT(FD)
+    1000baseT(HD)
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 30
+Vlan ID: - not advertised
+
+------------------------------------------------
+Chassis id: aaaa.aaaa.aaa7
+Port id: 0
+Port Description: eth0
+System Name: AP7
+
+System Description:
+8.3.140.6 (AIR-AP2802I-B-K9), Version 8.3.140.6
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Mon Mar 19 15:30:36 PDT 2018 by vipendya
+
+Time remaining: 117 seconds
+System Capabilities: B
+Enabled Capabilities: B
+Management Addresses:
+    IP: 10.1.1.97
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    1000baseT(FD)
+    1000baseT(HD)
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 30
+Vlan ID: - not advertised
+
+------------------------------------------------
+Chassis id: 0000.0000.0007
+Port id: Gi1/0/49
+Port Description: **UPLINK**
+System Name: SWITCH7
+
+System Description:
+Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.2(2)E7, RELEASE SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2017 by Cisco Systems, Inc.
+Compiled Wed 12-Jul-17 13:06 by prod_rel_team
+
+Time remaining: 91 seconds
+System Capabilities: B,R
+Enabled Capabilities: B
+Management Addresses:
+    IP: 10.1.1.10
+Auto Negotiation - not supported
+Physical media capabilities:
+    1000baseX(FD)
+Media Attachment Unit type: 26
+Vlan ID: 1
+
+------------------------------------------------
+Chassis id: aaaa.aaaa.aaa8
+Port id: 0
+Port Description: eth0
+System Name: AP8
+
+System Description:
+8.3.140.6 (AIR-AP2802I-B-K9), Version 8.3.140.6
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Mon Mar 19 15:30:36 PDT 2018 by vipendya
+
+Time remaining: 98 seconds
+System Capabilities: B
+Enabled Capabilities: B
+Management Addresses:
+    IP: 10.1.1.109
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    1000baseT(FD)
+    1000baseT(HD)
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 30
+Vlan ID: - not advertised
+
+------------------------------------------------
+Chassis id: aaaa.aaaa.aaa2
+Port id: 0
+Port Description: eth0
+System Name: AP2
+
+System Description:
+8.3.140.6 (AIR-AP2802I-B-K9), Version 8.3.140.6
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Mon Mar 19 15:30:36 PDT 2018 by vipendya
+
+Time remaining: 108 seconds
+System Capabilities: B
+Enabled Capabilities: B
+Management Addresses:
+    IP: 10.1.1.108
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    1000baseT(FD)
+    1000baseT(HD)
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 30
+Vlan ID: - not advertised
+
+------------------------------------------------
+Chassis id: aaaa.aaaa.aaa6
+Port id: 0
+Port Description: eth0
+System Name: AP6
+
+System Description:
+8.3.140.6 (AIR-AP2802I-B-K9), Version 8.3.140.6
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Mon Mar 19 15:30:36 PDT 2018 by vipendya
+
+Time remaining: 117 seconds
+System Capabilities: B
+Enabled Capabilities: B
+Management Addresses:
+    IP: 10.1.1.99
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    1000baseT(FD)
+    1000baseT(HD)
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 30
+Vlan ID: - not advertised
+
+------------------------------------------------
+Chassis id: 10.1.1.11
+Port id: 000000000003:P1
+Port Description: SW PORT
+System Name: SEP000000000003
+
+System Description:
+Cisco IP Phone 7821, V1, sip78xx.10-2-1-12.loads
+
+Time remaining: 178 seconds
+System Capabilities: B,T
+Enabled Capabilities: B,T
+Management Addresses:
+    IP: 10.1.1.11
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 16
+Vlan ID: - not advertised
+
+MED Information:
+
+    MED Codes:
+          (NP) Network Policy, (LI) Location Identification
+          (PS) Power Source Entity, (PD) Power Device
+          (IN) Inventory
+
+    H/W revision: 1
+    F/W revision: sboot78xx.10-2-1-12.bin
+
+    S/W revision: sip78xx.10-2-1-12.loads
+    Serial number: SER0003
+    Manufacturer: Cisco Systems, Inc.
+    Model: CP-7821
+    Capabilities: NP, PD, IN
+    Device type: Endpoint Class III
+    Network Policy(Voice): VLAN 200, tagged, Layer-2 priority: 5, DSCP: 46
+    Network Policy(Voice Signal): VLAN 200, tagged, Layer-2 priority: 4, DSCP: 32
+    PD device, Power source: PSE, Power Priority: Unknown, Wattage: 3.2
+    Location - not advertised
+
+------------------------------------------------
+Chassis id: 10.1.1.15
+Port id: 000000000004:P1
+Port Description: SW PORT
+System Name: SEP000000000004
+
+System Description:
+Cisco IP Phone 7821, V1, sip78xx.10-2-1-12.loads
+
+Time remaining: 170 seconds
+System Capabilities: B,T
+Enabled Capabilities: B,T
+Management Addresses:
+    IP: 10.1.1.15
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 16
+Vlan ID: - not advertised
+
+MED Information:
+
+    MED Codes:
+          (NP) Network Policy, (LI) Location Identification
+          (PS) Power Source Entity, (PD) Power Device
+          (IN) Inventory
+
+    H/W revision: 1
+    F/W revision: sboot78xx.10-2-1-12.bin
+
+    S/W revision: sip78xx.10-2-1-12.loads
+    Serial number: SER0004
+    Manufacturer: Cisco Systems, Inc.
+    Model: CP-7821
+    Capabilities: NP, PD, IN
+    Device type: Endpoint Class III
+    Network Policy(Voice): VLAN 200, tagged, Layer-2 priority: 5, DSCP: 46
+    Network Policy(Voice Signal): VLAN 200, tagged, Layer-2 priority: 4, DSCP: 32
+    PD device, Power source: PSE, Power Priority: Unknown, Wattage: 3.2
+    Location - not advertised
+
+------------------------------------------------
+Chassis id: 10.1.1.12
+Port id: 000000000005:P1
+Port Description: SW PORT
+System Name: SEP000000000005
+
+System Description:
+Cisco IP Phone 7821, V1, sip78xx.10-2-1-12.loads
+
+Time remaining: 146 seconds
+System Capabilities: B,T
+Enabled Capabilities: B,T
+Management Addresses:
+    IP: 10.1.1.12
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 16
+Vlan ID: - not advertised
+
+MED Information:
+
+    MED Codes:
+          (NP) Network Policy, (LI) Location Identification
+          (PS) Power Source Entity, (PD) Power Device
+          (IN) Inventory
+
+    H/W revision: 1
+    F/W revision: sboot78xx.10-2-1-12.bin
+
+    S/W revision: sip78xx.10-2-1-12.loads
+    Serial number: SER0005
+    Manufacturer: Cisco Systems, Inc.
+    Model: CP-7821
+    Capabilities: NP, PD, IN
+    Device type: Endpoint Class III
+    Network Policy(Voice): VLAN 200, tagged, Layer-2 priority: 5, DSCP: 46
+    Network Policy(Voice Signal): VLAN 200, tagged, Layer-2 priority: 4, DSCP: 32
+    PD device, Power source: PSE, Power Priority: Unknown, Wattage: 3.2
+    Location - not advertised
+
+------------------------------------------------
+Chassis id: aaaa.aaaa.aaaa
+Port id: 0
+Port Description: eth0
+System Name: AP101010101010101010111111
+
+System Description:
+8.3.140.6 (AIR-AP2802I-B-K9), Version 8.3.140.6
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Mon Mar 19 15:30:36 PDT 2018 by vipendya
+
+Time remaining: 105 seconds
+System Capabilities: B
+Enabled Capabilities: B
+Management Addresses:
+    IP: 10.1.1.113
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    1000baseT(FD)
+    1000baseT(HD)
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 30
+Vlan ID: - not advertised
+
+------------------------------------------------
+Chassis id: 10.1.1.14
+Port id: 000000000006:P1
+Port Description: SW PORT
+System Name: SEP000000000006
+
+System Description:
+Cisco IP Phone 7821, V1, sip78xx.10-2-1-12.loads
+
+Time remaining: 146 seconds
+System Capabilities: B,T
+Enabled Capabilities: B,T
+Management Addresses:
+    IP: 10.1.1.14
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 16
+Vlan ID: - not advertised
+
+MED Information:
+
+    MED Codes:
+          (NP) Network Policy, (LI) Location Identification
+          (PS) Power Source Entity, (PD) Power Device
+          (IN) Inventory
+
+    H/W revision: 1
+    F/W revision: sboot78xx.10-2-1-12.bin
+
+    S/W revision: sip78xx.10-2-1-12.loads
+    Serial number: SER0006
+    Manufacturer: Cisco Systems, Inc.
+    Model: CP-7821
+    Capabilities: NP, PD, IN
+    Device type: Endpoint Class III
+    Network Policy(Voice): VLAN 200, tagged, Layer-2 priority: 5, DSCP: 46
+    Network Policy(Voice Signal): VLAN 200, tagged, Layer-2 priority: 4, DSCP: 32
+    PD device, Power source: PSE, Power Priority: Unknown, Wattage: 3.2
+    Location - not advertised
+
+------------------------------------------------
+Chassis id: 10.1.1.18
+Port id: 000000000007:P1
+Port Description: SW PORT
+System Name: SEP000000000007
+
+System Description:
+Cisco IP Phone 7841, V1, sip78xx.10-2-1-12.loads
+
+Time remaining: 143 seconds
+System Capabilities: B,T
+Enabled Capabilities: B,T
+Management Addresses:
+    IP: 10.1.1.18
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    1000baseT(FD)
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 30
+Vlan ID: - not advertised
+
+MED Information:
+
+    MED Codes:
+          (NP) Network Policy, (LI) Location Identification
+          (PS) Power Source Entity, (PD) Power Device
+          (IN) Inventory
+
+    H/W revision: 1
+    F/W revision: sboot78xx.10-2-1-12.bin
+
+    S/W revision: sip78xx.10-2-1-12.loads
+    Serial number: SER0007
+    Manufacturer: Cisco Systems, Inc.
+    Model: CP-7841
+    Capabilities: NP, PD, IN
+    Device type: Endpoint Class III
+    Network Policy(Voice): VLAN 200, tagged, Layer-2 priority: 5, DSCP: 46
+    Network Policy(Voice Signal): VLAN 200, tagged, Layer-2 priority: 4, DSCP: 32
+    PD device, Power source: PSE, Power Priority: Unknown, Wattage: 3.6
+    Location - not advertised
+
+------------------------------------------------
+Chassis id: 10.1.1.20
+Port id: 000000000008:P1
+Port Description: SW PORT
+System Name: SEP000000000008
+
+System Description:
+Cisco IP Phone 7841, V1, sip78xx.10-2-1-12.loads
+
+Time remaining: 141 seconds
+System Capabilities: B,T
+Enabled Capabilities: B,T
+Management Addresses:
+    IP: 10.1.1.20
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    1000baseT(FD)
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 30
+Vlan ID: - not advertised
+
+MED Information:
+
+    MED Codes:
+          (NP) Network Policy, (LI) Location Identification
+          (PS) Power Source Entity, (PD) Power Device
+          (IN) Inventory
+
+    H/W revision: 1
+    F/W revision: sboot78xx.10-2-1-12.bin
+
+    S/W revision: sip78xx.10-2-1-12.loads
+    Serial number: SER0008
+    Manufacturer: Cisco Systems, Inc.
+    Model: CP-7841
+    Capabilities: NP, PD, IN
+    Device type: Endpoint Class III
+    Network Policy(Voice): VLAN 200, tagged, Layer-2 priority: 5, DSCP: 46
+    Network Policy(Voice Signal): VLAN 200, tagged, Layer-2 priority: 4, DSCP: 32
+    PD device, Power source: PSE, Power Priority: Unknown, Wattage: 3.6
+    Location - not advertised
+
+------------------------------------------------
+Chassis id: 10.1.1.17
+Port id: 000000000009:P1
+Port Description: SW PORT
+System Name: SEP000000000009
+
+System Description:
+Cisco IP Phone 7841, V1, sip78xx.10-2-1-12.loads
+
+Time remaining: 141 seconds
+System Capabilities: B,T
+Enabled Capabilities: B,T
+Management Addresses:
+    IP: 10.1.1.17
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    1000baseT(FD)
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 30
+Vlan ID: - not advertised
+
+MED Information:
+
+    MED Codes:
+          (NP) Network Policy, (LI) Location Identification
+          (PS) Power Source Entity, (PD) Power Device
+          (IN) Inventory
+
+    H/W revision: 1
+    F/W revision: sboot78xx.10-2-1-12.bin
+
+    S/W revision: sip78xx.10-2-1-12.loads
+    Serial number: SER0009
+    Manufacturer: Cisco Systems, Inc.
+    Model: CP-7841
+    Capabilities: NP, PD, IN
+    Device type: Endpoint Class III
+    Network Policy(Voice): VLAN 200, tagged, Layer-2 priority: 5, DSCP: 46
+    Network Policy(Voice Signal): VLAN 200, tagged, Layer-2 priority: 4, DSCP: 32
+    PD device, Power source: PSE, Power Priority: Unknown, Wattage: 3.6
+    Location - not advertised
+
+------------------------------------------------
+Chassis id: 10.1.1.16
+Port id: 00000000000A:P1
+Port Description: SW PORT
+System Name: SEP00000000000A
+
+System Description:
+Cisco IP Phone 7841, V1, sip78xx.10-2-1-12.loads
+
+Time remaining: 141 seconds
+System Capabilities: B,T
+Enabled Capabilities: B,T
+Management Addresses:
+    IP: 10.1.1.16
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    1000baseT(FD)
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 30
+Vlan ID: - not advertised
+
+MED Information:
+
+    MED Codes:
+          (NP) Network Policy, (LI) Location Identification
+          (PS) Power Source Entity, (PD) Power Device
+          (IN) Inventory
+
+    H/W revision: 1
+    F/W revision: sboot78xx.10-2-1-12.bin
+
+    S/W revision: sip78xx.10-2-1-12.loads
+    Serial number: SER0010
+    Manufacturer: Cisco Systems, Inc.
+    Model: CP-7841
+    Capabilities: NP, PD, IN
+    Device type: Endpoint Class III
+    Network Policy(Voice): VLAN 200, tagged, Layer-2 priority: 5, DSCP: 46
+    Network Policy(Voice Signal): VLAN 200, tagged, Layer-2 priority: 4, DSCP: 32
+    PD device, Power source: PSE, Power Priority: Unknown, Wattage: 3.6
+    Location - not advertised
+
+------------------------------------------------
+Chassis id: aaaa.aaaa.aaa1
+Port id: 0
+Port Description: eth0
+System Name: AP1
+
+System Description:
+8.3.140.6 (AIR-AP2802I-B-K9), Version 8.3.140.6
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Mon Mar 19 15:30:36 PDT 2018 by vipendya
+
+Time remaining: 101 seconds
+System Capabilities: B
+Enabled Capabilities: B
+Management Addresses:
+    IP: 10.1.1.100
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    1000baseT(FD)
+    1000baseT(HD)
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 30
+Vlan ID: - not advertised
+
+------------------------------------------------
+Chassis id: aaaa.aaaa.aaa5
+Port id: 0
+Port Description: eth0
+System Name: AP5
+
+System Description:
+8.3.140.6 (AIR-AP2802I-B-K9), Version 8.3.140.6
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Mon Mar 19 15:30:36 PDT 2018 by vipendya
+
+Time remaining: 99 seconds
+System Capabilities: B
+Enabled Capabilities: B
+Management Addresses:
+    IP: 10.1.1.110
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    1000baseT(FD)
+    1000baseT(HD)
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 30
+Vlan ID: - not advertised
+
+------------------------------------------------
+Chassis id: 0000.0000.0001
+Port id: Gi1/0/25
+Port Description: **UPLINK**
+System Name: SWITCH1
+
+System Description:
+Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.2(2)E7, RELEASE SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2017 by Cisco Systems, Inc.
+Compiled Wed 12-Jul-17 13:06 by prod_rel_team
+
+Time remaining: 113 seconds
+System Capabilities: B,R
+Enabled Capabilities: B
+Management Addresses:
+    IP: 10.1.1.70
+Auto Negotiation - not supported
+Physical media capabilities:
+    1000baseX(FD)
+Media Attachment Unit type: 26
+Vlan ID: 1
+
+------------------------------------------------
+Chassis id: 10.1.1.19
+Port id: 00000000000B:P1
+Port Description: SW PORT
+System Name: SEP00000000000B
+
+System Description:
+Cisco IP Phone 7841, V1, sip78xx.10-2-1-12.loads
+
+Time remaining: 140 seconds
+System Capabilities: B,T
+Enabled Capabilities: B,T
+Management Addresses:
+    IP: 10.1.1.19
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    1000baseT(FD)
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 30
+Vlan ID: - not advertised
+
+MED Information:
+
+    MED Codes:
+          (NP) Network Policy, (LI) Location Identification
+          (PS) Power Source Entity, (PD) Power Device
+          (IN) Inventory
+
+    H/W revision: 1
+    F/W revision: sboot78xx.10-2-1-12.bin
+
+    S/W revision: sip78xx.10-2-1-12.loads
+    Serial number: SER0011
+    Manufacturer: Cisco Systems, Inc.
+    Model: CP-7841
+    Capabilities: NP, PD, IN
+    Device type: Endpoint Class III
+    Network Policy(Voice): VLAN 200, tagged, Layer-2 priority: 5, DSCP: 46
+    Network Policy(Voice Signal): VLAN 200, tagged, Layer-2 priority: 4, DSCP: 32
+    PD device, Power source: PSE, Power Priority: Unknown, Wattage: 3.6
+    Location - not advertised
+
+------------------------------------------------
+Chassis id: 10.1.1.13
+Port id: 00000000000C:P1
+Port Description: SW PORT
+System Name: SEP00000000000C
+
+System Description:
+Cisco IP Phone 7821, V1, sip78xx.10-2-1-12.loads
+
+Time remaining: 165 seconds
+System Capabilities: B,T
+Enabled Capabilities: B,T
+Management Addresses:
+    IP: 10.1.1.13
+Auto Negotiation - supported, enabled
+Physical media capabilities:
+    100base-TX(FD)
+    100base-TX(HD)
+    10base-T(FD)
+    10base-T(HD)
+Media Attachment Unit type: 11
+Vlan ID: - not advertised
+
+MED Information:
+
+    MED Codes:
+          (NP) Network Policy, (LI) Location Identification
+          (PS) Power Source Entity, (PD) Power Device
+          (IN) Inventory
+
+    H/W revision: 1
+    F/W revision: sboot78xx.10-2-1-12.bin
+
+    S/W revision: sip78xx.10-2-1-12.loads
+    Serial number: SER0012
+    Manufacturer: Cisco Systems, Inc.
+    Model: CP-7821
+    Capabilities: NP, PD, IN
+    Device type: Endpoint Class III
+    Network Policy(Voice): VLAN 200, tagged, Layer-2 priority: 5, DSCP: 46
+    Network Policy(Voice Signal): VLAN 200, tagged, Layer-2 priority: 4, DSCP: 32
+    PD device, Power source: PSE, Power Priority: Unknown, Wattage: 3.2
+    Location - not advertised
+
+
+Total entries displayed: 22

@@ -1,0 +1,29 @@
+Capability codes:
+    (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
+    (W) WLAN Access Point, (P) Repeater, (S) Station, (O) Other
+
+Device ID           Local Intf     Hold-time  Capability      Port ID
+AP9                 Gi5/26         120        B               0
+AP4                 Gi5/27         120        B               0
+AP3                 Gi5/32         120        B               0
+AP7                 Gi5/44         120        B               0
+SWITCH7             Gi3/1          120        B               Gi1/0/49
+AP8                 Gi5/25         120        B               0
+AP2                 Gi5/28         120        B               0
+AP6                 Gi5/46         120        B               0
+SEP000000000003     Gi4/7          180        B,T             000000000003:P1
+SEP000000000006     Gi4/2          180        B,T             000000000006:P1
+SEP000000000005     Gi4/6          180        B,T             000000000005:P1
+AP101010101010101010Gi5/30         120        B               0
+SEP000000000002     Gi4/4          180        B,T             000000000002:P1
+SEP000000000001     Gi4/45         180        B,T             000000000001:P1
+SEP000000000007     Gi4/15         180        B,T             000000000007:P1
+SEP000000000004     Gi4/16         180        B,T             000000000004:P1
+SEP000000000008     Gi4/1          180        B,T             000000000008:P1
+AP1                 Gi5/48         120        B               0
+AP5                 Gi5/36         120        B               0
+SWITCH1             Gi3/7          120        B               Gi1/0/25
+SEP00000000000A     Gi4/18         180        B,T             00000000000A:P1
+SEP000000000009     Gi4/31         180        B,T             000000000009:P1
+
+Total entries displayed: 22

@@ -1,0 +1,4 @@
+- address: 192.168.1.1
+- address: 192.168.1.2
+  port: 22
+  type: cisco_ios
