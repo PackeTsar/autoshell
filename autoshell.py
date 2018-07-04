@@ -25,6 +25,7 @@ import autoshell
 # FIXME Go through and replace all % uses with .format
 # FIXME Build unit tests
 # FIXME Integrate CI system for testing
+# FIXME Write documentation
 # FIXME Put into PyPi
 # FIXME Modules: (config, cmd, cdp2desc)
 # FIXME?? -p to edit profile (timeout, threads, etc) '-p 10:25:60'
