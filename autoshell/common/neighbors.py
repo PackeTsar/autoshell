@@ -123,7 +123,7 @@ def build_neighbor_filters(expressions):
         - sysid:1a:2b:3c.*
         - :%--platform:AIR%addresses:192
     """
-    log.debug("common_neighbors.build_neighbor_filters:\
+    log.debug("common.neighbors.build_neighbor_filters:\
  Parsing filter expressions: %s" % expressions)
     result = []
     if not expressions:  # If there were no input expressions
@@ -139,7 +139,7 @@ def build_neighbor_filters(expressions):
                 fltr = _process_file_exps(response["value"])
                 if fltr:
                     result.append(fltr)
-        log.debug("common_neighbors.build_neighbor_filters:\
+        log.debug("common.neighbors.build_neighbor_filters:\
  Returning:\n%s" % json.dumps(result, indent=4))
         return result
 
@@ -151,7 +151,7 @@ def _process_file_exps(file_data):
         if "attribute" in flt_dict and "regex" in flt_dict:
             attribute = flt_dict["attribute"]
             if attribute not in allowed_attributes:
-                log.warning("common_neighbors._process_file_exps:\
+                log.warning("common.neighbors._process_file_exps:\
  Illegal attribute (%s). Discarding expression. Allowed attributes are: %s" %
                             (attribute, " ".join(allowed_attributes)))
                 return None
@@ -160,18 +160,18 @@ def _process_file_exps(file_data):
                 try:
                     re.compile(regex)
                 except Exception as e:
-                    log.debug("common_neighbors._process_file_exps:\
+                    log.debug("common.neighbors._process_file_exps:\
  Malformed regex (%s). Discarding expression" % regex)
                     return None
                 result = {
                     "attribute": attribute,
                     "regex": regex
                 }
-                log.debug("common_neighbors._process_file_exps:\
+                log.debug("common.neighbors._process_file_exps:\
  Adding new filter from file:\n%s" % json.dumps(result, indent=4))
                 return result
         else:
-            log.warning("common_neighbors._process_file_exps:\
+            log.warning("common.neighbors._process_file_exps:\
  Cannot find the 'attribute' and 'regex' keys. Discarding filter")
             return None
     result = []
@@ -195,12 +195,12 @@ def _process_string_exps(str_list):
     result = []
     for entry in str_list:
         if len(entry) < 2:
-            log.debug("common_neighbors._process_string_exps:\
+            log.debug("common.neighbors._process_string_exps:\
  Discarding filter expression (%s). No regex found in entry (%s)" %
                       (str_list, entry))
             return None
         elif entry[0] not in allowed_attributes:
-            log.warning("common_neighbors._process_string_exps:\
+            log.warning("common.neighbors._process_string_exps:\
  Illegal attribute (%s). Discarding expression. Allowed attributes are: %s" %
                         (entry[0], " ".join(allowed_attributes)))
         else:
@@ -208,7 +208,7 @@ def _process_string_exps(str_list):
             try:
                 re.compile(regex)
             except Exception as e:
-                log.debug("common_neighbors._process_file_exps:\
+                log.debug("common.neighbors._process_string_exps:\
  Malformed regex (%s). Discarding expression" % regex)
                 return None
             fltr = {
@@ -217,11 +217,11 @@ def _process_string_exps(str_list):
             }
             result.append(fltr)
     if result:
-        log.debug("common_neighbors._process_string_exps:\
+        log.debug("common.neighbors._process_string_exps:\
  Adding Filter:\n%s" % json.dumps(result, indent=4))
         return result
     else:
-        log.debug("common_neighbors._process_string_exps:\
+        log.debug("common.neighbors._process_string_exps:\
  No filters to add")
         return result
 
@@ -233,25 +233,25 @@ def filter_neighbor_device(neighbor, filters):
     filter criteria.
     """
     log.debug(
-        "common_neighbors.filter_neighbor_device:\
+        "common.neighbors.filter_neighbor_device:\
  Filtering device (%s) with IP (%s) using filter:\n%s"
         % (neighbor.sysname.Value,
            neighbor.addresses.Value,
            json.dumps(filters, indent=4)))
     if not filters:  # If a filter is not set
         log.debug(
-            "common_neighbors.filter_neighbor_device:\
+            "common.neighbors.filter_neighbor_device:\
  No filter set. Returning True")
         return True  # Don't filter the device
     total_results = []
     for filter_set in filters:
         log.debug(
-            "common_neighbors.filter_neighbor_device:\
+            "common.neighbors.filter_neighbor_device:\
  Processing Filter Set (%s)" % filter_set)
         set_results = []
         for flter in filter_set:
             log.debug(
-                "common_neighbors.filter_neighbor_device:\
+                "common.neighbors.filter_neighbor_device:\
  Processing Filter (%s)" % flter)
             matched = False
             if neighbor()[flter["attribute"]]:  # If there is a value there
@@ -260,7 +260,7 @@ def filter_neighbor_device(neighbor, filters):
                         flter["regex"],
                         value)
                     log.debug(
-                        "common_neighbors.filter_neighbor_device:\
+                        "common.neighbors.filter_neighbor_device:\
  Regex search returned: %s" %
                         str(findings))
                     if findings:
@@ -268,15 +268,15 @@ def filter_neighbor_device(neighbor, filters):
             set_results.append(matched)
         if False in set_results:
             log.debug(
-                "common_neighbors.filter_neighbor_device:\
+                "common.neighbors.filter_neighbor_device:\
  Neighbor FAILED this filter")
         else:
             log.debug(
-                "common_neighbors.filter_neighbor_device:\
+                "common.neighbors.filter_neighbor_device:\
  Neighbor PASSED this filter. Returning True")
             return True
         total_results.append(set_results)
     log.debug(
-        "common_neighbors.filter_neighbor_device:\
+        "common.neighbors.filter_neighbor_device:\
  All filters failed. Returning False")
     return False

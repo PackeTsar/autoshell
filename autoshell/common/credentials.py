@@ -112,7 +112,7 @@ def _process_string_exps(str_list):
 
 
 def _add_cred_ui():
-    log.warning("credentials_class._add_cred_file:\
+    log.warning("common.credentials._add_cred_ui:\
  No credentials input. Getting interactively")
     username = input("Username: ")
     password = getpass.getpass("Password: ")
@@ -122,7 +122,7 @@ def _add_cred_ui():
     ctype = input("Credential Type [None]: ")
     if not ctype:
         ctype = None
-    log.debug(""" credentials_class._add_cred_str: Set Credentials To:
+    log.debug("""common.credentials._add_cred_ui: Set Credentials To:
             Username: %s
             Password: %s
             Enable Secret: %s

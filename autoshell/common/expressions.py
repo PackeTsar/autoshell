@@ -33,12 +33,12 @@ def parse_expression(inputs, delineators):
     if not inputs:
         return results
     for expression in inputs:
-        log.debug("common_expressions.__init__:\
+        log.debug("common.expressions.parse_expression:\
  Checking expression (%s)" % expression)
         # Check if it is a file
         if os.path.isfile(expression):
             log.debug(
-                "common_expressions.__init__:\
+                "common.expressions.parse_expression:\
  Expression (%s) is a file" % expression)
             data = _add_file(expression)
             # If empty data is returned, then don't add it to the results
@@ -46,7 +46,7 @@ def parse_expression(inputs, delineators):
                 results.append(data)
         else:
             log.debug(
-                "common_expressions.__init__:\
+                "common.expressions.parse_expression:\
  Expression (%s) is a string" % expression)
             data = _add_str(expression, delineators)
             if data:
@@ -61,7 +61,7 @@ def _add_file(file):
     be returned.
     """
     entries = []
-    log.debug("common_expressions._add_file: Checking file (%s)"
+    log.debug("common.expressions._add_file: Checking file (%s)"
               % file)
     f = open(file, "r")
     raw_data = f.read()
@@ -73,7 +73,7 @@ def _add_file(file):
                 entries = each
                 break
             log.debug(
-                "common_expressions._add_file:\
+                "common.expressions._add_file:\
  File (%s) contains YAML data" % file)
         except Exception as e:
             pass
@@ -82,7 +82,7 @@ def _add_file(file):
         try:
             entries = json.loads(raw_data)
             log.debug(
-                "common_expressions._add_file:\
+                "common.expressions._add_file:\
  File (%s) contains JSON data" % file)
         except Exception as e:
             pass
@@ -93,13 +93,13 @@ def _add_file(file):
             "value": entries
         }
         log.debug(
-            "common_expressions._add_str:\
+            "common.expressions._add_file:\
  Processing of (%s) complete. Adding to data:\n%s" %
             (file, json.dumps(result, indent=4)))
         return result
     else:
         log.debug(
-            "common_expressions._add_str:\
+            "common.expressions._add_file:\
  Processing of (%s) failed. Returning None." % file)
         return None
 
@@ -115,7 +115,7 @@ def _get_delineators(string, delineators):
     _entry_delineator = delineators[2]
     # If the input is not big enough to have a cue, then return the default
     if not len(string) > 5:
-        log.debug("""common_expressions._get_delineators:\
+        log.debug("""common.expressions._get_delineators:\
  Using default delineators:
                 Override Delineator:  %s
                 Value Delineator:     %s
@@ -129,12 +129,12 @@ def _get_delineators(string, delineators):
         return (_value_delineator, _entry_delineator, string)
     else:
         log.debug(
-            "common_expressions._get_delineators:\
+            "common.expressions._get_delineators:\
  Changing delineators for this credential")
         vdel = string[0]  # Set the new password delineator
         edel = string[1]  # Set the new device delineator
         string = string[4:]  # Reset the input to remove the switch
-        log.debug("""common_expressions._get_delineators:\
+        log.debug("""common.expressions._get_delineators:\
  Set New In-String Expression Delineators:
                 Value Delineator: %s
                 Entry Delineator: %s
@@ -151,7 +151,7 @@ def _add_str(string, delineators):
     first and second order delineator
     """
     log.debug(
-        "common_expressions._add_str:\
+        "common.expressions._add_str:\
  Processing string expression (%s)" % string)
     # Set delineators for this string
     valuedel, entrydel, string = _get_delineators(string, delineators)
@@ -167,12 +167,12 @@ def _add_str(string, delineators):
             "value": entries
         }
         log.debug(
-            "common_expressions._add_str:\
+            "common.expressions._add_str:\
  Processing of (%s) complete. Adding to data:\n%s" %
             (string, json.dumps(result, indent=4)))
         return result
     else:
         log.debug(
-            "common_expressions._add_str:\
+            "common.expressions._add_str:\
  Processing of (%s) failed. Returning None." % string)
         return None

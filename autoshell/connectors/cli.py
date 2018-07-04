@@ -20,17 +20,17 @@ log = logging.getLogger("shared")
 def connect(parent, con_instance, credentials, returner):
     import netmiko
     if not con_instance.host.type:
-        log.warning("XXXXXXXXXXXX.cli:\
+        log.warning("connectors.cli.connect:\
  Host (%s) has no device_type.\
  Will use credential or try autodetection" % con_instance.address)
     elif not con_instance.host.type not in netmiko.platforms:
-        log.info("XXXXXXXXXXXX.cli:\
+        log.info("connectors.cli.connect:\
  Host (%s) device_type (%s) not in Netmiko platforms list. Discarding.\
  Supported platforms are: \n%s" % (con_instance.address,
                                    con_instance.host.type,
                                    " ".join(netmiko.platforms)))
         return None
-    log.info("XXXXXXXXXXXX.cli: Connecting to address (%s)"
+    log.info("connectors.cli.connect: Connecting to address (%s)"
              % con_instance.address)
     pref_types = [con_instance.host.type] + netmiko.platforms
     for credential in _order_credentials(credentials, pref_types):
@@ -62,18 +62,18 @@ def connect(parent, con_instance, credentials, returner):
 
 def disconnect(parent, con_instance, returner):
     con_instance.connection.disconnect()
-    log.info("XXXXXXXXXXXX.cli: Disconnected from (%s) (%s)"
+    log.info("connectors.cli.disconnect: Disconnected from (%s) (%s)"
              % (con_instance.host.hostname, con_instance.host.address))
     returner.append(con_instance)
 
 
 def _assemble_credential(con_instance, credential):
-    log.debug("XXXXXXXXXXXX._assemble_credential: Assembling credential:\n%s"
+    log.debug("connectors.cli._assemble_credential: Assembling credential:\n%s"
               % json.dumps(credential, indent=4))
     device_type = None
     if con_instance.host.type:
         if con_instance.host.type not in netmiko.platforms:
-            log.warning("XXXXXXXXXXXX.cli:\
+            log.warning("connectors.cli._assemble_credential:\
  Address (%s) device_type (%s) not in Netmiko platforms.\
  Setting device_type to None.\
  Supported platforms are: \n%s" % (con_instance.host.address,
@@ -86,7 +86,7 @@ def _assemble_credential(con_instance, credential):
         if credential["type"] in netmiko.platforms and not device_type:
             device_type = credential["type"]
         else:
-            log.warning("XXXXXXXXXXXX.cli:\
+            log.warning("connectors.cli._assemble_credential:\
  Credential device_type (%s) not in Netmiko platforms.\
  Setting device_type to None.\
  Supported platforms are: \n%s" % (credential["type"],
@@ -104,7 +104,7 @@ def _assemble_credential(con_instance, credential):
         "secret": credential["secret"],
         "timeout": 10
     }
-    log.debug("XXXXXXXXXXXX._assemble_credential: Returning:\n%s"
+    log.debug("connectors.cli._assemble_credential: Returning:\n%s"
               % json.dumps(assembled, indent=4))
     return assembled
 
@@ -113,14 +113,14 @@ def _execute(con_instance, credential):
     con_instance.host.info.update({"cli": {}})
     try:
         if credential["device_type"] == "autodetect":
-            log.debug("XXXXXXXXXXXX._execute:\
+            log.debug("connectors.cli._execute:\
  Connecting to address (%s) to detect device type..." %
                       (con_instance.address, ))
             con_instance.idle = False
             device = netmiko.SSHDetect(**credential)
             dtype = device.autodetect()
             if not dtype:
-                log.warning("XXXXXXXXXXXX._execute:\
+                log.warning("connectors.cli._execute:\
  Authentication succeeded, but Auto Detection failed on address (%s).\
  Discarding host" % (con_instance.address, ))
                 device.connection.disconnect()
@@ -130,10 +130,10 @@ def _execute(con_instance, credential):
             credential["device_type"] = dtype
             con_instance.host.type = credential["device_type"]
             device.connection.disconnect()
-            log.debug("XXXXXXXXXXXX._execute:\
+            log.debug("connectors.cli._execute:\
  Detected device type (%s) on address (%s)" % (credential["device_type"],
                                                con_instance.address))
-        log.debug("XXXXXXXXXXXX._execute:\
+        log.debug("connectors.cli._execute:\
  Trying host (%s) with credential:\n%s"
                   % (con_instance.address, json.dumps(credential, indent=4)))
         con_instance.idle = False
@@ -141,7 +141,7 @@ def _execute(con_instance, credential):
         hostname = device.find_prompt().replace("#", "")
         hostname = hostname.replace(">", "")
         log.info(
-            "XXXXXXXXXXXX._execute: Connected to (%s) with address (%s)"
+            "connectors.cli._execute: Connected to (%s) with address (%s)"
             % (hostname, con_instance.address))
         con_instance.type = "cli"
         con_instance.connected = True
@@ -154,20 +154,20 @@ def _execute(con_instance, credential):
         return True
     except netmiko.ssh_exception.NetMikoTimeoutException:
         log.warning(
-            "XXXXXXXXXXXX._execute: Device (%s) timed out. Discarding"
+            "connectors.cli._execute: Device (%s) timed out. Discarding"
             % con_instance.address)
         con_instance.idle = True
         con_instance.failed = True
         return False
     except netmiko.ssh_exception.NetMikoAuthenticationException:
         log.warning(
-            "XXXXXXXXXXXX._execute: Device (%s) authentication failed"
+            "connectors.cli._execute: Device (%s) authentication failed"
             % con_instance.address)
         con_instance.idle = True
         return False
     except Exception as e:
         log.exception(
-            "XXXXXXXXXXXX._execute: Device (%s) connection exception raised:"
+            "connectors.cli._execute: Device (%s) connection exception raised:"
             % con_instance.address)
         con_instance.idle = True
         return False

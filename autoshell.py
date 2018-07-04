@@ -8,17 +8,26 @@ import logging
 import argparse
 import importlib
 import autoshell
-try:
-    import Queue as queue  # For Python2
-except ModuleNotFoundError:
-    import queue  # For Python3
 
-# FIXME Remove native class dependencies on ball
-# FIXME Write unit tests
-# FIXME Go through and replace all % uses with .format
+
 # FIXME Comment Everything
-# FIXME -p to edit profile (timeout, threads, etc) '-p 10:25:60'
+# FIXME     - autoshell.py:
+# FIXME     - autoqueue.py:
+# FIXME     - credentials.py:
+# FIXME     - expressions.py:
+# FIXME     - hosts.py:
+# FIXME     - neighbors.py:
+# FIXME     - cli.py:
+# FIXME     - handlers.py:
+# FIXME     - scrapers.py:
+# FIXME     - crawl.py:
+# FIXME CDP and LLDP adding empty neighbors
+# FIXME Go through and replace all % uses with .format
+# FIXME Build unit tests
+# FIXME Integrate CI system for testing
+# FIXME Put into PyPi
 # FIXME Modules: (config, cmd, cdp2desc)
+# FIXME?? -p to edit profile (timeout, threads, etc) '-p 10:25:60'
 
 
 log = logging.getLogger("shared")
@@ -27,25 +36,26 @@ modlog = logging.getLogger("modules")
 
 
 def run_modules(modules, ball):
-    log.debug("run_modules: Processing imported modules")
+    log.debug("autoshell.run_modules: Processing imported modules")
     for module in modules:
-        log.info("run_modules: Running module (%s)" % module["name"])
+        log.info("autoshell.run_modules: Running module (%s)" % module["name"])
         module["module"].run(ball)
 
 
 def load_modules(modules, ball):
-    log.debug("load_modules: Loading modules with user data")
+    log.debug("autoshell.load_modules: Loading modules with user data")
     for module in modules:
         if "load" in module["module"].__dict__:
-            log.debug("load_modules: Loading module (%s)" % module["name"])
+            log.debug("autoshell.load_modules: Loading module (%s)" %
+                      module["name"])
             module["module"].load(ball)
         else:
-            log.debug("load_modules:\
+            log.debug("autoshell.load_modules:\
  Module (%s) has no 'load' function. Skipping loading." % module["name"])
 
 
 def main(args, modules):
-    log.debug("main: Starting main process")
+    log.debug("autoshell.main: Starting main process")
     credentials = autoshell.common.credentials.parse_credentials(
         args.credential)
     connectors = {}
@@ -77,9 +87,9 @@ def main(args, modules):
 def import_modules(startlogs, parser):
     # Add modules
     modules = []
-    startlogs.put({
+    startlogs.append({
         "level": "debug",
-        "message": "import_modules: Starting module imports"
+        "message": "autoshell.import_modules: Starting module imports"
         })
     if os.path.isdir("modules"):
         sys.path.append(os.path.abspath("modules"))
@@ -102,9 +112,9 @@ def import_modules(startlogs, parser):
                     modname = sys.argv[index + 1]
                 module = importlib.import_module(modname)
                 if "add_parser_options" in module.__dict__:
-                    startlogs.put({
+                    startlogs.append({
                         "level": "debug",
-                        "message": """import_modules:\
+                        "message": """autoshell.import_modules:\
  Module (%s) is adding arguments to the parser""" %
                         modname
                         })
@@ -112,35 +122,35 @@ def import_modules(startlogs, parser):
                 modules.append({
                     "name": modname,
                     "module": module})
-                startlogs.put({
+                startlogs.append({
                     "level": "debug",
-                    "message": "import_modules: Imported module (%s)" %
-                    modname
+                    "message": "autoshell.import_modules:\
+ Imported module (%s)" % modname
                     })
             except ImportError as e:
-                startlogs.put({
+                startlogs.append({
                     "level": "error",
-                    "message": "import_modules:\
+                    "message": "autoshell.import_modules:\
  Error importing module (%s): %s" % (modname, e)
                     })
             except TypeError as e:
-                startlogs.put({
+                startlogs.append({
                     "level": "error",
-                    "message": "import_modules:\
+                    "message": "autoshell.import_modules:\
  Error importing module (%s): %s" % (modname, e)
                     })
         index += 1
-    startlogs.put({
+    startlogs.append({
         "level": "debug",
-        "message": "import_modules: Module imports complete"
+        "message": "autoshell.import_modules: Module imports complete"
         })
     return modules
 
 
 def start_logging(startlogs, args):
-    startlogs.put({
+    startlogs.append({
         "level": "debug",
-        "message": "start_logging: Starting logger"
+        "message": "autoshell.start_logging: Starting logger"
         })
     datalog.setLevel(logging.INFO)
     consoleHandler = logging.StreamHandler()
@@ -206,16 +216,16 @@ def start_logging(startlogs, args):
            "error": logging.ERROR,
            "critical": logging.CRITICAL
     }
-    while not startlogs.empty():
-        msg = startlogs.get()
+    for msg in startlogs:
         log.log(maps[msg["level"]], msg["message"])
 
 
 if __name__ == "__main__":
-    startlogs = queue.Queue(maxsize=0)
-    startlogs.put({
+    # startlogs = queue.Queue(maxsize=0)
+    startlogs = []
+    startlogs.append({
         "level": "debug",
-        "message": "Starting Up"
+        "message": "autoshell: Starting Up"
         })
     parser = argparse.ArgumentParser(
         description='AutoShell - A Shell-Based Automation Utility',
@@ -225,9 +235,9 @@ if __name__ == "__main__":
     required = parser.add_argument_group('Required Arguments')
     optional = parser.add_argument_group('Optional Arguments')
     modules = import_modules(startlogs, parser)
-    startlogs.put({
+    startlogs.append({
         "level": "debug",
-        "message": "Starting argument parsing"
+        "message": "autoshell: Starting argument parsing"
         })
     misc.add_argument(
                         "-h", "--help",
@@ -307,7 +317,7 @@ if __name__ == "__main__":
                         dest="default_type")
     args = parser.parse_args()
     start_logging(startlogs, args)
-    log.debug("\n###### INPUT ARGUMENTS #######\n" +
+    log.debug("autoshell: \n###### INPUT ARGUMENTS #######\n" +
               json.dumps(args.__dict__, indent=4) +
               "\n##############################\n")
     try:

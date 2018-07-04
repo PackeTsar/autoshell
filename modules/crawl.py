@@ -117,41 +117,49 @@ def crawl(parent, host, ball):
             options.queue.put(host)  # Host still trying to connect
             return None
     if not host.type:
-        log.warning("crawl.crawl:\ Host (%s) has no type. Discarding" % host.address)
+        log.warning("crawl.crawl:\
+ Host (%s) has no type. Discarding" % host.address)
         return None
     handler_dict = None
     for each in HANDLER_MAPS:
         for typ in each["types"]:
             if re.findall(typ, host.type):
                 handler_dict = each
-                log.debug("crawl.crawl: Found handler for host (%s) matching type (%s)"
-                          % (host.hostname, typ))
+                log.debug("crawl.crawl:\
+ Found handler for host (%s) matching type (%s)" % (host.hostname, typ))
                 break
     if not handler_dict:
-        log.warning("crawl.crawl: Could not find neighbor handler for host (%s)"
-                    % (host.hostname, ))
+        log.warning("crawl.crawl:\
+ Could not find neighbor handler for host (%s)" % (host.hostname, ))
         return None
     ############################################################
     for handler_type in handler_dict["handlers"]:
-        if not (host.connections[handler_type].idle and host.connections[handler_type].connected):
+        if not (host.connections[handler_type].idle
+                and host.connections[handler_type].connected):
             if host.connections[handler_type].failed:
-                log.warning("crawl.crawl:\ Host (%s) failed. Discarding" % host.address)
+                log.warning("crawl.crawl:\
+ Host (%s) failed. Discarding" % host.address)
                 return None
             else:
                 options.queue.put(host)
                 return None
         ############################################################
         if handler_type not in host.connections:
-            log.warning("crawl.crawl:\ Host (%s) has no connection for handler type (%s). Discarding" % (host.address, handler_type))
+            log.warning("crawl.crawl:\
+ Host (%s) has no connection for handler type (%s). Discarding" %
+                        (host.address, handler_type))
             return None
         ############################################################
-        log.debug("crawl.crawl:\ Found connection on host (%s) for (%s) neighbor handler"
+        log.debug("crawl.crawl:\
+ Found connection on host (%s) for (%s) neighbor handler"
                   % (host.hostname, handler_type))
         handler = handler_dict["handlers"][handler_type]
         if not host.type:
-            log.warning("crawl.crawl:\ Host (%s) has no type. Cancelling crawl of this host" % (host.hostname, ))
+            log.warning("crawl.crawl:\
+ Host (%s) has no type. Cancelling crawl of this host" % (host.hostname, ))
             return None
-        log.debug("crawl.crawl:\ Crawling host (%s) (%s) with (%s) neighbor handler"
+        log.debug("crawl.crawl:\
+ Crawling host (%s) (%s) with (%s) neighbor handler"
                   % (host.hostname, host.address, handler_type))
         host.info.update({"neighbors": []})
         crawl_lldp = not options.crawl_cdp_only
@@ -182,7 +190,8 @@ def crawl(parent, host, ball):
                         }
                         newhost = ball.hosts.add_host(newhost_dict)
                         if newhost:
-                            log.info("crawl.crawl:\ Added new host (%s) (%s) found on (%s) (%s). Queueing for neighbor walk"
+                            log.info("crawl.crawl:\
+ Added new host (%s) (%s) found on (%s) (%s). Queueing for neighbor walk"
                                      % (neighbor_instance.sysname.Value,
                                         neighbor_instance.addresses.Value,
                                         host.hostname, host.address))

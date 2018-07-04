@@ -58,7 +58,7 @@ class autoqueue:
         for athread in self.auto_threads:
             # Tell all supervisors to terminate their thread
             athread.terminate = True
-        log.info("common.autoqueue.block:\
+        log.info("common.autoqueue.kill_all:\
  Threads being shut down. Press CTRL-C to force unblock")
         # Loop through checking queue and threads before unblock
         try:
@@ -72,11 +72,11 @@ class autoqueue:
                         still_running = True
         # CTRL-C was pressed to force unblocking of main thread
         except KeyboardInterrupt:
-            log.warning("common.autoqueue.block:\
+            log.warning("common.autoqueue.kill_all:\
  Forcing unblock")
             return None
         # Proper graceful shutdown occured. Unblocking main thread
-        log.debug("common.autoqueue.block:\
+        log.debug("common.autoqueue.kill_all:\
  All threads shut down gracefully. Continuing ")
 
     def block(self, kill=True):
@@ -148,7 +148,7 @@ class autothread:
                     self.worker_func(self, item, *self.worker_args)
                 except Exception as e:
                     # Log exception to logging facility
-                    log.exception('common.autothread._supervisor:\
+                    log.exception('common.autoqueue.autothread._supervisor:\
  Exception raised in %s:' % threading.current_thread().name)
                 # Give a second before setting idle in case worker_func
                 #  put something back in the queue and we need to
@@ -160,6 +160,7 @@ class autothread:
                 # Kill time to keep CPU from going to 100%
                 time.sleep(1)
         # self.terminate was marked true. Shut down gracefully now
-        log.debug('common.autothread._supervisor: Thread terminating')
+        log.debug('common.autoqueue.autothread._supervisor:\
+ Thread terminating')
         self.idle = True
         self.alive = False

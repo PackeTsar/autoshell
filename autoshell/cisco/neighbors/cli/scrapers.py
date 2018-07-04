@@ -19,10 +19,6 @@ dicts with keys:
 
 import re
 import json
-import logging
-
-
-log = logging.getLogger("modules")
 
 
 neighbor_template = {
