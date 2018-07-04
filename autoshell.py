@@ -11,7 +11,7 @@ import autoshell
 
 
 # FIXME Comment Everything
-# FIXME     - autoshell.py:
+# FIXME     - autoshell.py: Complete
 # FIXME     - autoqueue.py:
 # FIXME     - credentials.py:
 # FIXME     - expressions.py:
@@ -22,6 +22,9 @@ import autoshell
 # FIXME     - scrapers.py:
 # FIXME     - crawl.py:
 # FIXME CDP and LLDP adding empty neighbors
+# FIXME Test and fix logfiles
+# FIXME figure out how to properly version autoshell
+# FIXME Fix CDP and LLDP max hops
 # FIXME Go through and replace all % uses with .format
 # FIXME Build unit tests
 # FIXME Integrate CI system for testing
@@ -31,21 +34,40 @@ import autoshell
 # FIXME?? -p to edit profile (timeout, threads, etc) '-p 10:25:60'
 
 
+# --- Start all three logging systems
+# log is used for shared logging of autoshell core components
 log = logging.getLogger("shared")
+# datalog is used only to output parsable JSON data
 datalog = logging.getLogger("data")
+# modlog is used for logging inside of user-written modules
 modlog = logging.getLogger("modules")
 
 
 def run_modules(modules, ball):
+    """
+    autoshell.run_modules takes control after the initial connections
+    complete. It hands control of the MainThread to each module (in order)
+    a waits for return of control from each module before moving on to the
+    next one.
+    """
     log.debug("autoshell.run_modules: Processing imported modules")
     for module in modules:
         log.info("autoshell.run_modules: Running module (%s)" % module["name"])
+        # Call the module's run() function and hand it the ball
         module["module"].run(ball)
 
 
 def load_modules(modules, ball):
+    """
+    autoshell.load_modules briefly hands control of the MainThread to each
+    module to allow it to perform checks of user-input data. This is done
+    before the module is run to allow errors and warnings to be thrown
+    immediately after execution of autoshell instead of having to wait until
+    all the hosts are connected and the run() function is called.
+    """
     log.debug("autoshell.load_modules: Loading modules with user data")
     for module in modules:
+        # Check if the module has a load() function
         if "load" in module["module"].__dict__:
             log.debug("autoshell.load_modules: Loading module (%s)" %
                       module["name"])
@@ -56,62 +78,113 @@ def load_modules(modules, ball):
 
 
 def main(args, modules):
+    """
+    autoshell.main is the primary execution process for autoshell; calling
+    all the different autoshell libraries to assemble credentials and
+    connectors, connect to the hosts, pass control to the modules, then
+    disconnect from the hosts.
+    """
     log.debug("autoshell.main: Starting main process")
+    # Pull credentials from expressions or direct UI
     credentials = autoshell.common.credentials.parse_credentials(
         args.credential)
-    connectors = {}
+    connectors = {}  # Storage of host connectors (CLI, NetCONF, etc..)
     for name in autoshell.connectors.__dict__:
+        # Exclude anything in __dict__ with an underscore (like "__doc__")
         if name[0] != "_":
             connectors.update({name: autoshell.connectors.__dict__[name]})
+    # Instantiate hosts with credentials and connectors, no host addresses yet
     hosts_instance = autoshell.common.hosts.hosts_class(credentials,
                                                         connectors)
+    # ball is a namespace object used to store all the main data in the program
+    #  to make passing those data to modules easier.
+    # Here, ball is instantiated as a simple ad-hoc namespace object instance
     ball = type('ball_class', (), dict(
         hosts=hosts_instance,
         creds=credentials,
         args=args,
         modules=modules
     ))()
+    # Load all the modules with user-provided data for error checking, etc..
     load_modules(modules, ball)
+    # Load the host addresses into the hosts instance, starting the
+    #  process of connected to each user-provided host using connectors
     hosts_instance.load(args.host_address)
+    # After control is returned from the host instance, pass control to
+    #  each module in the order in which they were input in the args
     run_modules(modules, ball)
+    # Once control is returned from run_modules, gracefully disconnect from
+    #  all the hosts
     hosts_instance.disconnect_all()
+    # If we are to dump all the host info
     if args.dump_hostinfo:
-        data = []
+        data = []  # Compile all host info into this list
         for host in hosts_instance.hosts:
+            # Have the host update its .info var from its other attributes
             host.update_info()
+            # If there is any info in .info
             if host.info:
                 data.append(host.info)
+        # Dump host info to datalog formatted as JSON
         datalog.info(json.dumps(data, indent=4))
+    # Graceful exit for compiled versions
     sys.exit()
 
 
 def import_modules(startlogs, parser):
-    # Add modules
-    modules = []
+    """
+    autoshell.import_modules finds the "modules" directory and adds it into
+    sys.path, then finds each module argument imports it into the program,
+    and allows the modules to insert parser options. autoshell.import_modules
+    then hands back a list of dictionaries containing the imported modules
+    """
+    modules = []  # List of dictionaries containing modules
     startlogs.append({
         "level": "debug",
         "message": "autoshell.import_modules: Starting module imports"
         })
+    # ##### Add Paths ######
+    # Check if we have a directory in the current working directory
+    #  named "modules"
     if os.path.isdir("modules"):
+        # If so, then add that path to sys.path so we can import from it
         sys.path.append(os.path.abspath("modules"))
+    # If there is no "modules" directory in the current directory
     else:
+        # Create a path of the <parent_directory/modules>
         parent_mod = os.path.join(os.path.abspath(os.path.pardir), "modules")
+        # And see if that is a directory
         if os.path.isdir(parent_mod):
+            # Add it to sys.path if it is
             sys.path.append(parent_mod)
-    index = 0
+    # ######################
+    # ##### Find modules from args and import them ######
+    index = 0  # For keeping track of which arg word we are on
     for word in sys.argv:
-        if word == "-m" and len(sys.argv) > index + 1:
+        # If we see "-m" or "--module" as an arg and there is a word after it
+        if (word == "-m" or word == "--module") and len(sys.argv) > index + 1:
             try:
+                # Check if the module is a file path
                 isfile = os.path.isfile(sys.argv[index + 1])
+                # Check if the module is a directory path
                 isdir = os.path.isdir(sys.argv[index + 1])
+                # If the args was a file or directory path
                 if isfile or isdir:
+                    # Build the absolute path
                     fullpath = os.path.abspath(sys.argv[index + 1])
+                    # Split it into the filename and directory path
                     path, filename = os.path.split(fullpath)
+                    # Add the directory into sys.path
                     sys.path.append(path)
+                    # And use the filename to create the module name
                     modname = filename.replace(".py", "")
+                # If the args was not a file or directory path
                 else:
+                    # Just use the name for the import
                     modname = sys.argv[index + 1]
+                # Import the module by its name
                 module = importlib.import_module(modname)
+                # If the module has a add_parser_options() function inside
                 if "add_parser_options" in module.__dict__:
                     startlogs.append({
                         "level": "debug",
@@ -120,6 +193,7 @@ def import_modules(startlogs, parser):
                         modname
                         })
                     module.add_parser_options(parser)
+                # Add the module into the modules list
                 modules.append({
                     "name": modname,
                     "module": module})
@@ -149,25 +223,46 @@ def import_modules(startlogs, parser):
 
 
 def start_logging(startlogs, args):
+    """
+    autoshell.start_logging sets up the three logging facilities (shared,
+    modules, and data) with the appropriate handlers and formats, creates
+    the logfile handlers if any were requested, and sets the logging levels
+    based on how verbose debugging was requested to be in the args.
+    """
     startlogs.append({
         "level": "debug",
         "message": "autoshell.start_logging: Starting logger"
         })
+    # datalog logging level is always info as it is not used for
+    #  debugging or reporting warning and errors
     datalog.setLevel(logging.INFO)
+    # consoleHandler is used for outputting to the console for log and modlog
     consoleHandler = logging.StreamHandler()
+    # dataHandler is used to write to std.out so the output data can be piped
+    #  into other applications without being mangled by informational logs
     dataHandler = logging.StreamHandler(sys.stdout)
-    fmt = "%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s"
-    format = logging.Formatter(fmt)
+    # Standard format for informational logging
+    format = logging.Formatter(
+        "%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s"
+        )
+    # Standard format used for console (non-std.out) output
     consoleHandler.setFormatter(format)
+    # Console output (non-std.out) handler used on log, modlog, and paramiko
     log.addHandler(consoleHandler)
-    datalog.addHandler(dataHandler)
     modlog.addHandler(consoleHandler)
     logging.getLogger("paramiko.transport").addHandler(consoleHandler)
+    # std.out handler used on datalog
+    datalog.addHandler(dataHandler)
+    # If any logfiles were pased in the arguments
     if args.logfiles:
         for file in args.logfiles:
+            # Create a handler, set the format, and apply that handler to
+            #  log and modlog
             fileHandler = logging.FileHandler(file)
-            fileHandler.setFormatter(log.handlers[0].formatter)
+            fileHandler.setFormatter(format)
             log.addHandler(fileHandler)
+            modlog.addHandler(fileHandler)
+    # Set debug levels based on how many "-d" args were parsed
     if not args.debug:
         log.setLevel(logging.WARNING)
         modlog.setLevel(logging.WARNING)
@@ -210,6 +305,7 @@ def start_logging(startlogs, args):
         logging.getLogger("paramiko").setLevel(logging.WARNING)
         logging.getLogger("paramiko.transport").setLevel(logging.WARNING)
         logging.getLogger("netmiko").setLevel(logging.WARNING)
+    # Mappings for startlog entries to be passed properly into the log facility
     maps = {
            "debug": logging.DEBUG,
            "info": logging.INFO,
@@ -217,24 +313,36 @@ def start_logging(startlogs, args):
            "error": logging.ERROR,
            "critical": logging.CRITICAL
     }
+    # Pass the startlogs into the loggin facility under the proper level
     for msg in startlogs:
         log.log(maps[msg["level"]], msg["message"])
 
 
 if __name__ == "__main__":
-    # startlogs = queue.Queue(maxsize=0)
-    startlogs = []
+    """
+    Start up the AutoShell program by creating the parsing system, importing
+    user-provided modules, parsing the arguments, setting up the logging
+    facilities, and finally calling the main() function.
+    """
+    startlogs = []  # Logs drop here until the logging facilities are ready
     startlogs.append({
         "level": "debug",
         "message": "autoshell: Starting Up"
         })
+    # Main arg parser for autoshell
+    #  Formatter is removed to prevent whitespace loss
+    #  Auto help is removed so it can be added into an argument group
     parser = argparse.ArgumentParser(
         description='AutoShell - A Shell-Based Automation Utility',
         formatter_class=argparse.RawTextHelpFormatter,
         add_help=False)
+    # Misc arguments are meant for informational help-based arguments
     misc = parser.add_argument_group('Misc Arguments')
+    # Required arguments are needed to start the program
     required = parser.add_argument_group('Required Arguments')
+    # Optional arguments are not required for the start of the program
     optional = parser.add_argument_group('Optional Arguments')
+    # Pull a list of modules from user-provided arguments
     modules = import_modules(startlogs, parser)
     startlogs.append({
         "level": "debug",
@@ -317,11 +425,16 @@ if __name__ == "__main__":
                         metavar='TYPE',
                         dest="default_type")
     args = parser.parse_args()
+    # Set up the logging facilities, which will dump in the startlogs
     start_logging(startlogs, args)
+    # Output all the parsed arguments for debugging
     log.debug("autoshell: \n###### INPUT ARGUMENTS #######\n" +
               json.dumps(args.__dict__, indent=4) +
               "\n##############################\n")
     try:
+        # Execute main() with ability to catch user interrupts for an exit
         main(args, modules)
     except KeyboardInterrupt:
+        log.warning("autoshell:\
+ Exiting AutoShell program due to user-intervention")
         sys.exit()
