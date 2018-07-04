@@ -1,2 +1,2 @@
 # AutoShell
-A simple SSH-based automation system
+A simple, fully programmable, shell-based automation system 
