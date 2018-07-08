@@ -12,7 +12,7 @@ import autoshell
 
 # FIXME Comment Everything
 # FIXME     - autoshell.py: Complete
-# FIXME     - autoqueue.py:
+# FIXME     - autoqueue.py: Complete
 # FIXME     - credentials.py:
 # FIXME     - expressions.py:
 # FIXME     - hosts.py:
