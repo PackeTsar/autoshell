@@ -18,7 +18,7 @@ except ModuleNotFoundError:
     import queue  # For Python3
 
 
-# log is used for shared logging of autoshell core components
+# log (shared) is used for shared logging of autoshell core components
 log = logging.getLogger("shared")
 
 

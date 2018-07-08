@@ -35,7 +35,7 @@ import autoshell
 
 
 # --- Start all three logging systems
-# log is used for shared logging of autoshell core components
+# log (shared) is used for shared logging of autoshell core components
 log = logging.getLogger("shared")
 # datalog is used only to output parsable JSON data
 datalog = logging.getLogger("data")
