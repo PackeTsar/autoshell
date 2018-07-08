@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """
-common_expressions contains functions used to parse entries from the
+common.expressions contains functions used to parse entries from the
 command-line which may contain file names (JSON or YAML) or a structured
 expression which outputs two-leveled list data. Each input is checked as a file
 first, if it is a file, we try to parse it as YAML and JSON. If it is not a
@@ -21,16 +21,18 @@ import yaml
 import logging
 
 
-# Instantiate logging facility
+# log (shared) is used for shared logging of autoshell core components
 log = logging.getLogger("shared")
 
 
 def parse_expression(inputs, delineators):
     """
-    parse_expression is called by the originating function to parse the inputs
+    common.expressions.parse_expression is called by the originating function
+    to parse the inputs. It checks if each entry is a file or a string and
+    processes accordingly.
     """
     results = []
-    if not inputs:
+    if not inputs:  # Return an empty result if input is empty
         return results
     for expression in inputs:
         log.debug("common.expressions.parse_expression:\
@@ -48,6 +50,7 @@ def parse_expression(inputs, delineators):
             log.debug(
                 "common.expressions.parse_expression:\
  Expression (%s) is a string" % expression)
+            # Parse as a string with the passed delineators
             data = _add_str(expression, delineators)
             if data:
                 results.append(data)
@@ -56,13 +59,14 @@ def parse_expression(inputs, delineators):
 
 def _add_file(file):
     """
-    _add_file will read in the file data and attempt to parse it as YAML. If
-    it fails, then it will be parsed as JSON. If that fails, then None will
-    be returned.
+    common.expressions._add_file will read in the file data and attempt to
+    parse it as YAML. If it fails, then it will be parsed as JSON. If that
+    fails, then None will be returned.
     """
     entries = []
     log.debug("common.expressions._add_file: Checking file (%s)"
               % file)
+    # Pull raw file data
     f = open(file, "r")
     raw_data = f.read()
     f.close()
@@ -106,9 +110,12 @@ def _add_file(file):
 
 def _get_delineators(string, delineators):
     """
-    _get_delineators checks the expression for cues to change the default
-    first and second order delineators. If it finds that cue, it changes the
-    delineators and strips the cue from the string, returning the delineators.
+    common.expressions._get_delineators checks the expression for cues to
+    change the default first and second order delineators.
+    --- Example Cue: ";$--"
+    --- Usage: ";$--list00;list01$list10;list11"
+    If it finds that cue, it changes the delineators and strips the cue from
+    the string, returning the delineators.
     """
     _override_delineator = delineators[0]
     _value_delineator = delineators[1]
@@ -147,8 +154,8 @@ def _get_delineators(string, delineators):
 
 def _add_str(string, delineators):
     """
-    _add_str processes a string expression into a multi-layered list using the
-    first and second order delineator
+    common.expressions._add_str processes a string expression into a
+    multi-layered list using the first and second order delineator.
     """
     log.debug(
         "common.expressions._add_str:\

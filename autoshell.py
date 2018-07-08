@@ -14,7 +14,7 @@ import autoshell
 # FIXME     - autoshell.py: Complete
 # FIXME     - autoqueue.py: Complete
 # FIXME     - credentials.py: Complete
-# FIXME     - expressions.py:
+# FIXME     - expressions.py: Complete
 # FIXME     - hosts.py:
 # FIXME     - neighbors.py:
 # FIXME     - cli.py:
