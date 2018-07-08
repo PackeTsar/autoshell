@@ -21,6 +21,7 @@ import autoshell
 # FIXME     - handlers.py:
 # FIXME     - scrapers.py:
 # FIXME     - crawl.py:
+# FIXME Fix weird expressions named import in neighbors.py
 # FIXME CDP and LLDP adding empty neighbors
 # FIXME Test and fix logfiles
 # FIXME figure out how to properly version autoshell

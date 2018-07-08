@@ -188,7 +188,7 @@ def _add_hosts_exp(inputs):
     result = []
     # Process address entries using common.expressions
     host_data = expressions.parse_expression(inputs, ["-", ":", "@"])
-    # Process each returned expression item as files or strings
+    # Process each returned expression item as a file or string
     for response in host_data:
         if response["type"] == "string":
             result.append(_process_string_exps(response["value"]))
