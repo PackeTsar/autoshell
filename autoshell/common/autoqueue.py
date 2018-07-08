@@ -179,7 +179,7 @@ class autothread:
                 time.sleep(1)
                 # Now we are idle again
                 self.idle = True
-            except _queue.Empty:
+            except queue.Empty:
                 # Kill time to keep CPU from going to 100%
                 time.sleep(1)
         # self.terminate was marked true. Shut down gracefully now

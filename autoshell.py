@@ -15,7 +15,7 @@ import autoshell
 # FIXME     - autoqueue.py: Complete
 # FIXME     - credentials.py: Complete
 # FIXME     - expressions.py: Complete
-# FIXME     - hosts.py:
+# FIXME     - hosts.py: Complete
 # FIXME     - neighbors.py:
 # FIXME     - cli.py:
 # FIXME     - handlers.py:
@@ -31,6 +31,7 @@ import autoshell
 # FIXME Write documentation
 # FIXME Put into PyPi
 # FIXME Modules: (config, cmd, cdp2desc)
+# FIXME Change common.expressions to be variable depth?
 # FIXME?? -p to edit profile (timeout, threads, etc) '-p 10:25:60'
 
 
@@ -108,7 +109,7 @@ def main(args, modules):
     # Load all the modules with user-provided data for error checking, etc..
     load_modules(modules, ball)
     # Load the host addresses into the hosts instance, starting the
-    #  process of connected to each user-provided host using connectors
+    #  process of connecting to each user-provided host using connectors
     hosts_instance.load(args.host_address)
     # After control is returned from the host instance, pass control to
     #  each module in the order in which they were input in the args

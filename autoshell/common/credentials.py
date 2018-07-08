@@ -56,7 +56,7 @@ def _add_cred_exp(inputs):
     result = []
     # Use the common.expressions library to turn the expressions into a
     #  a list of lists so credential inputs can be found by positions
-    #  relative to the provided delineators ("-", ":", "@")
+    #  relative to the provided delineators ("-", ":", "@").
     for response in expressions.parse_expression(inputs, ["-", ":", "@"]):
         if response["type"] == "string":
             result.append(_process_string_exps(response["value"]))
@@ -126,7 +126,7 @@ def _process_string_exps(str_list):
     """
     if len(str_list) == 1:
         # If there is only one entry in the expression parsed by
-        #  common.expressions, then there was no type defined
+        #  common.expressions, then there was no type defined.
         ctype = None
     else:
         # Otherwise, the type will be the first entry in the second list
@@ -134,7 +134,7 @@ def _process_string_exps(str_list):
     # If the first list has only one entry
     if len(str_list[0]) == 1:
         # Then assume it is the username and share the username with
-        #  password and secret
+        #  password and secret.
         return {
             "username": str_list[0][0],
             "password": str_list[0][0],
@@ -144,7 +144,7 @@ def _process_string_exps(str_list):
     # If the first list has two entries
     elif len(str_list[0]) == 2:
         # Then assume the first entry is the username and the second entry
-        #  is the password. Share the password with secret
+        #  is the password. Share the password with secret.
         return {
             "username": str_list[0][0],
             "password": str_list[0][1],
@@ -154,7 +154,7 @@ def _process_string_exps(str_list):
     # If the first list has more than two entries
     elif len(str_list[0]) > 2:
         # Then assume the first entry is the username, the second entry
-        #  is the password, and the third entry is the secret
+        #  is the password, and the third entry is the secret.
         return {
             "username": str_list[0][0],
             "password": str_list[0][1],
