@@ -17,7 +17,7 @@ import autoshell
 # FIXME     - expressions.py: Complete
 # FIXME     - hosts.py: Complete
 # FIXME     - neighbors.py: Complete
-# FIXME     - cli.py:
+# FIXME     - cli.py: Complete
 # FIXME     - handlers.py:
 # FIXME     - scrapers.py:
 # FIXME     - crawl.py:
