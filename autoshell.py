@@ -19,7 +19,7 @@ import autoshell
 # FIXME     - neighbors.py: Complete
 # FIXME     - cli.py: Complete
 # FIXME     - handlers.py: Complete
-# FIXME     - scrapers.py:
+# FIXME     - scrapers.py: Complete
 # FIXME     - crawl.py:
 # FIXME Fix weird expressions named import in neighbors.py
 # FIXME CDP and LLDP adding empty neighbors

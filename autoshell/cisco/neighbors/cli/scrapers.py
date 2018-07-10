@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
 """
-cisco_neighbor_scrapers contains functions used for reading, filtering, and
-parsing screen-scraped Cisco LLDP and CDP information. Output is a list of
-dicts with keys:
+cisco.neighbors.cli.scrapers contains functions used for reading, filtering,
+and parsing screen-scraped Cisco LLDP and CDP information. Output is a list
+of dicts with keys:
     - sysid
     - remoteif
     - ttl
@@ -17,10 +17,13 @@ dicts with keys:
   Each value will be a list of strings
 """
 
+# Built-In Libraries
 import re
 import json
 
 
+# cisco.neighbors.cli.scrapers.neighbor_template is used to normalize each
+#  neighbor built by the methods
 neighbor_template = {
     "sysid": [],
     "remoteif": [],
@@ -37,8 +40,8 @@ neighbor_template = {
 
 def _pulldevattbs(datablock, attribs):
     """
-    search a block of data with each attribute set and return
-    the cleaned up data
+    cisco.neighbors.cli.scrapers._pulldevattbs searches a block of data with
+    each attribute set and returns the cleaned up data.
     """
     # Make a copy of the neighbor template
     data = dict(neighbor_template)
@@ -68,9 +71,9 @@ def _pulldevattbs(datablock, attribs):
 
 def _attrib_search(attribs, data):
     """
-    Divide device data into blocks of text, with each block having info for
-    one device. Then parse each block with a set of attribute matches (using
-    _pulldevattbs).
+    cisco.neighbors.cli.scrapers._pulldevattbs divides device data into blocks
+    of text, with each block having info for one device. Then parses each
+    block with a set of attribute matches (using _pulldevattbs).
     """
     result = []
     # Set delineator as the first line
@@ -93,8 +96,9 @@ def _attrib_search(attribs, data):
 
 def cisco_ios_cdp_scraper(shcdpneidet):
     """
-    Screen-scrape the CLI output from the 'show cdp neighbors detail' command
-    on a Cisco device and format into a list of dicts
+    cisco.neighbors.cli.scrapers.cisco_ios_cdp_scraper screen-scrapes the CLI
+    output from the 'show cdp neighbors detail' command on a Cisco device and
+    formats into a list of dicts.
     """
     #  Attributes to find and include in each CDP device dict
     cdpattribs = [
@@ -163,14 +167,16 @@ def cisco_ios_cdp_scraper(shcdpneidet):
 
 def cisco_ios_lldp_combine(lldp_primary, lldp_secondary):
     """
-    Combine LLDP-type data between two lists, preferring the primary data
-    but adding in the secondary data when the primary is empty
+    cisco.neighbors.cli.scrapers.cisco_ios_lldp_combine combines LLDP-type
+    data between two lists, preferring the primary data but adding in the
+    secondary data when the primary is empty.
     """
     def _find_match(devpri, sec_list, attrib):
         """
-        Search through a secondary list of devices to find an entry with a
-        similar attribute to the primary device. Return the secondary
-        device
+        cisco.neighbors.cli.scrapers.cisco_ios_lldp_combine._find_match
+        searches through a secondary list of devices to find an entry with a
+        similar attribute to the primary device; returning the secondary
+        device.
         """
         # For each attribute in the attribute list
         for priattrib in devpri[attrib]:
@@ -201,8 +207,9 @@ def cisco_ios_lldp_combine(lldp_primary, lldp_secondary):
 
 def cisco_ios_lldp_de_scraper(shlldpneidet):
     """
-    Screen-scrape the CLI output from the 'show lldp neighbors detail' command
-    on a Cisco device and format into a list of dicts
+    cisco.neighbors.cli.scrapers.cisco_ios_lldp_de_scraper screen-scrapes
+    the CLI output from the 'show lldp neighbors detail' command on a Cisco
+    device and formats into a list of dicts.
     """
     #  Attributes to find and include in each LLDP device dict
     lldpattribs = [
@@ -275,14 +282,16 @@ def cisco_ios_lldp_de_scraper(shlldpneidet):
 
 def cisco_ios_lldp_br_scraper(cdplldpnei):
     """
-    Screen-scrape the CLI output from the 'show lldp neighbors' command
-    on a Cisco device and format into a list of dicts. This function is needed
-    to get LLDP neighbors with their corresponding local interface as the
-    output of 'show lldp neighbors detail' does not contain that info.
+    cisco.neighbors.cli.scrapers.cisco_ios_lldp_br_scraper screen-scrapes the
+    CLI output from the 'show lldp neighbors' command on a Cisco device and
+    format into a list of dicts. This function is needed to get LLDP neighbors
+    with their corresponding local interface as the output of
+    'show lldp neighbors detail' does not contain that info.
     """
     def get_headers(cdplldpnei):
         """
-        Pull the headers of the LLDP neighbors table and return the header
+        cisco.neighbors.cli.scrapers.cisco_ios_lldp_br_scraper.get_headers
+        pulls the headers of the LLDP neighbors table and returns the header
         name along with it's starting column depth (needed because data from
         columns may run together). Will return [0] a list of dicts where each
         dict contains the column name and its starting depth, and [1] an
