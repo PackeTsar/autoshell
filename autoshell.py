@@ -18,7 +18,7 @@ import autoshell
 # FIXME     - hosts.py: Complete
 # FIXME     - neighbors.py: Complete
 # FIXME     - cli.py: Complete
-# FIXME     - handlers.py:
+# FIXME     - handlers.py: Complete
 # FIXME     - scrapers.py:
 # FIXME     - crawl.py:
 # FIXME Fix weird expressions named import in neighbors.py
