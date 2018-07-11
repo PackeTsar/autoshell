@@ -20,9 +20,10 @@ import autoshell
 # FIXME     - cli.py: Complete
 # FIXME     - handlers.py: Complete
 # FIXME     - scrapers.py: Complete
-# FIXME     - crawl.py:
+# FIXME     - crawl.py: Complete
 # FIXME Fix weird expressions named import in neighbors.py
 # FIXME CDP and LLDP adding empty neighbors
+# FIXME Crawl needs some serious rewriting for multi-connect to work
 # FIXME Test and fix logfiles
 # FIXME figure out how to properly version autoshell
 # FIXME Fix CDP and LLDP max hops
