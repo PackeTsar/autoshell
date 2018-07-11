@@ -1,31 +1,23 @@
 #!/usr/bin/python
 
 
+# Built-In Libraries
 import os
 import sys
 import json
 import logging
 import argparse
 import importlib
+
+# Autoshell Libraries
 import autoshell
 
 
-# FIXME Comment Everything
-# FIXME     - autoshell.py: Complete
-# FIXME     - autoqueue.py: Complete
-# FIXME     - credentials.py: Complete
-# FIXME     - expressions.py: Complete
-# FIXME     - hosts.py: Complete
-# FIXME     - neighbors.py: Complete
-# FIXME     - cli.py: Complete
-# FIXME     - handlers.py: Complete
-# FIXME     - scrapers.py: Complete
-# FIXME     - crawl.py: Complete
-# FIXME Fix weird expressions named import in neighbors.py
 # FIXME CDP and LLDP adding empty neighbors
+# FIXME Get crawl max_hops working
 # FIXME Crawl needs some serious rewriting for multi-connect to work
 # FIXME Test and fix logfiles
-# FIXME figure out how to properly version autoshell
+# FIXME Figure out how to properly version autoshell
 # FIXME Fix CDP and LLDP max hops
 # FIXME Go through and replace all % uses with .format
 # FIXME Build unit tests
