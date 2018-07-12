@@ -104,7 +104,6 @@ def load(ball):
     expressions on the command-line.
     """
     log.debug("crawl.load: Processing user-inputs from the arg parser")
-    print(ball.args)
     options.filters = autoshell.common.neighbors.build_neighbor_filters(
         ball.args.crawl_filter)
     options.max_hops = ball.args.crawl_max_hops

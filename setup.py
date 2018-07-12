@@ -16,9 +16,14 @@ setup(name='autoshell',
       author='John W Kerns',
       author_email='jkerns@packetsar.com',
       url='https://github.com/PackeTsar/autoshell',
+      license="GNU",
       packages=find_packages(),
       install_requires=[
           'future',
           'netmiko'
-      ]
+          ],
+      entry_points="""
+    [console_scripts]
+    autoshell=autoshell.py
+    """
       )
