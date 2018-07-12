@@ -11,12 +11,6 @@ import json
 import logging
 
 # Installed Libraries
-class NullHandler(logging.Handler):
-    def emit(self, record):
-        pass
-
-logging.NullHandler = NullHandler
-
 import netmiko
 
 
