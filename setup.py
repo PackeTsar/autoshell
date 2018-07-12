@@ -1,8 +1,17 @@
 #!/usr/bin/env python
 
+import re
 import os
+import sys
 from setuptools import setup
 from setuptools import find_packages
+
+# Fix for tox to run OK. Adds in path to find README and requirements files
+for path in sys.path:
+    if "autoshell" in path:
+        __file__ = os.path.join(re.findall(".*autoshell", path)[0],
+                                "setup.py")
+
 
 with open(
         # Use absolute path of README.md file
