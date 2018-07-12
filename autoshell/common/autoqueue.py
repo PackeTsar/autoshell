@@ -14,8 +14,10 @@ from builtins import input
 
 try:
     import Queue as queue  # For Python2
-except exception as e:
+except ImportError:
     import queue  # For Python3
+except ModuleNotFoundError:
+    import queue  # For Python3.6+
 
 
 # log (shared) is used for shared logging of autoshell core components
