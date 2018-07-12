@@ -16,5 +16,9 @@ setup(name='autoshell',
       author='John W Kerns',
       author_email='jkerns@packetsar.com',
       url='https://github.com/PackeTsar/autoshell',
-      packages=find_packages()
+      packages=find_packages(),
+      install_requires=[
+          'future',
+          'netmiko'
+      ]
       )
