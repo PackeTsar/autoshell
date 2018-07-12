@@ -299,7 +299,7 @@ def start_logging(startlogs, args):
         log.log(maps[msg["level"]], msg["message"])
 
 
-def run():
+def start():
     """
     Start up the AutoShell program by creating the parsing system, importing
     user-provided modules, parsing the arguments, setting up the logging
@@ -308,7 +308,7 @@ def run():
     startlogs = []  # Logs drop here until the logging facilities are ready
     startlogs.append({
         "level": "debug",
-        "message": "autoshell: Starting Up"
+        "message": "autoshell.start: Starting Up"
         })
     # Main arg parser for autoshell
     #  Formatter is removed to prevent whitespace loss
@@ -327,7 +327,7 @@ def run():
     modules = import_modules(startlogs, parser)
     startlogs.append({
         "level": "debug",
-        "message": "autoshell: Starting argument parsing"
+        "message": "autoshell.start: Starting argument parsing"
         })
     misc.add_argument(
                         "-h", "--help",
@@ -409,17 +409,17 @@ def run():
     # Set up the logging facilities, which will dump in the startlogs
     start_logging(startlogs, args)
     # Output all the parsed arguments for debugging
-    log.debug("autoshell: \n###### INPUT ARGUMENTS #######\n" +
+    log.debug("autoshell.start: \n###### INPUT ARGUMENTS #######\n" +
               json.dumps(args.__dict__, indent=4) +
               "\n##############################\n")
     try:
         # Execute main() with ability to catch user interrupts for an exit
         main(args, modules)
     except KeyboardInterrupt:
-        log.warning("autoshell:\
+        log.warning("autoshell.start:\
  Exiting AutoShell program due to user-intervention")
         sys.exit()
 
 
 if __name__ == "__main__":
-    run()
+    start()

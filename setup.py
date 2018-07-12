@@ -22,8 +22,9 @@ setup(name='autoshell',
           'future',
           'netmiko'
           ],
-      entry_points="""
-    [console_scripts]
-    autoshell=autoshell.py
-    """
+      entry_points={
+          'console_scripts': [
+              'autoshell = autoshell.__main__:start'
+              ]
+          }
       )
