@@ -125,19 +125,14 @@ def import_modules(startlogs, parser):
         "message": "autoshell.import_modules: Starting module imports"
         })
     # ##### Add Paths ######
-    # Check if we have a directory in the current working directory
+    # Check if we have a directory in this file's working directory
     #  named "modules"
-    if os.path.isdir("modules"):
-        # If so, then add that path to sys.path so we can import from it
-        sys.path.append(os.path.abspath("modules"))
-    # If there is no "modules" directory in the current directory
-    else:
-        # Create a path of the <parent_directory/modules>
-        parent_mod = os.path.join(os.path.abspath(os.path.pardir), "modules")
-        # And see if that is a directory
-        if os.path.isdir(parent_mod):
-            # Add it to sys.path if it is
-            sys.path.append(parent_mod)
+    modules_path = os.path.join(
+        os.path.split(os.path.abspath(__file__))[0], "modules")
+    if os.path.isdir(modules_path):
+        # If so, then add that path to the beginning of sys.path so we can
+        #  import from it
+        sys.path = [modules_path] + sys.path
     # ######################
     # ##### Find modules from args and import them ######
     index = 0  # For keeping track of which arg word we are on

@@ -23,4 +23,4 @@ import autoshell
 
 
 if __name__ == "__main__":
-    autoshell.__main__.run()
+    autoshell.__main__.start()
