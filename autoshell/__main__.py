@@ -24,6 +24,12 @@ datalog = logging.getLogger("data")
 modlog = logging.getLogger("modules")
 
 
+class NullHandler(logging.Handler):
+    def emit(self, record):
+        pass
+logging.NullHandler = NullHandler
+
+
 def run_modules(modules, ball):
     """
     autoshell.run_modules takes control after the initial connections

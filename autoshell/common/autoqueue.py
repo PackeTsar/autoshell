@@ -15,7 +15,7 @@ from builtins import input
 try:
     import Queue as queue  # For Python2
 except ImportError:
-    import queue  # For Python3
+    import queue  # For Python3.5-
 except ModuleNotFoundError:
     import queue  # For Python3.6+
 
