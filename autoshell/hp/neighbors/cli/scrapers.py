@@ -143,6 +143,14 @@ def hp_cdp_scraper(shcdpneidet):
             "delimiter": ",\\s"
         },
         {
+            "attrib": "syscap",
+            "clean": [],
+            "match": [
+                "Capability   : "
+                ],
+            "delimiter": "\n"
+        },
+        {
             "attrib": "sysdesc",
             "clean": [],
             "match": [
@@ -176,6 +184,14 @@ def hp_lldp_de_scraper(shlldpneidet):
                 "PortId       : "
                 ],
             "delimiter": "\n"
+        },
+        {
+            "attrib": "localif",
+            "clean": [],
+            "match": [
+                "Local Port   : "
+                ],
+            "delimiter": ",\\s"
         },
         {
             "attrib": "ttl",
