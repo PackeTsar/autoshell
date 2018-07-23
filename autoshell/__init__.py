@@ -1,4 +1,5 @@
 from . import cisco
+from . import hp
 from . import common
 from . import connectors
 from . import modules

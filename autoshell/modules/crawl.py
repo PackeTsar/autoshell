@@ -139,6 +139,12 @@ HANDLER_MAPS = [
            "cli": autoshell.cisco.neighbors.handlers.cisco_ios_neighbor_handler
         },
         "types": [".*cisco.*"]
+    },
+    {
+        "handlers": {
+           "cli": autoshell.hp.neighbors.handlers.hp_neighbor_handler
+        },
+        "types": [".*hp.*"]
     }
 ]
 
