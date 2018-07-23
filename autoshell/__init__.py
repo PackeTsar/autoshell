@@ -6,4 +6,4 @@ from . import modules
 from . import __main__
 
 name = "autoshell"
-__version__ = "0.0.2"
+__version__ = "0.0.3"

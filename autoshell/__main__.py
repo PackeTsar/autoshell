@@ -331,7 +331,7 @@ def start():
     misc.add_argument(
                         "-v", "--version",
                         action="version",
-                        version='%(prog)s v0.0.1')
+                        version='%(prog)s v0.0.3')
     required.add_argument(
                         'host_address',
                         help="""Target hosts (strings or files) (positional)'
