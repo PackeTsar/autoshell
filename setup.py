@@ -9,10 +9,12 @@ from setuptools import find_packages
 
 # Fix for tox to run OK. Adds in path to find README and requirements files
 for path in sys.path:
-    if ("autoshell" in path) and ("python" not in path):
+    if ("autoshell" in path):
         __file__ = os.path.join(re.findall(".*autoshell", path)[0],
                                 "setup.py")
         home_dir = os.path.split(os.path.abspath(__file__))[0]
+        break
+
 
 # Add the Autoshell project directory to sys.path so we can import __version__
 project_dir = os.path.join(home_dir, "autoshell")
