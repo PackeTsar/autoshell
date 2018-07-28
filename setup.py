@@ -5,13 +5,24 @@ import os
 import sys
 from setuptools import setup
 from setuptools import find_packages
-from autoshell import __version__
+
 
 # Fix for tox to run OK. Adds in path to find README and requirements files
 for path in sys.path:
     if "autoshell" in path:
         __file__ = os.path.join(re.findall(".*autoshell", path)[0],
                                 "setup.py")
+
+# Add the Autoshell project directory to sys.path so we can import __version__
+project_dir = os.path.join(
+    os.path.split(os.path.abspath(__file__))[0], "autoshell")
+sys.path = [project_dir] + sys.path
+
+
+# Using a function to make the damn linter happy
+def version():
+    import __version__
+    return __version__.version
 
 
 with open(
@@ -21,6 +32,8 @@ with open(
         "r") as readme:
     long_description = readme.read()
     readme.close()
+
+
 with open(
         os.path.join(
             os.path.split(os.path.abspath(__file__))[0], "requirements.txt"),
@@ -31,8 +44,9 @@ with open(
             install_requires.append(package)
     req_file.close()
 
+
 setup(name='autoshell',
-      version=__version__,
+      version=version(),
       description='Simple, fully programmable,\
  shell-based network automation utility',
       long_description=long_description,
