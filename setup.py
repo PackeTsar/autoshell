@@ -5,6 +5,7 @@ import os
 import sys
 from setuptools import setup
 from setuptools import find_packages
+from autoshell import __version__
 
 # Fix for tox to run OK. Adds in path to find README and requirements files
 for path in sys.path:
@@ -31,7 +32,7 @@ with open(
     req_file.close()
 
 setup(name='autoshell',
-      version="0.0.1",
+      version=__version__,
       description='Simple, fully programmable,\
  shell-based network automation utility',
       long_description=long_description,

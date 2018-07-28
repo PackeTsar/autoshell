@@ -13,7 +13,7 @@ import importlib
 from . import cisco
 from . import common
 from . import connectors
-
+from . import __version__
 
 # --- Start all three logging systems
 # log (shared) is used for shared logging of autoshell core components
@@ -272,15 +272,15 @@ def start_logging(startlogs, args):
     elif args.debug == 5:
         log.setLevel(logging.DEBUG)
         modlog.setLevel(logging.DEBUG)
-        logging.getLogger("paramiko").setLevel(logging.WARNING)
-        logging.getLogger("paramiko.transport").setLevel(logging.WARNING)
-        logging.getLogger("netmiko").setLevel(logging.WARNING)
+        logging.getLogger("paramiko").setLevel(logging.INFO)
+        logging.getLogger("paramiko.transport").setLevel(logging.INFO)
+        logging.getLogger("netmiko").setLevel(logging.INFO)
     elif args.debug > 5:
         log.setLevel(logging.DEBUG)
         modlog.setLevel(logging.DEBUG)
-        logging.getLogger("paramiko").setLevel(logging.WARNING)
-        logging.getLogger("paramiko.transport").setLevel(logging.WARNING)
-        logging.getLogger("netmiko").setLevel(logging.WARNING)
+        logging.getLogger("paramiko").setLevel(logging.DEBUG)
+        logging.getLogger("paramiko.transport").setLevel(logging.DEBUG)
+        logging.getLogger("netmiko").setLevel(logging.DEBUG)
     # Mappings for startlog entries to be passed properly into the log facility
     maps = {
            "debug": logging.DEBUG,
@@ -331,7 +331,7 @@ def start():
     misc.add_argument(
                         "-v", "--version",
                         action="version",
-                        version='%(prog)s v0.0.4')
+                        version="AutoShell v{}".format(__version__.version))
     required.add_argument(
                         'host_address',
                         help="""Target hosts (strings or files) (positional)'

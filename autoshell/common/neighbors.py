@@ -16,10 +16,31 @@ import logging
 
 # Autoshell Libraries
 from . import expressions
+from .. import cisco
+from .. import hp
 
 
 # log (shared) is used for shared logging of autoshell core components
 log = logging.getLogger("shared")
+
+
+# common.neighbors.HANDLER_MAP is a mapping of host types to neighbor handlers.
+#  Each handler is specific to a connection type (ie: "cli" or "netconf") and
+#  is matched against the host type using a regular expression.
+HANDLER_MAP = [
+    {
+        "handlers": {
+           "cli": cisco.neighbors.handlers.cisco_ios_neighbor_handler
+        },
+        "types": [".*cisco.*"]
+    },
+    {
+        "handlers": {
+           "cli": hp.neighbors.handlers.hp_neighbor_handler
+        },
+        "types": [".*hp.*"]
+    }
+]
 
 
 class neighbor_device:

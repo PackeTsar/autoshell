@@ -10,7 +10,6 @@ import autoshell
 # FIXME Get crawl max_hops working
 # FIXME Crawl needs some serious rewriting for multi-connect to work
 # FIXME Test and fix logfiles
-# FIXME Figure out how to properly version autoshell
 # FIXME Fix CDP and LLDP max hops
 # FIXME Go through and replace all % uses with .format
 # FIXME Build unit tests
