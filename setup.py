@@ -9,13 +9,13 @@ from setuptools import find_packages
 
 # Fix for tox to run OK. Adds in path to find README and requirements files
 for path in sys.path:
-    if "autoshell" in path:
+    if ("autoshell" in path) and ("python" not in path):
         __file__ = os.path.join(re.findall(".*autoshell", path)[0],
                                 "setup.py")
+        home_dir = os.path.split(os.path.abspath(__file__))[0]
 
 # Add the Autoshell project directory to sys.path so we can import __version__
-project_dir = os.path.join(
-    os.path.split(os.path.abspath(__file__))[0], "autoshell")
+project_dir = os.path.join(home_dir, "autoshell")
 sys.path = [project_dir] + sys.path
 
 
@@ -25,24 +25,40 @@ def version():
     return __version__.version
 
 
-with open(
-        # Use absolute path of README.md file
-        os.path.join(
-            os.path.split(os.path.abspath(__file__))[0], "README.md"),
-        "r") as readme:
+with open(os.path.join(home_dir, "README.md"), "r") as readme:
     long_description = readme.read()
     readme.close()
 
 
-with open(
-        os.path.join(
-            os.path.split(os.path.abspath(__file__))[0], "requirements.txt"),
-        "r") as req_file:
+with open(os.path.join(home_dir, "requirements.txt"), "r") as req_file:
     install_requires = []
     for package in req_file.read().split("\n"):
         if package:
             install_requires.append(package)
     req_file.close()
+
+
+CLASSIFIERS = [
+    'Development Status :: 4 - Beta',
+    'Environment :: Console',
+    'Intended Audience :: Information Technology',
+    'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+    'Natural Language :: English',
+    'Operating System :: MacOS',
+    'Operating System :: POSIX',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 2',
+    'Programming Language :: Python :: 2.7',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.4',
+    'Programming Language :: Python :: 3.5',
+    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
+    'Topic :: Internet',
+    'Topic :: Utilities',
+    'Topic :: Software Development :: Libraries :: Python Modules',
+    'Topic :: System',
+    'Topic :: System :: Networking']
 
 
 setup(name='autoshell',
