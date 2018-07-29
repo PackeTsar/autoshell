@@ -69,7 +69,7 @@ setup(name='autoshell',
       description='Simple, fully programmable,\
  shell-based network automation utility',
       long_description=long_description,
-      long_description_content_type='text/markdown'
+      long_description_content_type='text/markdown',
       author='John W Kerns',
       classifiers=CLASSIFIERS,
       author_email='jkerns@packetsar.com',
