@@ -34,6 +34,8 @@ with open(os.path.join(os.path.split(os.path.abspath(__file__))[0], "requirement
             install_requires.append(package)
     req_file.close()
 
+print(install_requires)
+
 
 CLASSIFIERS = [
     'Development Status :: 4 - Beta',
