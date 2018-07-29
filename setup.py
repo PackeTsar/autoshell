@@ -16,7 +16,7 @@ for dir_path in sys.path:
 
 # Using a function to make the damn linter happy
 def version():
-    project_dir = os.path.join(home_dir, "autoshell")
+    project_dir = os.path.join(os.path.split(os.path.abspath(__file__))[0], "autoshell")
     sys.path = [project_dir] + sys.path
     import __version__
     return __version__.version
