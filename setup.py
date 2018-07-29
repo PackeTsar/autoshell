@@ -16,6 +16,9 @@ for dir_path in sys.path:
         home_dir = os.path.split(os.path.abspath(__file__))[0]
         break
 
+print(__file__)
+print(home_dir)
+
 
 # Add the Autoshell project directory to sys.path so we can import __version__
 project_dir = os.path.join(home_dir, "autoshell")
