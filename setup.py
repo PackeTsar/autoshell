@@ -8,9 +8,10 @@ from setuptools import find_packages
 
 
 # Fix for tox to run OK. Adds in path to find README and requirements files
-for path in sys.path:
-    if ("autoshell" in path):
-        __file__ = os.path.join(re.findall(".*autoshell", path)[0],
+for dir_path in sys.path:
+    print(dir_path)
+    if "autoshell" in dir_path:
+        __file__ = os.path.join(re.findall(".*autoshell", dir_path)[0],
                                 "setup.py")
         home_dir = os.path.split(os.path.abspath(__file__))[0]
         break
@@ -68,6 +69,7 @@ setup(name='autoshell',
       description='Simple, fully programmable,\
  shell-based network automation utility',
       long_description=long_description,
+      long_description_content_type='text/markdown'
       author='John W Kerns',
       classifiers=CLASSIFIERS,
       author_email='jkerns@packetsar.com',
