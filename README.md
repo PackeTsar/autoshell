@@ -42,7 +42,7 @@ Interpreter: **Python 2.7+ or 3.4+**
 #### Windows
 1. If you have not yet installed Python on your Windows OS, then download and install the latest Python2 or Python3 from [Python Downloads Page](https://www.python.org/downloads/)
 	- Make sure to check the box during installation which adds Python to PATH. Labeled something like `Add Python 3.7 to PATH`
-2. Once Python is installed, you should be able to open a command window, type `python`, hit ENTER, and see a Python prompt opened. Type `quit()` to exit it. You should also be able to run the command `pip` and see its options. If both of these work, then move on to Step 3
+2. Once Python is installed, you should be able to open a command window, type `python`, hit ENTER, and see a Python prompt opened. Type `quit()` to exit it. You should also be able to run the command `pip` and see its options. If both of these work, then move on to install Autoshell.
 	- If this does not work, you will need to add the Python installation directory path to the Windows PATH variable
 		- The easiest way to do this is to find the new shortcut for Python in your start menu, right-click on the shortcut, and find the folder path for the `python.exe` file
 			- For Python2, this will likely be something like `C:\Python27`
@@ -54,31 +54,33 @@ Interpreter: **Python 2.7+ or 3.4+**
 		- Now modify the PATH system variable by appending the text `;%PYTHON_HOME%\;%PYTHON_HOME%;%PYTHON_HOME%\Scripts\` to the end of it.
 		- Close out your windows, open a command window and make sure you can run the commands `python` and `pip`
 
+#### MacOS
+1. MacOS often comes with a native version of Python, but we likely want to upgrade that. The best way to do this is with a MacOS Linux-like package manager called Homebrew. You can visit the below pages to walk you through installing Homebrew and an updated Python interpreter along with it
+	- [Installing Python 2 on Mac OS X](https://docs.python-guide.org/starting/install/osx/)
+	- [Installing Python 3 on Mac OS X](https://docs.python-guide.org/starting/install3/osx/)
+2. Once Python is installed, you should be able to open Terminal, type `python`, hit ENTER, and see a Python prompt opened. Type `quit()` to exit it. You should also be able to run the command `pip` and see its options. If both of these work, then move on to install Autoshell.
+
+#### Linux
+1. Install required OS packages
+	- Raspberry Pi may need Python and PIP `sudo apt install -y python-pip` as well as `sudo apt-get install libffi-dev`
+	- Ubuntu distributions may need Python and PIP `sudo apt install -y python-pip`
+	- RHEL distributions usually don't need any non-native packages
 
 
+### Install Autoshell using PIP (Recommended)
+1. Install Autoshell using pip by running the command `pip install autoshell`
+2. Once the install completes, you should be able to run the command `autoshell -h` and see the help menu. Autoshell is now ready to use.
 
-### Install Autoshell
-3. Install Autoshell using pip by running the command `pip install autoshell`
-4. Once the install completes, you should be able to run the command `autoshell -h` and see the help menu. Autoshell is now ready to use.
-
-
-
-
-
-
-### Install from PyPi (Recommended)
-
-Some OS distributions may need you to install Python and PIP
-
-`sudo apt install -y python-pip`
-
-Install Autoshell
-
-`pip install autoshell`
-
-
-### Install from Source
-`pip install autoshell`
+### Install Autoshell from source (Advanced)
+1. Retrieve the source code repository using one of the two below methods
+	- Install a Git client (process differs depending on OS) and clone the Autoshell repository using Git `git clone https://github.com/packetsar/autoshell.git`
+		- Change to the branch you want to install using `git checkout <branch_name>`
+	- Download and extract the repository files from the [Github Repo](https://github.com/PackeTsar/autoshell)
+		- Make sure to download the branch you want to install
+2. Move into the autoshell project directory `cd autoshell`
+3. Run the setup.py file to build the package into the ./build/ directory `python setup.py build`
+4. Use PIP to install the package `pip install .`
+5. Once the install completes, you should be able to run the command `autoshell -h` and see the help menu. Autoshell is now ready to use.
 
 
 -----------------------------------------

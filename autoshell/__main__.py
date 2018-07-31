@@ -76,7 +76,7 @@ def main(args, modules):
             connector_dict.update({name: connectors.__dict__[name]})
     # Instantiate hosts with credentials and connectors, no host addresses yet
     hosts_instance = common.hosts.hosts_class(credentials,
-                                                        connector_dict)
+                                              connector_dict)
     # ball is a namespace object used to store all the main data in the program
     #  to make passing those data to modules easier.
     # Here, ball is instantiated as a simple ad-hoc namespace object instance
@@ -294,6 +294,80 @@ def start_logging(startlogs, args):
         log.log(maps[msg["level"]], msg["message"])
 
 
+def process_config_files(startlogs, args):
+    """
+    autoshell.process_config_files retrieves any defined configuration files
+    and adds any key/values from those config files as attributes in args.
+    """
+    if not args.config_file:
+        startlogs.append({
+            "level": "debug",
+            "message": "autoshell.process_config_files:\
+ No config files defined"
+            })
+        return None
+    for filename in args.config_file:
+        # Check to see if it is a legitimate file
+        if not os.path.isfile(filename):
+            startlogs.append({
+                "level": "debug",
+                "message": "autoshell.process_config_files:\
+ Defined config file ({}) does not exist or is not a file".format(filename)
+                })
+        # If it is a file
+        else:
+            startlogs.append({
+                "level": "debug",
+                "message": "autoshell.process_config_files:\
+ Defined config file ({}) exists. Processing...".format(filename)
+                })
+            # Process it through the expressions library
+            exp_output = common.expressions.parse_expression(
+                [filename], ["-", ":", "@"])
+            startlogs.append({
+                "level": "debug",
+                "message": "autoshell.process_config_files:\
+ Config file ({}) interpreted by common.expressions:\
+ \n{}".format(filename, json.dumps(exp_output, indent=4))
+                })
+            # exp_output should be a list of results with one entry
+            for key in exp_output[0]["value"]:
+                # Make sure the key is a string so we can add an arg
+                if type(key) != unicode and type(key) != str:
+                    startlogs.append({
+                        "level": "error",
+                        "message": "autoshell.process_config_files:\
+ Config file data unusable. Keys must be strings"
+                        })
+                    break
+                # If the key does not exist as an argument at all
+                if key not in list(args.__dict__):
+                    args.__dict__.update({key: exp_output[0]["value"][key]})
+                # If the key does exist as an argument
+                else:
+                    # But has no value defined from argparse
+                    if args.__dict__[key] is None:
+                        # Set the attribute in the namespace
+                        args.__dict__[key] = exp_output[0]["value"][key]
+                    # If there was a value passed from argparse and it's a list
+                    elif type(args.__dict__[key]) == list:
+                        # If the config-file value is a list
+                        if type(exp_output[0]["value"][key]) == list:
+                            # Add it to the end to prefer CLI-passed values
+                            args.__dict__[key] = args.__dict__[
+                                key] + exp_output[0]["value"][key]
+                        # If the config-file value is a string
+                        elif type(exp_output[0]["value"][key]) == str:
+                            # Append it to the end of the list
+                            args.__dict__[key].append(
+                                exp_output[0]["value"][key])
+                        # If the config-file value is a unicode string
+                        elif type(exp_output[0]["value"][key]) == unicode:
+                            # Append it to the end of the list
+                            args.__dict__[key].append(
+                                exp_output[0]["value"][key])
+
+
 def start():
     """
     Start up the AutoShell program by creating the parsing system, importing
@@ -342,6 +416,13 @@ def start():
         Use file and IP:  'myhosts.txt 192.168.1.1'""",
                         metavar='FILE/HOST_ADDRESS',
                         nargs='+')
+    optional.add_argument(
+                        '-f', "--config_file",
+                        help="""JSON/YAML file containing\
+ key/value pairs for Autoshell arguments""",
+                        metavar='CONFIG_FILE',
+                        dest="config_file",
+                        action="append")
     optional.add_argument(
                         '-c', "--credential",
                         help="""Credentials (string or file)
@@ -401,6 +482,8 @@ def start():
                         metavar='TYPE',
                         dest="default_type")
     args = parser.parse_args()
+    # Process any defined config files; adding to existing args
+    process_config_files(startlogs, args)
     # Set up the logging facilities, which will dump in the startlogs
     start_logging(startlogs, args)
     # Output all the parsed arguments for debugging
