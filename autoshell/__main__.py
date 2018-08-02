@@ -68,7 +68,7 @@ def main(args, modules):
     log.debug("autoshell.main: Starting main process")
     # Pull credentials from expressions or direct UI
     credentials = common.credentials.parse_credentials(
-        args.credential)
+        args.credentials)
     connector_dict = {}  # Storage of host connectors (CLI, NetCONF, etc..)
     for name in connectors.__dict__:
         # Exclude anything in __dict__ with an underscore (like "__doc__")
@@ -90,7 +90,7 @@ def main(args, modules):
     load_modules(modules, ball)
     # Load the host addresses into the hosts instance, starting the
     #  process of connecting to each user-provided host using connectors
-    hosts_instance.load(args.host_address)
+    hosts_instance.load(args.addresses)
     # After control is returned from the host instance, pass control to
     #  each module in the order in which they were input in the args
     run_modules(modules, ball)
@@ -112,13 +112,14 @@ def main(args, modules):
     sys.exit()
 
 
-def import_modules(startlogs, parser):
+def import_modules(startlogs, parser, config_file_data):
     """
     autoshell.import_modules finds the "modules" directory and adds it into
     sys.path, then finds each module argument imports it into the program,
     and allows the modules to insert parser options. autoshell.import_modules
     then hands back a list of dictionaries containing the imported modules
     """
+
     modules = []  # List of dictionaries containing modules
     startlogs.append({
         "level": "debug",
@@ -134,63 +135,74 @@ def import_modules(startlogs, parser):
         #  import from it
         sys.path = [modules_path] + sys.path
     # ######################
+    module_names = []  # List of modules names
     # ##### Find modules from args and import them ######
     index = 0  # For keeping track of which arg word we are on
     for word in sys.argv:
         # If we see "-m" or "--module" as an arg and there is a word after it
         if (word == "-m" or word == "--module") and len(sys.argv) > index + 1:
-            try:
-                # Check if the module is a file path
-                isfile = os.path.isfile(sys.argv[index + 1])
-                # Check if the module is a directory path
-                isdir = os.path.isdir(sys.argv[index + 1])
-                # If the args was a file or directory path
-                if isfile or isdir:
-                    # Build the absolute path
-                    fullpath = os.path.abspath(sys.argv[index + 1])
-                    # Split it into the filename and directory path
-                    path, filename = os.path.split(fullpath)
-                    # Add the directory into sys.path
-                    sys.path.append(path)
-                    # And use the filename to create the module name
-                    modname = filename.replace(".py", "")
-                # If the args was not a file or directory path
-                else:
-                    # Just use the name for the import
-                    modname = sys.argv[index + 1]
-                # Import the module by its name
-                module = importlib.import_module(modname)
-                # If the module has a add_parser_options() function inside
-                if "add_parser_options" in module.__dict__:
-                    startlogs.append({
-                        "level": "debug",
-                        "message": """autoshell.import_modules:\
- Module (%s) is adding arguments to the parser""" %
-                        modname
-                        })
-                    module.add_parser_options(parser)
-                # Add the module into the modules list
-                modules.append({
-                    "name": modname,
-                    "module": module})
+            module_names.append(sys.argv[index + 1])
+        index += 1
+    if "modules" in config_file_data:
+        if type(config_file_data["modules"]) == list:
+            module_names = module_names + config_file_data["modules"]
+        elif type(config_file_data["modules"]) == str:
+            module_names.append(config_file_data["modules"])
+        elif type(config_file_data["modules"]) == unicode:
+            module_names.append(config_file_data["modules"])
+    # ######################
+    for name in module_names:
+        try:
+            # Check if the module is a file path
+            isfile = os.path.isfile(name)
+            # Check if the module is a directory path
+            isdir = os.path.isdir(name)
+            # If the args was a file or directory path
+            if isfile or isdir:
+                # Build the absolute path
+                fullpath = os.path.abspath(name)
+                # Split it into the filename and directory path
+                path, filename = os.path.split(fullpath)
+                # Add the directory into sys.path
+                sys.path.append(path)
+                # And use the filename to create the module name
+                modname = filename.replace(".py", "")
+            # If the args was not a file or directory path
+            else:
+                # Just use the name for the import
+                modname = name
+            # Import the module by its name
+            module = importlib.import_module(modname)
+            # If the module has a add_parser_options() function inside
+            if "add_parser_options" in module.__dict__:
                 startlogs.append({
                     "level": "debug",
-                    "message": "autoshell.import_modules:\
+                    "message": """autoshell.import_modules:\
+ Module (%s) is adding arguments to the parser""" %
+                    modname
+                    })
+                module.add_parser_options(parser)
+            # Add the module into the modules list
+            modules.append({
+                "name": modname,
+                "module": module})
+            startlogs.append({
+                "level": "debug",
+                "message": "autoshell.import_modules:\
  Imported module (%s)" % modname
-                    })
-            except ImportError as e:
-                startlogs.append({
-                    "level": "error",
-                    "message": "autoshell.import_modules:\
+                })
+        except ImportError as e:
+            startlogs.append({
+                "level": "error",
+                "message": "autoshell.import_modules:\
  Error importing module (%s): %s" % (modname, e)
-                    })
-            except TypeError as e:
-                startlogs.append({
-                    "level": "error",
-                    "message": "autoshell.import_modules:\
+                })
+        except TypeError as e:
+            startlogs.append({
+                "level": "error",
+                "message": "autoshell.import_modules:\
  Error importing module (%s): %s" % (modname, e)
-                    })
-        index += 1
+                })
     startlogs.append({
         "level": "debug",
         "message": "autoshell.import_modules: Module imports complete"
@@ -294,78 +306,114 @@ def start_logging(startlogs, args):
         log.log(maps[msg["level"]], msg["message"])
 
 
-def process_config_files(startlogs, args):
+def merge_args(primary_value, secondary_value):
+    if primary_value is None:
+        return secondary_value
+    elif type(primary_value) == list:
+        if type(secondary_value) == list:
+            return primary_value + secondary_value
+        elif type(secondary_value) == str:
+            primary_value.append(secondary_value)
+            return primary_value
+        elif type(secondary_value) == unicode:
+            primary_value.append(secondary_value)
+            return primary_value
+
+
+def get_config_files(startlogs):
     """
-    autoshell.process_config_files retrieves any defined configuration files
-    and adds any key/values from those config files as attributes in args.
+    autoshell.get_config_files retrieves any defined configuration files
+    and returns argument data for later processing.
     """
-    if not args.config_file:
+    config_files = []  # List of interpreted config files
+    config_file_data = {}
+    # Find modules from args and import them ######
+    index = 0  # For keeping track of which arg word we are on
+    for word in sys.argv:
+        # If we see "-f" or "--config_file" as an arg and there
+        #   is a word after it
+        if (word == "-f" or word == "--config_file") and len(
+                sys.argv) > index + 1:
+            # Add the entry to the list of config files
+            config_files.append(sys.argv[index + 1])
+        index += 1
+    if not config_files:
         startlogs.append({
             "level": "debug",
             "message": "autoshell.process_config_files:\
  No config files defined"
             })
-        return None
-    for filename in args.config_file:
-        # Check to see if it is a legitimate file
-        if not os.path.isfile(filename):
-            startlogs.append({
-                "level": "debug",
-                "message": "autoshell.process_config_files:\
+        return config_file_data
+    else:
+        for filename in config_files:
+            # Check to see if it is a legitimate file
+            if not os.path.isfile(filename):
+                startlogs.append({
+                    "level": "debug",
+                    "message": "autoshell.process_config_files:\
  Defined config file ({}) does not exist or is not a file".format(filename)
-                })
-        # If it is a file
-        else:
-            startlogs.append({
-                "level": "debug",
-                "message": "autoshell.process_config_files:\
+                    })
+            # If it is a file
+            else:
+                startlogs.append({
+                    "level": "debug",
+                    "message": "autoshell.process_config_files:\
  Defined config file ({}) exists. Processing...".format(filename)
-                })
-            # Process it through the expressions library
-            exp_output = common.expressions.parse_expression(
-                [filename], ["-", ":", "@"])
-            startlogs.append({
-                "level": "debug",
-                "message": "autoshell.process_config_files:\
+                    })
+                # Process it through the expressions library
+                exp_output = common.expressions.parse_expression(
+                    [filename], ["-", ":", "@"])
+                startlogs.append({
+                    "level": "debug",
+                    "message": "autoshell.process_config_files:\
  Config file ({}) interpreted by common.expressions:\
  \n{}".format(filename, json.dumps(exp_output, indent=4))
-                })
-            # exp_output should be a list of results with one entry
-            for key in exp_output[0]["value"]:
-                # Make sure the key is a string so we can add an arg
-                if type(key) != unicode and type(key) != str:
+                    })
+                # exp_output should be a list of results with one entry
+                if type(exp_output[0]["value"]) != dict:
                     startlogs.append({
                         "level": "error",
                         "message": "autoshell.process_config_files:\
- Config file data unusable. Keys must be strings"
+ Config file ({}) must be a dictionary type! Discarding".format(filename)
                         })
-                    break
-                # If the key does not exist as an argument at all
-                if key not in list(args.__dict__):
-                    args.__dict__.update({key: exp_output[0]["value"][key]})
-                # If the key does exist as an argument
                 else:
-                    # But has no value defined from argparse
-                    if args.__dict__[key] is None:
-                        # Set the attribute in the namespace
-                        args.__dict__[key] = exp_output[0]["value"][key]
-                    # If there was a value passed from argparse and it's a list
-                    elif type(args.__dict__[key]) == list:
-                        # If the config-file value is a list
-                        if type(exp_output[0]["value"][key]) == list:
-                            # Add it to the end to prefer CLI-passed values
-                            args.__dict__[key] = args.__dict__[
-                                key] + exp_output[0]["value"][key]
-                        # If the config-file value is a string
-                        elif type(exp_output[0]["value"][key]) == str:
-                            # Append it to the end of the list
-                            args.__dict__[key].append(
+                    for key in exp_output[0]["value"]:
+                        # If the key doesnt exist yet
+                        if key not in config_file_data:
+                            # Add it in with the value
+                            config_file_data.update(
+                                {key: exp_output[0]["value"][key]})
+                        else:  # If the key does exist
+                            # Merge the values together
+                            newval = merge_args(
+                                config_file_data[key],
                                 exp_output[0]["value"][key])
-                        # If the config-file value is a unicode string
-                        elif type(exp_output[0]["value"][key]) == unicode:
-                            # Append it to the end of the list
-                            args.__dict__[key].append(
-                                exp_output[0]["value"][key])
+                            # If we got something from the merge
+                            if newval:
+                                # Replace the value with it
+                                config_file_data[key] = newval
+    return config_file_data
+
+
+def process_config_files(startlogs, args, add_data):
+    """
+    autoshell.process_config_files takes key/value data and adds it to args
+    from argparser using the merge_args function.
+    """
+    for key in add_data:
+        # If the key does not exist as an argument at all
+        if key not in list(args.__dict__):
+            # Add it as a new attribute
+            args.__dict__.update({key: add_data[key]})
+        # If the key does exist as an argument
+        else:
+            newval = merge_args(
+                args.__dict__[key],
+                add_data[key])
+            # If we got something from the merge
+            if newval:
+                # Replace the value with it
+                args.__dict__[key] = newval
 
 
 def start():
@@ -392,8 +440,10 @@ def start():
     required = parser.add_argument_group('Required Arguments')
     # Optional arguments are not required for the start of the program
     optional = parser.add_argument_group('Optional Arguments')
+    # Process any defined config files; prepare to add to args
+    config_file_data = get_config_files(startlogs)
     # Pull a list of modules from user-provided arguments
-    modules = import_modules(startlogs, parser)
+    modules = import_modules(startlogs, parser, config_file_data)
     startlogs.append({
         "level": "debug",
         "message": "autoshell.start: Starting argument parsing"
@@ -407,7 +457,7 @@ def start():
                         action="version",
                         version="AutoShell v{}".format(__version__.version))
     required.add_argument(
-                        'host_address',
+                        'addresses',
                         help="""Target hosts (strings or files) (positional)'
     Examples:
         Use a file:       'myhosts.txt'
@@ -415,7 +465,7 @@ def start():
         Use IPs w/o type: '192.168.1.1 192.168.1.2'
         Use file and IP:  'myhosts.txt 192.168.1.1'""",
                         metavar='FILE/HOST_ADDRESS',
-                        nargs='+')
+                        nargs='*')
     optional.add_argument(
                         '-f', "--config_file",
                         help="""JSON/YAML file containing\
@@ -434,7 +484,7 @@ def start():
         '-c credfile.json'
         '-c credfile.yml'""",
                         metavar='CRED_STRING/FILE',
-                        dest="credential",
+                        dest="credentials",
                         action="append")
     optional.add_argument(
                         '-u', "--dump_hostinfo",
@@ -482,9 +532,11 @@ def start():
                         metavar='TYPE',
                         dest="default_type")
     args = parser.parse_args()
-    # Process any defined config files; adding to existing args
-    process_config_files(startlogs, args)
+    # Add any arguments found in config files to args
+    process_config_files(startlogs, args, config_file_data)
     # Set up the logging facilities, which will dump in the startlogs
+    print(json.dumps(config_file_data, indent=4))
+    print(args)
     start_logging(startlogs, args)
     # Output all the parsed arguments for debugging
     log.debug("autoshell.start: \n###### INPUT ARGUMENTS #######\n" +
