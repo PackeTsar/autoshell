@@ -12,5 +12,3 @@ dump_hostinfo: false
 logfiles:
   - autoshell_log1.log
   - autoshell_log2.log
-
-
