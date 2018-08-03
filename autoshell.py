@@ -6,6 +6,9 @@ import autoshell
 
 
 # FIXME Fix the import of modules so we can use single name
+# FIXME Fix string vs list entry for logfile, credential, addresses, etc
+# FIXME Expressions needs to error with bad YAML
+# FIXME Expressions to interpret raw lines from unknown file
 # FIXME CDP and LLDP adding empty neighbors
 # FIXME Get crawl max_hops working
 # FIXME Crawl needs some serious rewriting for multi-connect to work

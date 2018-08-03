@@ -64,6 +64,7 @@ def _add_file(file):
     fails, then None will be returned.
     """
     entries = []
+    exceptions = []
     log.debug("common.expressions._add_file: Checking file (%s)"
               % file)
     # Pull raw file data
@@ -80,7 +81,7 @@ def _add_file(file):
                 "common.expressions._add_file:\
  File (%s) contains YAML data" % file)
         except Exception as e:
-            pass
+            exceptions.append(str(e))
     # If YAML failed, then attempt JSON
     if not entries:
         try:
@@ -89,7 +90,7 @@ def _add_file(file):
                 "common.expressions._add_file:\
  File (%s) contains JSON data" % file)
         except Exception as e:
-            pass
+            exceptions.append(str(e))
     if entries:
         # Nest in a dict with a type descriptor
         result = {
@@ -102,9 +103,10 @@ def _add_file(file):
             (file, json.dumps(result, indent=4)))
         return result
     else:
-        log.debug(
+        exceptions = "\n".join(exceptions)
+        log.error(
             "common.expressions._add_file:\
- Processing of (%s) failed. Returning None." % file)
+ Processing of (%s) failed. Errors:\n%s" % (file, exceptions))
         return None
 
 
@@ -179,7 +181,7 @@ def _add_str(string, delineators):
             (string, json.dumps(result, indent=4)))
         return result
     else:
-        log.debug(
+        log.error(
             "common.expressions._add_str:\
  Processing of (%s) failed. Returning None." % string)
         return None
