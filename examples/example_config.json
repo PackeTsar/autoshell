@@ -1,0 +1,20 @@
+{
+	"modules": [
+		"neighbors",
+		"cli"
+	],
+	"debug": 0,
+	"addresses": [
+		"192.168.1.1",
+		"192.168.1.2"
+	],
+	"credentials": [
+		"admin1:password1",
+		"admin2:password2@cisco_ios"
+	],
+	"dump_hostinfo": false,
+	"logfiles": [
+		"autoshell_log1.log",
+		"autoshell_log2.log"
+	]
+}

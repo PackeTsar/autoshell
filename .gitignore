@@ -2,3 +2,5 @@
 *.pyc
 *.DS_Store
 legacy/*
+*.log
+test.json

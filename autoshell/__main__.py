@@ -24,6 +24,19 @@ datalog = logging.getLogger("data")
 modlog = logging.getLogger("modules")
 
 
+# Logging initial setup. More setup is done in autoshell.start_logging
+#  after arg processing
+consoleHandler = logging.StreamHandler()
+# Standard format for informational logging
+format = logging.Formatter(
+    "%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s"
+    )
+# Standard format used for console (non-std.out) output
+consoleHandler.setFormatter(format)
+# Console output (non-std.out) handler used on log, modlog, and paramiko
+log.addHandler(consoleHandler)
+
+
 def run_modules(modules, ball):
     """
     autoshell.run_modules takes control after the initial connections
@@ -229,14 +242,9 @@ def start_logging(startlogs, args):
     # dataHandler is used to write to std.out so the output data can be piped
     #  into other applications without being mangled by informational logs
     dataHandler = logging.StreamHandler(sys.stdout)
-    # Standard format for informational logging
-    format = logging.Formatter(
-        "%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s"
-        )
     # Standard format used for console (non-std.out) output
     consoleHandler.setFormatter(format)
     # Console output (non-std.out) handler used on log, modlog, and paramiko
-    log.addHandler(consoleHandler)
     modlog.addHandler(consoleHandler)
     logging.getLogger("paramiko.transport").addHandler(consoleHandler)
     # std.out handler used on datalog
@@ -370,29 +378,30 @@ def get_config_files(startlogs):
  \n{}".format(filename, json.dumps(exp_output, indent=4))
                     })
                 # exp_output should be a list of results with one entry
-                if type(exp_output[0]["value"]) != dict:
-                    startlogs.append({
-                        "level": "error",
-                        "message": "autoshell.process_config_files:\
+                if exp_output:
+                    if type(exp_output[0]["value"]) != dict:
+                        startlogs.append({
+                            "level": "error",
+                            "message": "autoshell.process_config_files:\
  Config file ({}) must be a dictionary type! Discarding".format(filename)
-                        })
-                else:
-                    for key in exp_output[0]["value"]:
-                        # If the key doesnt exist yet
-                        if key not in config_file_data:
-                            # Add it in with the value
-                            config_file_data.update(
-                                {key: exp_output[0]["value"][key]})
-                        else:  # If the key does exist
-                            # Merge the values together
-                            newval = merge_args(
-                                config_file_data[key],
-                                exp_output[0]["value"][key])
-                            # If we got something from the merge
-                            if newval:
-                                # Replace the value with it
-                                config_file_data[key] = newval
-    return config_file_data
+                            })
+                    else:
+                        for key in exp_output[0]["value"]:
+                            # If the key doesnt exist yet
+                            if key not in config_file_data:
+                                # Add it in with the value
+                                config_file_data.update(
+                                    {key: exp_output[0]["value"][key]})
+                            else:  # If the key does exist
+                                # Merge the values together
+                                newval = merge_args(
+                                    config_file_data[key],
+                                    exp_output[0]["value"][key])
+                                # If we got something from the merge
+                                if newval:
+                                    # Replace the value with it
+                                    config_file_data[key] = newval
+        return config_file_data
 
 
 def process_config_files(startlogs, args, add_data):
@@ -414,6 +423,22 @@ def process_config_files(startlogs, args, add_data):
             if newval:
                 # Replace the value with it
                 args.__dict__[key] = newval
+
+
+def check_args(parser, args):
+    """
+    autoshell.check_args checks for the existence of at least one argument
+    from the command-line. If there are o arguments provided, we will print
+    the help menu.
+    """
+    for key in args.__dict__:
+        # If there is a value
+        if args.__dict__[key]:
+            # Then return back to start()
+            return None
+    # If we didn't return, then print help and quit
+    parser.print_help()
+    sys.exit()
 
 
 def start():
@@ -535,13 +560,13 @@ def start():
     # Add any arguments found in config files to args
     process_config_files(startlogs, args, config_file_data)
     # Set up the logging facilities, which will dump in the startlogs
-    print(json.dumps(config_file_data, indent=4))
-    print(args)
     start_logging(startlogs, args)
     # Output all the parsed arguments for debugging
     log.debug("autoshell.start: \n###### INPUT ARGUMENTS #######\n" +
               json.dumps(args.__dict__, indent=4) +
               "\n##############################\n")
+    # Check for arguments. If none were provided, print help and quit
+    check_args(parser, args)
     try:
         # Execute main() with ability to catch user interrupts for an exit
         main(args, modules)
