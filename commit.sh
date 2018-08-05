@@ -13,3 +13,5 @@ rm -rf ./autoshell.egg-info
 rm -rf build
 rm -rf commit_env
 rm -rf dist
+find . -name "*.pyc" -type f -delete
+find . -name "*.log" -type f -delete

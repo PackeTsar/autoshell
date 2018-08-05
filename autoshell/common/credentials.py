@@ -57,6 +57,8 @@ def _add_cred_exp(inputs):
     # Use the common.expressions library to turn the expressions into a
     #  a list of lists so credential inputs can be found by positions
     #  relative to the provided delineators ("-", ":", "@").
+    if type(inputs) == str or type(inputs) == unicode:
+        inputs = [inputs]
     for response in expressions.parse_expression(inputs, ["-", ":", "@"]):
         if response["type"] == "string":
             result.append(_process_string_exps(response["value"]))

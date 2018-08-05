@@ -42,10 +42,14 @@ def parse_expression(inputs, delineators):
             log.debug(
                 "common.expressions.parse_expression:\
  Expression (%s) is a file" % expression)
-            data = _add_file(expression)
+            data = _add_file(expression, delineators)
             # If empty data is returned, then don't add it to the results
             if data:
-                results.append(data)
+                if type(data) == dict:
+                    results.append(data)
+                elif type(data) == list:
+                    for entry in data:
+                        results.append(entry)
         else:
             log.debug(
                 "common.expressions.parse_expression:\
@@ -57,13 +61,15 @@ def parse_expression(inputs, delineators):
     return results
 
 
-def _add_file(file):
+def _add_file(file, delineators):
     """
     common.expressions._add_file will read in the file data and attempt to
     parse it as YAML. If it fails, then it will be parsed as JSON. If that
     fails, then None will be returned.
     """
     entries = []
+    subtype = None
+    unstructured = False
     exceptions = []
     log.debug("common.expressions._add_file: Checking file (%s)"
               % file)
@@ -75,28 +81,41 @@ def _add_file(file):
     if not entries:
         try:
             for each in yaml.load_all(raw_data):
-                entries = each
-                break
-            log.debug(
-                "common.expressions._add_file:\
+                if type(each) == str or type(each) == unicode:
+                    log.debug("common.expressions._add_file:\
+ File (%s) contains unstructured data. Processig each unstructured line as a string." % file)
+                    for entry in each.split(" "):
+                        entries.append(_add_str(entry, delineators))
+                    subtype = "unstructured"
+                    unstructured = True
+                else:
+                    entries = each
+                    subtype = "yaml"
+                    log.debug("common.expressions._add_file:\
  File (%s) contains YAML data" % file)
+                break
         except Exception as e:
             exceptions.append(str(e))
     # If YAML failed, then attempt JSON
     if not entries:
         try:
             entries = json.loads(raw_data)
+            subtype = "json"
             log.debug(
                 "common.expressions._add_file:\
  File (%s) contains JSON data" % file)
         except Exception as e:
             exceptions.append(str(e))
     if entries:
-        # Nest in a dict with a type descriptor
-        result = {
-            "type": "file",
-            "value": entries
-        }
+        if unstructured:
+            result = entries
+        else:
+            # Nest in a dict with a type descriptor
+            result = {
+                "type": "file",
+                "subtype": subtype,
+                "value": entries
+            }
         log.debug(
             "common.expressions._add_file:\
  Processing of (%s) complete. Adding to data:\n%s" %

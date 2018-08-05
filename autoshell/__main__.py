@@ -251,6 +251,8 @@ def start_logging(startlogs, args):
     datalog.addHandler(dataHandler)
     # If any logfiles were pased in the arguments
     if args.logfiles:
+        if type(args.logfiles) == str or type(args.logfiles) == unicode:
+            args.logfiles = [args.logfiles]
         for file in args.logfiles:
             # Create a handler, set the format, and apply that handler to
             #  log and modlog
