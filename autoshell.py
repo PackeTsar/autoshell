@@ -7,13 +7,12 @@ import autoshell
 
 #### FIXME Fix the import of modules so we can use single name
 #### FIXME Fix string vs list entry for logfile, credential, addresses, etc
-# FIXME Expressions needs to error with bad YAML
-# FIXME Expressions to interpret raw lines from unknown file
+#### FIXME Expressions needs to error with bad YAML (read as strings)
+#### FIXME Expressions to interpret raw lines from unknown file
 # FIXME CDP and LLDP adding empty neighbors
 # FIXME Get crawl max_hops working
 # FIXME Crawl needs some serious rewriting for multi-connect to work
-# FIXME Test and fix logfiles
-# FIXME Fix CDP and LLDP max hops
+#### FIXME Test and fix logfiles
 # FIXME Go through and replace all % uses with .format
 # FIXME Build unit tests
 # FIXME Integrate CI system for testing

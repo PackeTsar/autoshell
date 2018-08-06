@@ -45,12 +45,16 @@ def parse_expression(inputs, delineators):
             data = _add_file(expression, delineators)
             # If empty data is returned, then don't add it to the results
             if data:
+                # If it was a regular typed dict retured
                 if type(data) == dict:
+                    # Then just append it
                     results.append(data)
+                # If we recursed over some unstructured data
                 elif type(data) == list:
+                    # Then add them all individually
                     for entry in data:
                         results.append(entry)
-        else:
+        else:  # If not a file
             log.debug(
                 "common.expressions.parse_expression:\
  Expression (%s) is a string" % expression)
@@ -81,12 +85,14 @@ def _add_file(file, delineators):
     if not entries:
         try:
             for each in yaml.load_all(raw_data):
+                # If YAML returned a regular string, then it is unstructured
                 if type(each) == str or type(each) == unicode:
                     log.debug("common.expressions._add_file:\
  File (%s) contains unstructured data. Processig each unstructured line as a string." % file)
-                    for entry in each.split(" "):
-                        entries.append(_add_str(entry, delineators))
-                    subtype = "unstructured"
+                    for entry in raw_data.split("\n"):
+                        if entry:  # If not empty
+                            entry = entry.replace("\r", "")
+                            entries.append(_add_str(entry, delineators))
                     unstructured = True
                 else:
                     entries = each
@@ -107,9 +113,11 @@ def _add_file(file, delineators):
         except Exception as e:
             exceptions.append(str(e))
     if entries:
+        # If we processed unstructured lines in a file
         if unstructured:
+            # Just return the list
             result = entries
-        else:
+        else:  # Otherwise return a typed dict
             # Nest in a dict with a type descriptor
             result = {
                 "type": "file",
