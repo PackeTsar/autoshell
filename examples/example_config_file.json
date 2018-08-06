@@ -3,14 +3,15 @@
 		"neighbors",
 		"cli"
 	],
-	"debug": 0,
+	"debug": 5,
 	"addresses": [
 		"192.168.1.1",
 		"192.168.1.2"
 	],
 	"credentials": [
-		"admin1:password1",
-		"admin2:password2@cisco_ios"
+		"cfg_file_admin1:cfg_file_password1",
+		"cfg_file_admin2:cfg_file_password2@cisco_ios",
+		"examples/example_structured_credentials_file.json"
 	],
 	"dump_hostinfo": false,
 	"logfiles": [

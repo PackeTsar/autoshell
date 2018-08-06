@@ -1,0 +1,10 @@
+[
+	{
+		"address": "192.168.1.1",
+		"type": "cisco_ios"
+	},
+	{
+		"address": "192.168.1.2",
+		"type": "cisco_asa"
+	}
+]

@@ -87,7 +87,89 @@ Interpreter: **Python 2.7+ or 3.4+**
 ##   GETTING STARTED   ##
 Once you have installed Autoshell, you can see the command guide with `autoshell -h`.
 
-Since modules are able to add their own arguments into the argument parser when they are imported, you can see a module's help by importing it. You can see this by trying `autoshell -m crawl -h`.
+Since modules are able to add their own arguments into the argument parser when they are imported, you can see a module's help by importing it. You can see this by trying `autoshell -m crawl -h`. In here you will see a section of argument descriptions for that specific module.
+
+The simplest way to connect to a host is to point Autoshell directly at it (`autoshell 192.168.1.1`). If you do not provide credentials, it will prompt you for them. It is easy to add them inline with `-c username:password`. You are able to add as many hosts and credentials as you want and they are processed in the order you provide them.
+
+
+### Credentials
+Credentials can be provided to Autoshell in a few different ways:
+1. At the command line as a string. The default full format for credentials is `-c <username>:<password>:<secret>@<device_type>`. This default format has optional values included. A credential string can have just one value (ie: `-c admin`) and Autoshell will use that `admin` value for the username, password, and secret; it will leave the device_type blank unless provided. You can also provide `-c admin:password` and Autoshell will use the provided password for both the password and secret values. More examples are provided in the command help guide at the command line.
+2. As a structured JSON or YAML file. You can use the below JSON and YAML examples to create credential files, then reference them from the command-line `-c my_credential_file.ext`.
+
+**examples/example_structured_credentials_file.json**
+```
+[
+	{
+		"username": "file_admin1",
+		"password": "file_password1"
+	},
+	{
+		"username": "file_admin2",
+		"password": "file_password2"
+	}
+]
+```
+
+**examples/example_structured_credentials_file.yml**
+```
+- username: file_admin3
+  password: file_password3
+- username: file_admin4
+  password: file_password4
+```
+3. As an unstructured file. In this format, each line in the file will contain a credential string in the standard command-line format.
+
+**examples/example_unstructured_credentials.txt**
+```
+unst_admin1:unst_password1
+unst_admin2:unst_password2@cisco_ios
+```
+
+
+### Addresses
+Addresses are provided to Autoshell at the command-line using positional arguments (without a prepended `-x` or `--xxxx` tag). You are able to provide as many addresses as you want here and they will processed in the order you give them. Below are some examples of how you can provide addresses
+1. As a simple string at the command-line. Addresses use the format of `<address>@<device_type>` where the device_type value is optional. A simple example is just using the IP address or domain-name like `192.168.1.1` or with a device_type like `192.168.1.1@cisco_ios`.
+2. As a structured JSON or YAML file. You can use the below JSON and YAML examples to create address files, then reference them from the command-line like `my_addresses_file.ext`. You can reference as many address files as you want.
+
+**examples/example_structured_addresses_file.json**
+```
+[
+	{
+		"address": "192.168.1.1",
+		"type": "cisco_ios"
+	},
+	{
+		"address": "192.168.1.2"
+	}
+]
+```
+
+**examples/example_structured_addresses_file.yml**
+```
+- address: 192.168.1.1
+  type: cisco_ios
+- address: 192.168.1.2
+```
+3. As an unstructured file. In this format, each line in the file will contain a address string in the standard command-line format.
+
+**examples/example_unstructured_addresses_file.txt**
+```
+192.168.1.10
+192.168.1.11@cisco_ios
+```
+
+
+### Using config files
+Since you may often need to define many command-line arguments, it is often easier to provide command-line arguments using a config file. You can use a structured JSON or YAML config file to define your arguments and reference the config file using `-f` or `--config_file` at the command-line. Example config files can be found in the examples/ project folder.
+
+You can define known or unknown arguments in the config file and both will be passed into the program and into any modules you import. You can also define multiple config files which will either overwrite or append to each others settings (depending on the argument can have multiple values).
+
+Arguments can still be defined at the command-line even when using config files. If the argument is a single value (like the debugging level) then the command-line value will overwrite any config file values. If the argument allows multiple entries (like credentials) then the command-line values will prepend any config-file values.
+
+
+
+
 
 
 -----------------------------------------

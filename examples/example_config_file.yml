@@ -8,6 +8,7 @@ addresses:
 credentials:
   - admin1:password1
   - admin2:password2@cisco_ios
+  - examples/example_structured_credentials_file.json
 dump_hostinfo: false
 logfiles:
   - autoshell_log1.log
