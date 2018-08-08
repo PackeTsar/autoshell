@@ -30,12 +30,10 @@ Autoshell is a "shell" application in that it handles a part of the automation p
 
 
 -----------------------------------------
-##   REQUIREMENTS   ##
-Interpreter: **Python 2.7+ or 3.4+**
-
-
------------------------------------------
 ##   INSTALLATION   ##
+
+### Use Autoshell Binaries (Easiest)
+You can download and use the Autoshell binaries if you do not want to install the Python interpreter. This is the quickest way to start using Autoshell, but since more advanced usage of Autoshell requires you to write your own modules using Python, it is recommended that you follow the below process to install Python and PIP on your operating system, then use PIP to install Autoshell.
 
 
 ### Prepare OS
@@ -55,27 +53,29 @@ Interpreter: **Python 2.7+ or 3.4+**
 		- Close out your windows, open a command window and make sure you can run the commands `python` and `pip`
 
 #### MacOS
-1. MacOS often comes with a native version of Python, but we likely want to upgrade that. The best way to do this is with a MacOS Linux-like package manager called Homebrew. You can visit the below pages to walk you through installing Homebrew and an updated Python interpreter along with it
+1. MacOS often comes with a native version of Python, but we likely want to upgrade that. The best way to do this is with a MacOS Linux-like package manager called [Homebrew](https://brew.sh/). You can visit the below pages to walk you through installing Homebrew and an updated Python interpreter along with it
 	- [Installing Python 2 on Mac OS X](https://docs.python-guide.org/starting/install/osx/)
 	- [Installing Python 3 on Mac OS X](https://docs.python-guide.org/starting/install3/osx/)
 2. Once Python is installed, you should be able to open Terminal, type `python`, hit ENTER, and see a Python prompt opened. Type `quit()` to exit it. You should also be able to run the command `pip` and see its options. If both of these work, then move on to install Autoshell.
 
 #### Linux
 1. Install required OS packages
-	- Raspberry Pi may need Python and PIP `sudo apt install -y python-pip` as well as `sudo apt-get install libffi-dev`
-	- Ubuntu distributions may need Python and PIP `sudo apt install -y python-pip`
-	- RHEL distributions usually don't need any non-native packages
+	- **Raspberry Pi** may need Python and PIP `sudo apt install -y python-pip` as well as `sudo apt-get install libffi-dev`
+	- **Debian (Ubuntu)** distributions may need Python and PIP `sudo apt install -y python-pip`
+	- **RHEL (CentOS)** distributions usually don't need any non-native packages
 
 
 ### Install Autoshell using PIP (Recommended)
 1. Install Autoshell using pip by running the command `pip install autoshell`
 2. Once the install completes, you should be able to run the command `autoshell -h` and see the help menu. Autoshell is now ready to use.
 
+
+
 ### Install Autoshell from source (Advanced)
 1. Retrieve the source code repository using one of the two below methods
-	- Install a Git client (process differs depending on OS) and clone the Autoshell repository using Git `git clone https://github.com/packetsar/autoshell.git`
+	- Method #1: Install a Git client (process differs depending on OS) and clone the Autoshell repository using Git `git clone https://github.com/packetsar/autoshell.git`
 		- Change to the branch you want to install using `git checkout <branch_name>`
-	- Download and extract the repository files from the [Github Repo](https://github.com/PackeTsar/autoshell)
+	- Method #2: Download and extract the repository files from the [Github Repo](https://github.com/PackeTsar/autoshell)
 		- Make sure to download the branch you want to install
 2. Move into the autoshell project directory `cd autoshell`
 3. Run the setup.py file to build the package into the ./build/ directory `python setup.py build`
@@ -87,37 +87,17 @@ Interpreter: **Python 2.7+ or 3.4+**
 ##   GETTING STARTED   ##
 Once you have installed Autoshell, you can see the command guide with `autoshell -h`.
 
-Since modules are able to add their own arguments into the argument parser when they are imported, you can see a module's help by importing it. You can see this by trying `autoshell -m crawl -h`. In here you will see a section of argument descriptions for that specific module.
+Since modules are able to add their own arguments into the argument parser when they are imported, you can see a module's help by importing it (ie: `-m crawl`) and then adding the `-h` argument. You can see this by trying `autoshell -m crawl -h`. In here you will see a section of argument descriptions for that module.
 
 The simplest way to connect to a host is to point Autoshell directly at it (`autoshell 192.168.1.1`). If you do not provide credentials, it will prompt you for them. It is easy to add them inline with `-c username:password`. You are able to add as many hosts and credentials as you want and they are processed in the order you provide them.
 
 
 ### Credentials
 Credentials can be provided to Autoshell in a few different ways:
-1. At the command line as a string. The default full format for credentials is `-c <username>:<password>:<secret>@<device_type>`. This default format has optional values included. A credential string can have just one value (ie: `-c admin`) and Autoshell will use that `admin` value for the username, password, and secret; it will leave the device_type blank unless provided. You can also provide `-c admin:password` and Autoshell will use the provided password for both the password and secret values. More examples are provided in the command help guide at the command line.
-2. As a structured JSON or YAML file. You can use the below JSON and YAML examples to create credential files, then reference them from the command-line `-c my_credential_file.ext`.
+1. At the command line as a string. The default full format for credentials is `-c <username>:<password>:<secret>@<device_type>`. This default format has optional values included. A credential string can have just one value (ie: `-c admin`) and Autoshell will use that `admin` value for the username, password, and secret; it will leave the device_type blank unless provided. You can instead provide `-c admin:password` and Autoshell will use the provided password for both the password and secret values. More examples are provided in the command help guide at the command line.
+2. As a structured JSON or YAML file. You can use the [examples/example_structured_credentials_file.json](#examples/example_structured_credentials_file.json) and [examples/example_structured_credentials_file.yml](#examples/example_structured_credentials_file.yml) files as examples , then reference them from the command-line like `-c my_credential_file.ext`.
 
-**examples/example_structured_credentials_file.json**
-```
-[
-	{
-		"username": "file_admin1",
-		"password": "file_password1"
-	},
-	{
-		"username": "file_admin2",
-		"password": "file_password2"
-	}
-]
-```
 
-**examples/example_structured_credentials_file.yml**
-```
-- username: file_admin3
-  password: file_password3
-- username: file_admin4
-  password: file_password4
-```
 3. As an unstructured file. In this format, each line in the file will contain a credential string in the standard command-line format.
 
 **examples/example_unstructured_credentials.txt**
@@ -168,14 +148,32 @@ You can define known or unknown arguments in the config file and both will be pa
 Arguments can still be defined at the command-line even when using config files. If the argument is a single value (like the debugging level) then the command-line value will overwrite any config file values. If the argument allows multiple entries (like credentials) then the command-line values will prepend any config-file values.
 
 
-
-
-
-
 -----------------------------------------
+##   EXAMPLE FILES   ##
+Below are some example files you can use for reference. You can find these files in the examples/ folder.
 
 
+### examples/example_structured_credentials_file.json
+```
+[
+	{
+		"username": "file_admin1",
+		"password": "file_password1"
+	},
+	{
+		"username": "file_admin2",
+		"password": "file_password2"
+	}
+]
+```
 
+### examples/example_structured_credentials_file.yml
+```
+- username: file_admin3
+  password: file_password3
+- username: file_admin4
+  password: file_password4
+```
 
 
 
