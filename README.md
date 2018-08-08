@@ -131,7 +131,7 @@ Modules may [optionally] introduce their own arguments into the argument parser 
 Bundled modules are included in the default installation of Autoshell and can be imported for use immediately after installation. The bundled module files can be found in the `autoshell/modules/` folder under the project folder. You can use these bundled modules as a reference when writing your own module as they both must adhere to the Autoshell module API.
 
 ### User-Written Modules
-If you are not able to accomplish the automation tasks you want using the bundled modules (which is common), then you can write your own module to accomplish your task. Autoshell makes this quite easy since much of the difficult work will have been done by the time the code in your module is called.
+If you are not able to accomplish the automation tasks you want using the bundled modules (which is common), then you can write your own module to accomplish your task. Autoshell makes this quite easy since much of the difficult work will have been done by the time the code in your module is called. User-written modules can be imported using its file path (ie: `-m mymods/mymodule.py`) or you can reference the file name in a config-file.
 
 ### Autoshell Module API
 Autoshell will attempt to call any imported module at three (3) points during execution.
@@ -143,6 +143,18 @@ Autoshell will attempt to call any imported module at three (3) points during ex
 	- **Threading**: Autoshell includes a queueing/threading library called `autoqueue` which can be very useful when wanting to perform your custom tasks on many hosts in parallel. Autoqueue can be imported and used in your module by importing the autoshell library (`import autoshell`) and instantiating an autoqueue object (`autoshell.common.autoqueue.autoqueue(<arguments>)`). You can reference the example modules for examples on how to use autoqueue.
 
 Once the module's `run` function returns control of the main thread back to the Autoshell program, Autoshell will call the `run` function of the next module if there is a module in order after this one. Once all modules complete and the last module returns control, Autoshell will perform a final processing of all active hosts by gracefully disconnecting from them and quitting the program.
+
+### The Autoqueue Library
+Autoqueue is an Autoshell library which makes threading and queueing much easier than using the threading and queue libraries separately. Autoqueue also provides functions for blocking the main thread until the queue is empty and the threads are idle.
+
+To use Autoqueue in a module. You can import autoshell as a library (`import autoshell`) and referece autoqueue at `queue = autoshell.common.autoqueue.autoqueue(thread_count, worker_func, worker_args)`.
+
+#### Autoqueue Arguments
+- **thread_count**: A integer defining how many worker threads you want to use. All threads are supervised and managed by Autoqueue and you don't need to worry about dealing with them.
+- **worker_func**: The worker function which will be run inside each thread. Since each thread is monitored and maintained by autoqueue's supervisor, any returned object will be discarded. If you need to return any object/data out of your worker function, you will have pass in and write them to a namespace object or something similar.
+- **worker_args**: A tuple containing any arguments you want to have passed into your worker function by the thread supervisor in addition to the default arguments which get passed in (`parent_object` and `queue_item`)
+
+Once the queue has been instantiated, it will begin waiting for items to be put into the queue. When items begin being `.put(item)` into the queue, the thread supervisors will begin calling the worker functions, passing the queue items into them.
 
 
 -----------------------------------------
