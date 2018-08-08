@@ -95,7 +95,7 @@ The simplest way to connect to a host is to point Autoshell directly at it (`aut
 ### Credentials
 Credentials can be provided to Autoshell in a few different ways:
 1. At the command line as a string. The default full format for credentials is `-c <username>:<password>:<secret>@<device_type>`. This default format has optional values included. A credential string can have just one value (ie: `-c admin`) and Autoshell will use that `admin` value for the username, password, and secret; it will leave the device_type blank unless provided. You can instead provide `-c admin:password` and Autoshell will use the provided password for both the password and secret values. More examples are provided in the command help guide at the command line.
-2. As a structured JSON or YAML file. You can use the [examples/example_structured_credentials_file.json](#example_structured_credentials_filejson) and [examples/example_structured_credentials_file.yml](#example_structured_credentials_fileyml) files as examples, then reference them from the command-line like `-c example_structured_credentials_file.json`. You can reference as many credential files as you want.
+2. As a structured JSON or YAML file. You can use the [examples/example_structured_credentials_file.json](#examplesexample_structured_credentials_filejson) and [examples/example_structured_credentials_file.yml](#example_structured_credentials_fileyml) files as examples, then reference them from the command-line like `-c example_structured_credentials_file.json`. You can reference as many credential files as you want.
 3. As an unstructured file. See [examples/example_unstructured_credentials.txt](#example_unstructured_credentialstxt) for an example. In the unstructured format, each line in the file will contain a credential string in the standard command-line format. You can then reference the file from the command-line like `-c example_unstructured_credentials.txt`. You can reference as many credential files as you want.
 
 
@@ -124,7 +124,7 @@ Arguments can still be defined at the command-line even when using config files.
 Below are some example files you can use for reference. You can find these files in the `examples/` folder.
 
 
-### example_structured_credentials_file.json
+### examples/example_structured_credentials_file.json
 ```
 [
 	{
@@ -138,7 +138,7 @@ Below are some example files you can use for reference. You can find these files
 ]
 ```
 
-### example_structured_credentials_file.yml
+### examples/example_structured_credentials_file.yml
 ```
 - username: file_admin3
   password: file_password3
@@ -146,13 +146,13 @@ Below are some example files you can use for reference. You can find these files
   password: file_password4
 ```
 
-### example_unstructured_credentials.txt
+### examples/example_unstructured_credentials.txt
 ```
 unst_admin1:unst_password1
 unst_admin2:unst_password2@cisco_ios
 ```
 
-### example_structured_addresses_file.json
+### examples/example_structured_addresses_file.json
 ```
 [
 	{
@@ -165,14 +165,14 @@ unst_admin2:unst_password2@cisco_ios
 ]
 ```
 
-### example_structured_addresses_file.yml
+### examples/example_structured_addresses_file.yml
 ```
 - address: 192.168.1.1
   type: cisco_ios
 - address: 192.168.1.2
 ```
 
-### example_unstructured_addresses_file.txt
+### examples/example_unstructured_addresses_file.txt
 ```
 192.168.1.10
 192.168.1.11@cisco_ios
