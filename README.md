@@ -111,12 +111,38 @@ Addresses are provided to Autoshell at the command-line using positional argumen
 
 
 
-### Using config files
-Since you may often need to define many command-line arguments, it is often easier to provide command-line arguments using a config file. You can use a structured JSON or YAML config file to define your arguments and reference the config file using `-f` or `--config_file` at the command-line. Example config files can be found in the examples/ project folder.
+### Using Config Files
+Since you may often need to define many command-line arguments, it is often easier to provide command-line arguments using a config file. You can use a structured JSON or YAML config file (examples can be found at [examples/example_config_file.json](#examplesexample_config_filejson) and [examples/example_config_file.yml](#examplesexample_config_fileyml)) to define your arguments and reference the config file using `-f` or `--config_file` at the command-line (like `-f example_config_file.json`). The example config files can also be found in the `examples/` project folder.
 
-You can define known or unknown arguments in the config file and both will be passed into the program and into any modules you import. You can also define multiple config files which will either overwrite or append to each others settings (depending on the argument can have multiple values).
+You can define known or unknown arguments in the config file and both will be passed into the program and into any modules you import. You can also define multiple config files which will either overwrite or append to each others settings (depending on if the argument can have multiple values).
 
 Arguments can still be defined at the command-line even when using config files. If the argument is a single value (like the debugging level) then the command-line value will overwrite any config file values. If the argument allows multiple entries (like credentials) then the command-line values will prepend any config-file values.
+
+
+-----------------------------------------
+##   MODULES   ##
+The power and flexibility of Autoshell is realized by the use of modules. Modules are python files or libraries which are used to manipulate the hosts connected to by Autoshell. Autoshell includes some modules bundled in the installation. These bundled modules can be found in the `autoshell/modules/` folder. Modules can also be user-written using Python to do whatever the user wants. Modules can be imported in two different ways:
+1. Using a command-line argument like `-m neighbors`.
+2. Using a config-file. See the [Using Config Files](#Using-Config-Files) section for more info.
+
+Modules may [optionally] introduce their own arguments into the argument parser when they are imported. These module-specific arguments are recognized by the argparser and will have a help-menu displayed when using the `-h` argument. You can see an example of this by issuing `autoshell -m crawl -h`. 
+
+### Bundled Modules
+Bundled modules are included in the default installation of Autoshell and can be imported for use immediately after installation. The bundled module files can be found in the `autoshell/modules/` folder under the project folder. You can use these bundled modules as a reference when writing your own module as they both must adhere to the Autoshell module API.
+
+### User-Written Modules
+If you are not able to accomplish the automation tasks you want using the bundled modules (which is common), then you can write your own module to accomplish your task. Autoshell makes this quite easy since much of the difficult work will have been done by the time the code in your module is called.
+
+### Autoshell Module API
+Autoshell will attempt to call any imported module at three (3) points during execution.
+
+1. `add_parser_options(parser)`: The first call against your module will be done against your `add_parser_options` function. This is an *optional* call and will only be done if the `add_parser_options` function exists in your code. This call will hand program control over to your module and allow you to populate custom arguments into the Autoshell argument parser. This call is made before the arguments are parsed and before we connect to hosts.
+
+2. `load(ball)`: The second call against your module will be done against your `load` function. This is an *optional* call and will only be done if the `load` function exists in your code. This call will hand program control over to your module to allow you to perform input checks on user-provided arguments before Autoshell starts connecting to hosts. The `load` call exists to permit your module to perform input checks and throw warnings/errors early on in the program instead of waiting until all hosts have been connected and all other modules have run. You can also use the `load` function to do some pre-processing of user inputs and store them in a namespace object to be used later when the module is run.
+3. `run(ball)`: The third and final call against your module will be done against your `run` function. This is a *required* call and your module must include a `run` function in order to operate. The `run` function is called after all hosts have been processed/connected and after all previously imported modules (since modules are processed in the order in which they are referenced from the CLI) have completed. The `run` function is where you want to perform your custom tasks on connected hosts.
+	- **Threading**: Autoshell includes a queueing/threading library called `autoqueue` which can be very useful when wanting to perform your custom tasks on many hosts in parallel. Autoqueue can be imported and used in your module by importing the autoshell library (`import autoshell`) and instantiating an autoqueue object (`autoshell.common.autoqueue.autoqueue(<arguments>)`). You can reference the example modules for examples on how to use autoqueue.
+
+Once the module's `run` function returns control of the main thread back to the Autoshell program, Autoshell will call the `run` function of the next module if there is a module in order after this one. Once all modules complete and the last module returns control, Autoshell will perform a final processing of all active hosts by gracefully disconnecting from them and quitting the program.
 
 
 -----------------------------------------
@@ -178,6 +204,49 @@ unst_admin2:unst_password2@cisco_ios
 192.168.1.11@cisco_ios
 ```
 
+### examples/example_config_file.json
+```
+{
+	"modules": [
+		"neighbors",
+		"cli"
+	],
+	"debug": 5,
+	"addresses": [
+		"192.168.1.1",
+		"192.168.1.2"
+	],
+	"credentials": [
+		"cfg_file_admin1:cfg_file_password1",
+		"cfg_file_admin2:cfg_file_password2@cisco_ios",
+		"examples/example_structured_credentials_file.json"
+	],
+	"dump_hostinfo": false,
+	"logfiles": [
+		"autoshell_log1.log",
+		"autoshell_log2.log"
+	]
+}
+```
+
+### examples/example_config_file.yml
+```
+modules:
+  - neighbors
+  - cli
+debug: 5
+addresses:
+  - 192.168.1.1
+  - 192.168.1.2
+credentials:
+  - admin1:password1
+  - admin2:password2@cisco_ios
+  - examples/example_structured_credentials_file.json
+dump_hostinfo: false
+logfiles:
+  - autoshell_log1.log
+  - autoshell_log2.log
+```
 
 
 
