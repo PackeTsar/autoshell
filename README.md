@@ -95,7 +95,7 @@ The simplest way to connect to a host is to point Autoshell directly at it (`aut
 ### Credentials
 Credentials can be provided to Autoshell in a few different ways:
 1. At the command line as a string. The default full format for credentials is `-c <username>:<password>:<secret>@<device_type>`. This default format has optional values included. A credential string can have just one value (ie: `-c admin`) and Autoshell will use that `admin` value for the username, password, and secret; it will leave the device_type blank unless provided. You can instead provide `-c admin:password` and Autoshell will use the provided password for both the password and secret values. More examples are provided in the command help guide at the command line.
-2. As a structured JSON or YAML file. You can use the [examples/example_structured_credentials_file.json](#examples/example_structured_credentials_file.json) and [examples/example_structured_credentials_file.yml](#examples/example_structured_credentials_file.yml) files as examples , then reference them from the command-line like `-c my_credential_file.ext`.
+2. As a structured JSON or YAML file. You can use the [example_structured_credentials_file.json](#example_structured_credentials_file.json) and [example_structured_credentials_file.yml](#example_structured_credentials_file.yml) files as examples , then reference them from the command-line like `-c my_credential_file.ext`.
 
 
 3. As an unstructured file. In this format, each line in the file will contain a credential string in the standard command-line format.
@@ -153,7 +153,7 @@ Arguments can still be defined at the command-line even when using config files.
 Below are some example files you can use for reference. You can find these files in the examples/ folder.
 
 
-### examples/example_structured_credentials_file.json
+### example_structured_credentials_file.json
 ```
 [
 	{
@@ -167,7 +167,7 @@ Below are some example files you can use for reference. You can find these files
 ]
 ```
 
-### examples/example_structured_credentials_file.yml
+### example_structured_credentials_file.yml
 ```
 - username: file_admin3
   password: file_password3

@@ -4,3 +4,6 @@
 legacy/*
 *.log
 test.json
+mymod.py
+test2.json
+test_hosts
