@@ -58,7 +58,7 @@ You can download and use the Autoshell binaries if you do not want to install th
 		- This will open a window. Click 'Get Xcode' and install it from the app store.
 	- Install Homebrew. Run `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 	- REMOVE: Create a new `.bash_profile` in your home directory and add a line to it `echo 'export PATH="/usr/local/bin:/usr/local/sbin:$PATH"' >> ~/.bash_profile`
-	- Install Python2 `brew install python`
+	- Install latest Python2 `brew install python`
 	- Link your default Python path to the new install `brew link --overwrite python`
 	- REMOVE: Update your PATH again `echo 'export PATH="/usr/local/opt/python@2/libexec/bin:$PATH"' >> ~/.bash_profile`
 	- [Installing Python 2 on Mac OS X](https://docs.python-guide.org/starting/install/osx/)
