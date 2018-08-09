@@ -482,7 +482,8 @@ def start():
     misc.add_argument(
                         "-v", "--version",
                         action="version",
-                        version="AutoShell v{}".format(__version__.version))
+                        version="AutoShell {}\nPython {}".format(
+                            __version__.version, sys.version))
     required.add_argument(
                         'addresses',
                         help="""Target hosts (strings or files) (positional)'

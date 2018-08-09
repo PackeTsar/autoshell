@@ -53,9 +53,9 @@ You can download and use the Autoshell binaries if you do not want to install th
 		- Close out your windows, open a command window and make sure you can run the commands `python` and `pip`
 
 #### MacOS
-1. MacOS often comes with a native version of Python, but we likely want to upgrade that. The best way to do this is with a MacOS Linux-like package manager called [Homebrew](https://brew.sh/). You can visit the below pages to walk you through installing Homebrew and an updated Python interpreter along with it
+1. MacOS often comes with a native version of Python, but we likely want to upgrade that and install PIP. The best way to do this is with a MacOS Linux-like package manager called [Homebrew](https://brew.sh/). You can visit the below pages to walk you through installing Homebrew and an updated Python interpreter along with it
 	- Open Terminal and run `xcode-select --install`
-		- This will open a window. Click 'Get XCode' and install it from the app store.
+		- This will open a window. Click 'Get Xcode' and install it from the app store.
 	- Install Homebrew. Run `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 	- Create a new `.bash_profile` in your home directory and add a line to it `echo 'export PATH="/usr/local/bin:/usr/local/sbin:$PATH"' >> ~/.bash_profile`
 	- Install Python2 `brew install python`
