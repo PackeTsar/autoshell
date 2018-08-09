@@ -53,17 +53,16 @@ You can download and use the Autoshell binaries if you do not want to install th
 		- Close out your windows, open a command window and make sure you can run the commands `python` and `pip`
 
 #### MacOS
-1. MacOS often comes with a native version of Python, but we likely want to upgrade that and install PIP. The best way to do this is with a MacOS Linux-like package manager called [Homebrew](https://brew.sh/). You can visit the below pages to walk you through installing Homebrew and an updated Python interpreter along with it
-	- Open Terminal and run `xcode-select --install`
-		- This will open a window. Click 'Get Xcode' and install it from the app store.
-	- Install Homebrew. Run `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
-	- REMOVE: Create a new `.bash_profile` in your home directory and add a line to it `echo 'export PATH="/usr/local/bin:/usr/local/sbin:$PATH"' >> ~/.bash_profile`
-	- Install latest Python2 `brew install python`
-	- Link your default Python path to the new install `brew link --overwrite python`
-	- REMOVE: Update your PATH again `echo 'export PATH="/usr/local/opt/python@2/libexec/bin:$PATH"' >> ~/.bash_profile`
-	- [Installing Python 2 on Mac OS X](https://docs.python-guide.org/starting/install/osx/)
-	- [Installing Python 3 on Mac OS X](https://docs.python-guide.org/starting/install3/osx/)
-2. Once Python is installed, you should be able to open Terminal, type `python`, hit ENTER, and see a Python prompt opened. Type `quit()` to exit it. You should also be able to run the command `pip` and see its options. If both of these work, then move on to install Autoshell.
+MacOS often comes with a native version of Python, but we likely want to upgrade that and install PIP. The best way to do this is with a MacOS Linux-like package manager called [Homebrew](https://brew.sh/). You can visit the below pages to walk you through installing Homebrew and an updated Python interpreter along with it
+1. Open Terminal and run: `xcode-select --install`. This will open a window. Click **'Get Xcode'** and install it from the app store.
+2. Install Homebrew. Run: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+3. Install latest Python2: `brew install python@2`
+4. Install latest Python3: `brew install python`
+5. Link your default Python path to the new install `brew link --overwrite python`
+6. Close Terminal and reopen it. You should see Python 2.7.15 or later with `python -V`
+7. Once Python is installed, you should be able to open Terminal, type `python`, hit ENTER, and see a Python prompt opened. Type `quit()` to exit it. You should also be able to run the command `pip` and see its options. If both of these work, then move on to [Install Autoshell](#install-autoshell-using-pip-recommended)
+	- Additional resources on [Installing Python 2 on Mac OS X](https://docs.python-guide.org/starting/install/osx/)
+	- Additional resources on [Installing Python 3 on Mac OS X](https://docs.python-guide.org/starting/install3/osx/)
 
 #### Linux
 1. Install required OS packages
@@ -80,9 +79,9 @@ You can download and use the Autoshell binaries if you do not want to install th
 
 ### Install Autoshell from source (Advanced)
 1. Retrieve the source code repository using one of the two below methods
-	- Method #1: Install a Git client (process differs depending on OS) and clone the Autoshell repository using Git `git clone https://github.com/packetsar/autoshell.git`
+	- **Method #1**: Install a Git client (process differs depending on OS) and clone the Autoshell repository using Git `git clone https://github.com/packetsar/autoshell.git`
 		- Change to the branch you want to install using `git checkout <branch_name>`
-	- Method #2: Download and extract the repository files from the [Github Repo](https://github.com/PackeTsar/autoshell)
+	- **Method #2**: Download and extract the repository files from the [Github Repo](https://github.com/PackeTsar/autoshell)
 		- Make sure to download the branch you want to install
 2. Move into the autoshell project directory `cd autoshell`
 3. Run the setup.py file to build the package into the ./build/ directory `python setup.py build`
