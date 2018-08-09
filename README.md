@@ -58,7 +58,6 @@ You can download and use the Autoshell binaries if you do not want to install th
 		- This will open a window. Click 'Get XCode' and install it from the app store.
 	- Install Homebrew. Run `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 	- Create a new `.bash_profile` in your home directory and add a line to it `echo 'export PATH="/usr/local/bin:/usr/local/sbin:$PATH"' >> ~/.bash_profile`
-		-
 	- [Installing Python 2 on Mac OS X](https://docs.python-guide.org/starting/install/osx/)
 	- [Installing Python 3 on Mac OS X](https://docs.python-guide.org/starting/install3/osx/)
 2. Once Python is installed, you should be able to open Terminal, type `python`, hit ENTER, and see a Python prompt opened. Type `quit()` to exit it. You should also be able to run the command `pip` and see its options. If both of these work, then move on to install Autoshell.
