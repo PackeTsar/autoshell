@@ -54,6 +54,11 @@ You can download and use the Autoshell binaries if you do not want to install th
 
 #### MacOS
 1. MacOS often comes with a native version of Python, but we likely want to upgrade that. The best way to do this is with a MacOS Linux-like package manager called [Homebrew](https://brew.sh/). You can visit the below pages to walk you through installing Homebrew and an updated Python interpreter along with it
+	- Open Terminal and run `xcode-select --install`
+		- This will open a window. Click 'Get XCode' and install it from the app store.
+	- Install Homebrew. Run `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+	- Create a new `.bash_profile` in your home directory and add a line to it `echo 'export PATH="/usr/local/bin:/usr/local/sbin:$PATH"' >> ~/.bash_profile`
+		-
 	- [Installing Python 2 on Mac OS X](https://docs.python-guide.org/starting/install/osx/)
 	- [Installing Python 3 on Mac OS X](https://docs.python-guide.org/starting/install3/osx/)
 2. Once Python is installed, you should be able to open Terminal, type `python`, hit ENTER, and see a Python prompt opened. Type `quit()` to exit it. You should also be able to run the command `pip` and see its options. If both of these work, then move on to install Autoshell.
@@ -125,7 +130,7 @@ The power and flexibility of Autoshell is realized by the use of modules. Module
 1. Using a command-line argument like `-m neighbors`.
 2. Using a config-file. See the [Using Config Files](#Using-Config-Files) section for more info.
 
-Modules may [optionally] introduce their own arguments into the argument parser when they are imported. These module-specific arguments are recognized by the argparser and will have a help-menu displayed when using the `-h` argument. You can see an example of this by issuing `autoshell -m crawl -h`. 
+Modules may [optionally] introduce their own arguments into the argument parser when they are imported. These module-specific arguments are recognized by the argparser and will have a help-menu displayed when using the `-h` argument. You can see an example of this by issuing `autoshell -m crawl -h`.
 
 ### Bundled Modules
 Bundled modules are included in the default installation of Autoshell and can be imported for use immediately after installation. The bundled module files can be found in the `autoshell/modules/` folder under the project folder. You can use these bundled modules as a reference when writing your own module as they both must adhere to the Autoshell module API.
