@@ -10,7 +10,7 @@ A simple, fully programmable, shell-based network automation utility
 
 -----------------------------------------
 ##   VERSION   ##
-The version of Autoshell documented here is: **v0.0.1**
+The version of Autoshell documented here is: **0.0.13**
 
 
 -----------------------------------------
@@ -32,7 +32,7 @@ Autoshell is a "shell" application in that it handles a part of the automation p
 -----------------------------------------
 ##   INSTALLATION   ##
 
-### Use Autoshell Binaries (Easiest)
+### Autoshell Binaries (Easiest)
 You can download and use the Autoshell binaries if you do not want to install the Python interpreter. This is the quickest way to start using Autoshell, but since more advanced usage of Autoshell requires you to write your own modules using Python, it is recommended that you follow the below process to install Python and PIP on your operating system, then use PIP to install Autoshell.
 
 
@@ -96,26 +96,25 @@ MacOS often comes with a native version of Python, but we likely want to upgrade
 ##   GETTING STARTED   ##
 Once you have installed Autoshell, you can see the command guide with `autoshell -h`.
 
-Since modules are able to add their own arguments into the argument parser when they are imported, you can see a module's help by importing it (ie: `-m crawl`) and then adding the `-h` argument. You can see this by trying `autoshell -m crawl -h`. In here you will see a section of argument descriptions for that module.
+Since modules are able to add their own arguments into the argument parser when they are imported, you can see a module's help by importing it (ie: `-m crawl`) and then adding the `-h` argument. You can see this by trying `autoshell -m crawl -h`, there you will see a section of argument descriptions for the Crawl module.
 
 The simplest way to connect to a host is to point Autoshell directly at it (`autoshell 192.168.1.1`). If you do not provide credentials, it will prompt you for them. It is easy to add them inline with `-c username:password`. You are able to add as many hosts and credentials as you want and they are processed in the order you provide them.
 
 
 ### Credentials
 Credentials can be provided to Autoshell in a few different ways:
-1. At the command line as a string. The default full format for credentials is `-c <username>:<password>:<secret>@<device_type>`. This default format has optional values included. A credential string can have just one value (ie: `-c admin`) and Autoshell will use that `admin` value for the username, password, and secret; it will leave the device_type blank unless provided. You can instead provide `-c admin:password` and Autoshell will use the provided password for both the password and secret values. More examples are provided in the command help guide at the command line.
-2. As a structured JSON or YAML file. You can use the [examples/example_structured_credentials_file.json](#examplesexample_structured_credentials_filejson) and [examples/example_structured_credentials_file.yml](#examplesexample_structured_credentials_fileyml) files as examples, then reference them from the command-line like `-c example_structured_credentials_file.json`. You can reference as many credential files as you want.
-3. As an unstructured file. See [examples/example_unstructured_credentials.txt](#examplesexample_unstructured_credentialstxt) for an example. In the unstructured format, each line in the file will contain a credential string in the standard command-line format. You can then reference the file from the command-line like `-c example_unstructured_credentials.txt`. You can reference as many credential files as you want.
+1. **At the command line as a string.** The default full format for credentials is `-c <username>:<password>:<secret>@<device_type>`. This default format has optional values included. A credential string can have just one value (ie: `-c admin`) and Autoshell will use that `admin` value for the username, password, and secret; it will leave the device_type blank unless provided. You can instead provide `-c admin:password` and Autoshell will use the provided password for both the password and secret values. More examples are provided in the command help guide at the command line.
+2. **As a structured JSON or YAML file.** You can use the [examples/example_structured_credentials_file.json](#examplesexample_structured_credentials_filejson) and [examples/example_structured_credentials_file.yml](#examplesexample_structured_credentials_fileyml) files as examples, then reference them from the command-line like `-c example_structured_credentials_file.json`. You can reference as many credential files as you want.
+3. **As an unstructured file.** See [examples/example_unstructured_credentials.txt](#examplesexample_unstructured_credentialstxt) for an example. In the unstructured format, each line in the file will contain a credential string in the standard command-line format. You can then reference the file from the command-line like `-c example_unstructured_credentials.txt`. You can reference as many credential files as you want.
 
 
 
 
 ### Addresses
 Addresses are provided to Autoshell at the command-line using positional arguments (without a prepended `-x` or `--xxxx` tag). You are able to provide as many addresses as you want here and they will processed in the order you give them. Below are some examples of how you can provide addresses.
-1. As a simple string at the command-line. Addresses use the format of `<address>@<device_type>` where the device_type value is optional. A simple example is just using the IP address or dns-name like `192.168.1.1` or with a device_type like `192.168.1.1@cisco_ios`.
-2. As a structured JSON or YAML file. You can use the [examples/example_structured_addresses_file.json](#examplesexample_structured_addresses_filejson) and [examples/example_structured_addresses_file.yml](#examplesexample_structured_addresses_fileyml) files as examples, then reference them from the command-line like `example_structured_addresses_file.json`. You can reference as many address files as you want.
-3. As an unstructured file. In this format, each line in the file will contain a address string in the standard command-line format.
-3. As an unstructured file. See [examples/example_unstructured_addresses_file.txt](#examplesexample_unstructured_addresses_filetxt) for an example. In the unstructured format, each line in the file will contain an address string in the standard command-line format. You can then reference the file from the command-line like `example_unstructured_addresses_file.txt`. You can reference as many address files as you want.
+1. **As a simple string at the command-line.** Addresses use the format of `<address>@<device_type>` where the device_type value is optional. A simple example is just using the IP address or dns-name like `192.168.1.1` or with a device_type like `192.168.1.1@cisco_ios`.
+2. **As a structured JSON or YAML file.** You can use the [examples/example_structured_addresses_file.json](#examplesexample_structured_addresses_filejson) and [examples/example_structured_addresses_file.yml](#examplesexample_structured_addresses_fileyml) files as examples, then reference them from the command-line like `example_structured_addresses_file.json`. You can reference as many address files as you want.
+3. **As an unstructured file.** See [examples/example_unstructured_addresses_file.txt](#examplesexample_unstructured_addresses_filetxt) for an example. In the unstructured format, each line in the file will contain an address string in the standard command-line format. You can then reference the file from the command-line like `example_unstructured_addresses_file.txt`. You can reference as many address files as you want.
 
 
 

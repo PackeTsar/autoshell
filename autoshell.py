@@ -4,7 +4,9 @@
 # Autoshell Libraries
 import autoshell
 
-
+# FIXME Add ability to add port to address
+# FIXME Add in object tags (tag addresses and credentials?)
+# FIXME Add way to use certificates in credentials
 #### FIXME Fix the import of modules so we can use single name
 #### FIXME Fix string vs list entry for logfile, credential, addresses, etc
 #### FIXME Expressions needs to error with bad YAML (read as strings)
