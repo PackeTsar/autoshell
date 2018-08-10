@@ -36,7 +36,7 @@ Autoshell is a "shell" application in that it handles a part of the automation p
 You can download and use the Autoshell binaries if you do not want to install the Python interpreter. This is the quickest way to start using Autoshell, but since more advanced usage of Autoshell requires you to write your own modules using Python, it is recommended that you follow the below process to install Python and PIP on your operating system, then use PIP to install Autoshell.
 
 
-### Prepare OS
+### Prepare Your OS
 #### Windows
 1. If you have not yet installed Python on your Windows OS, then download and install the latest Python2 or Python3 from [Python Downloads Page](https://www.python.org/downloads/)
 	- Make sure to check the box during installation which adds Python to PATH. Labeled something like `Add Python 3.7 to PATH`
@@ -59,7 +59,7 @@ MacOS often comes with a native version of Python, but we likely want to upgrade
 3. Install latest Python2: `brew install python@2`
 4. Install latest Python3: `brew install python`
 5. Link your default Python path to the new install `brew link --overwrite python`
-6. Close Terminal and reopen it. You should see Python 2.7.15 or later with `python -V`
+6. Close Terminal and reopen it. You should see Python 2.7.15 when you run `python -V`
 7. Once Python is installed, you should be able to open Terminal, type `python`, hit ENTER, and see a Python prompt opened. Type `quit()` to exit it. You should also be able to run the command `pip` and see its options. If both of these work, then move on to [Install Autoshell](#install-autoshell-using-pip-recommended)
 	- Additional resources on [Installing Python 2 on Mac OS X](https://docs.python-guide.org/starting/install/osx/)
 	- Additional resources on [Installing Python 3 on Mac OS X](https://docs.python-guide.org/starting/install3/osx/)
@@ -67,8 +67,11 @@ MacOS often comes with a native version of Python, but we likely want to upgrade
 #### Linux
 1. Install required OS packages
 	- **Raspberry Pi** may need Python and PIP `sudo apt install -y python-pip` as well as `sudo apt-get install libffi-dev`
-	- **Debian (Ubuntu)** distributions may need Python and PIP `sudo apt install -y python-pip`
-	- **RHEL (CentOS)** distributions usually don't need any non-native packages
+	- **Debian (Ubuntu)** distributions may need Python and PIP
+		- Install Python and PIP: `sudo apt install -y python-pip`
+	- **RHEL (CentOS)** distributions usually need PIP
+		- Install the EPEL package: `sudo yum install -y epel-release`
+		- Install PIP: `sudo yum install -y python-pip`
 
 
 ### Install Autoshell using PIP (Recommended)
