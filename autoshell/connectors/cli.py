@@ -126,6 +126,20 @@ def _assemble_credential(con_instance, credential):
     # Prefer to autodiscover as a last resort
     if not device_type:
         device_type = "autodetect"
+    # If a specific port was set
+    if con_instance.host.port:
+        try:
+            # Set the port in a try block in case a non-integer was passed
+            port = int(con_instance.host.port)
+        except ValueError:
+            log.error("connectors.cli._assemble_credential:\
+ Port number ({}) must be an integer! Using port 22 instead.".format(
+                con_instance.host.port))
+            # Set port 22 as the default
+            port = 22
+    else:  # If no port was defined
+        # Set port 22 as the default
+        port = 22
     # Build final assembled Netmiko-compatible crrdential/address set
     assembled = {
         "ip": con_instance.address,
@@ -133,7 +147,8 @@ def _assemble_credential(con_instance, credential):
         "username": credential["username"],
         "password": credential["password"],
         "secret": credential["secret"],
-        "timeout": 10
+        "timeout": 10,
+        "port": port
     }
     log.debug("connectors.cli._assemble_credential: Returning:\n%s"
               % json.dumps(assembled, indent=4))
