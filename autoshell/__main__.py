@@ -430,7 +430,7 @@ def process_config_files(startlogs, args, add_data):
 def check_args(parser, args):
     """
     autoshell.check_args checks for the existence of at least one argument
-    from the command-line. If there are o arguments provided, we will print
+    from the command-line. If there are no arguments provided, we will print
     the help menu.
     """
     for key in args.__dict__:
