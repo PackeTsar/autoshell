@@ -121,14 +121,32 @@ class hosts_class:
         threads using the connector's functions.
         """
         # If we have added a connection to this host already
-        if address_dict in self.attempts:
+        #if address_dict in self.attempts:
+        #    log.debug(
+        #        "common.hosts.add_host: Host (%s) is a duplicate. Skipping" %
+        #        address_dict["address"])
+        #    # Don't add it again as it is a duplicate
+        #    return None
+        if type(address_dict["address"]) == list:
+            for address in address_dict["address"]:
+                if address in self.attempts:
+                    log.debug(
+                        "common.hosts.add_host:\
+ Host (%s) is a duplicate. Skipping" %
+                        address_dict["address"])
+                    return None
+        elif address_dict["address"] in self.attempts:
             log.debug(
-                "common.hosts.add_host: Host (%s) is a duplicate. Skipping" %
+                "common.hosts.add_host:\
+ Host (%s) is a duplicate. Skipping" %
                 address_dict["address"])
             # Don't add it again as it is a duplicate
             return None
         # Otherwise, record that we are adding it now
-        self.attempts.append(address_dict)
+        if type(address_dict["address"]) == list:
+            self.attempts += address_dict["address"]
+        else:
+            self.attempts.append(address_dict["address"])
         # Instantiate the host
         new_host = host_class(
             address_dict["address"],
@@ -148,6 +166,30 @@ class hosts_class:
             # Add the connection_class instance to the proper connector queue
             self.queues[con].put(new_con)
         return new_host
+
+    def ready_hosts(self, connection_type="cli"):
+        result = []
+        for host in self.hosts:
+            if not host.type:
+                # If the host does not have a type, then don't return it
+                log.warning("common.hosts.ready_hosts:\
+ Host (%s) has no type. Discarding" % host.address)
+            elif connection_type not in host.connections:
+                log.warning("common.hosts.ready_hosts:\
+ Connection type (%s) Not found on host (%s). Discarding" % (connection_type,
+                                                             host.address))
+            elif not host.connections[connection_type].connected:
+                log.warning("common.hosts.ready_hosts:\
+ Host (%s) not connected. Discarding" % host.address)
+            elif host.connections[connection_type].failed:
+                log.warning("common.hosts.ready_hosts:\
+ Host (%s) has failed. Discarding" % host.address)
+            else:
+                log.info("common.hosts.ready_hosts:\
+ Returning host (%s) (%s)" % (host.hostname, host.address))
+                result.append(host)
+        return result
+
 
     def disconnect_all(self):
         """
