@@ -10,7 +10,7 @@ A simple, fully programmable, shell-based network automation utility
 
 -----------------------------------------
 ##   VERSION   ##
-The version of Autoshell documented here is: **0.0.13**
+The version of Autoshell documented here is: **0.0.14**
 
 
 -----------------------------------------
