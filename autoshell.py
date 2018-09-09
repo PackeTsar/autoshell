@@ -13,7 +13,7 @@ import autoshell
 # ### FIXME Expressions to interpret raw lines from unknown file
 # ### FIXME Test and fix logfiles
 # ### FIXME Put into PyPi
-# FIXME Modules (cmd)
+# ### FIXME Modules (cmd)
 # FIXME CDP and LLDP adding empty neighbors
 # FIXME Get the default device type working
 # FIXME Get crawl max_hops working

@@ -13,6 +13,7 @@ import importlib
 from . import cisco
 from . import common
 from . import connectors
+from . import modules
 from . import __version__
 
 # --- Start all three logging systems
@@ -470,7 +471,14 @@ def start():
     # Process any defined config files; prepare to add to args
     config_file_data = get_config_files(startlogs)
     # Pull a list of modules from user-provided arguments
-    modules = import_modules(startlogs, parser, config_file_data)
+    imp_modules = import_modules(startlogs, parser, config_file_data)
+    # Generate a list of bundled modules to show in -v
+    bundled_mods = []
+    for mod in dir(modules):
+        # If it is not private
+        if mod[0] != "_":
+            # Append it to the list
+            bundled_mods.append(mod)
     startlogs.append({
         "level": "debug",
         "message": "autoshell.start: Starting argument parsing"
@@ -482,8 +490,12 @@ def start():
     misc.add_argument(
                         "-v", "--version",
                         action="version",
-                        version="AutoShell {}\nPython {}".format(
-                            __version__.version, sys.version))
+                        version="AutoShell {}\n\
+    Bundled Modules: {}\n\
+Python {}".format(
+                            __version__.version,
+                            " ".join(bundled_mods),
+                            sys.version))
     required.add_argument(
                         'addresses',
                         help="""Target hosts (strings or files) (positional)'
@@ -572,7 +584,7 @@ def start():
     check_args(parser, args)
     try:
         # Execute main() with ability to catch user interrupts for an exit
-        main(args, modules)
+        main(args, imp_modules)
     except KeyboardInterrupt:
         log.warning("autoshell.start:\
  Exiting AutoShell program due to user-intervention")
