@@ -45,6 +45,8 @@ def _pulldevattbs(datablock, attribs):
     """
     # Make a copy of the neighbor template
     data = dict(neighbor_template)
+    # Set an empty flag in case no values are found
+    empty = True
     for attrib in attribs:
         # For each match statement
         for match in attrib["match"]:
@@ -62,11 +64,14 @@ def _pulldevattbs(datablock, attribs):
                         item = item.replace(rm, "")
                     matched.append(item)
                 data.update({attrib["attrib"]: matched})
+                # Trip flag to indicate that values have been set in neighbor
+                empty = False
                 break
             if attrib["attrib"] not in data:  # No match was made
                 # Add an empty attribute
                 data.update({attrib["attrib"]: None})
-    return data
+    if not empty:
+        return data
 
 
 def _attrib_search(attribs, data):
@@ -88,9 +93,11 @@ def _attrib_search(attribs, data):
     deviceblocks = data.split(delineator)
     # For each block of text describing a device
     for block in deviceblocks:
-        if block != "":  # If the block is not empty
-            # Run the block through _pulldevattbs
-            result.append(_pulldevattbs(block, attribs))
+        # Run the block through _pulldevattbs
+        neighbor = _pulldevattbs(block, attribs)
+        # If None was returned, then don't append to the result
+        if neighbor:
+            result.append(neighbor)
     return result
 
 
