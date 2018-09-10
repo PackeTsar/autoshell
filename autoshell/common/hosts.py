@@ -22,7 +22,31 @@ from . import expressions
 log = logging.getLogger("shared")
 
 
-class connection_class:
+class hosts_shared:
+    """
+    common.hosts.hosts_shared is a class with common functions which get
+    imported by other classes.
+    """
+    def get_address(self):
+        """
+        common.hosts.hosts_shared.get_address is used to retrieve a string
+        address (DNS name or IP) from a host or connection for printing
+        purposes.
+        """
+        # If self.address is not a list
+        if not isinstance(self.address, list):
+            # Then it is a string and we can return it
+            return self.address
+        # Or if it is a list and has entries
+        elif len(self.address) > 0:
+            # Then return the first entry
+            return self.address[0]
+        else:
+            # Otherwise return none (to prevent an exception on an empty list)
+            return None
+
+
+class connection_class(hosts_shared):
     """
     common.hosts.connection_class is a simple namespace object used to hold
     values for an individual connection to a host using a specific connector.
@@ -35,10 +59,10 @@ class connection_class:
         self.connected = False  # Are we currently connected?
         self.failed = False  # Did the connection fail to establish?
         self.idle = False  # Flag used to indicate host is not ready for use
-        self.connection = None  # ?????
+        self.connection = None  # Actual Netmiko connection object
 
 
-class host_class:
+class host_class(hosts_shared):
     """
     common.hosts.host_class is used to store values for all connections to a
     specific host.
@@ -121,12 +145,6 @@ class hosts_class:
         threads using the connector's functions.
         """
         # If we have added a connection to this host already
-        #if address_dict in self.attempts:
-        #    log.debug(
-        #        "common.hosts.add_host: Host (%s) is a duplicate. Skipping" %
-        #        address_dict["address"])
-        #    # Don't add it again as it is a duplicate
-        #    return None
         if type(address_dict["address"]) == list:
             for address in address_dict["address"]:
                 if address in self.attempts:
@@ -189,7 +207,6 @@ class hosts_class:
  Returning host (%s) (%s)" % (host.hostname, host.address))
                 result.append(host)
         return result
-
 
     def disconnect_all(self):
         """

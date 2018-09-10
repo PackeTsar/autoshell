@@ -66,7 +66,7 @@ def run(ball):
 
 def wrap_output(host, output):
     header = "############ {} ({}) ############".format(host.hostname,
-                                                        host.address)
+                                                        host.get_address())
     liner = "#"*len(header)
     trailer = liner + "\n" + liner
     return "\n".join(["\n\n", header, liner, output, liner, liner, "\n\n"])

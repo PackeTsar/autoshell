@@ -111,6 +111,18 @@ class neighbor_device:
             CDP_TLV_Name="Platform",
             Description="CDP Specific System Part Number")
 
+    def get_attrib(self, attrib):
+        """
+        common.neighbors.neighbor_device.get_address is used to retrieve a
+        string value from the namespace instead of a list
+        """
+        if len(self.__dict__[attrib].Value) > 0:
+            # Then return the first entry
+            return self.__dict__[attrib].Value[0]
+        else:
+            # Otherwise return none (to prevent an exception on an empty list)
+            return None
+
     def __call__(self):
         """
         common.neighbors.neighbor_device.__call__ returns a clean (JSON

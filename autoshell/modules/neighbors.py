@@ -67,7 +67,7 @@ def worker(parent, host, ball):
         # If the host does not have a type, then we don't know which handler
         #  to use. Discard and do not pull neighbor data from it.
         log.warning("neighbors.worker:\
- Host (%s) has no type. Discarding" % host.address)
+ Host (%s) has no type. Discarding" % host.get_address())
         return None
     ############################################################
     # Find handler set for hosts type
@@ -107,7 +107,7 @@ def worker(parent, host, ball):
             if host.connections[handler_type].failed:
                 # And if it is also flagged as failed. Then discard it
                 log.warning("neighbors.worker:\
- Host (%s) failed. Discarding" % host.address)
+ Host (%s) failed. Discarding" % host.get_address())
                 return None
             else:
                 # If it is not failed, then requeue it and return
@@ -119,7 +119,7 @@ def worker(parent, host, ball):
         if handler_type not in host.connections:
             log.warning("neighbors.worker:\
  Host (%s) has no connection for handler type (%s). Discarding" %
-                        (host.address, handler_type))
+                        (host.get_address(), handler_type))
             return None
         ############################################################
         # Core neighbors functionality
@@ -131,14 +131,14 @@ def worker(parent, host, ball):
         handler = handler_dict["handlers"][handler_type]
         log.debug("neighbors.worker:\
  Pulling neighbors from host (%s) (%s) with (%s) neighbor handler"
-                  % (host.hostname, host.address, handler_type))
+                  % (host.hostname, host.get_address(), handler_type))
         # Initialize .info with empty neighbor data to prep for real data
         host.info.update({"neighbors": []})
         # Pass connection and options to handler to get neighbor data
         neighbor_dict = handler(host.connections[handler_type],
                                 True, True)
         log.debug("neighbors.worker: Neighbors on (%s) (%s):\n%s"
-                  % (host.hostname, host.address,
+                  % (host.hostname, host.get_address(),
                      json.dumps(neighbor_dict, indent=4)))
         # Drop neighbor data into .info so it can be dumped to JSON
         host.info.update({"neighbors": neighbor_dict})

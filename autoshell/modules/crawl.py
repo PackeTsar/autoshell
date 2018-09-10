@@ -175,7 +175,7 @@ def crawl(parent, host, ball):
         # If the host does not have a type, then we don't know which handler
         #  to use. Discard and do not crawl it.
         log.warning("crawl.crawl:\
- Host (%s) has no type. Discarding" % host.address)
+ Host (%s) has no type. Discarding" % host.get_address())
         return None
     # Initialize as None. Will get replaced if we find a matching handler set
     handler_dict = None
@@ -210,7 +210,7 @@ def crawl(parent, host, ball):
             if host.connections[handler_type].failed:
                 # And if it is also flagged as failed. Then discard it
                 log.warning("crawl.crawl:\
- Host (%s) failed. Discarding" % host.address)
+ Host (%s) failed. Discarding" % host.get_address())
                 return None
             else:
                 # If it is not failed, then requeue it and return
@@ -222,7 +222,7 @@ def crawl(parent, host, ball):
         if handler_type not in host.connections:
             log.warning("crawl.crawl:\
  Host (%s) has no connection for handler type (%s). Discarding" %
-                        (host.address, handler_type))
+                        (host.get_address(), handler_type))
             return None
         ############################################################
         # Core crawl functionality
@@ -234,14 +234,14 @@ def crawl(parent, host, ball):
         handler = handler_dict["handlers"][handler_type]
         log.debug("crawl.crawl:\
  Crawling host (%s) (%s) with (%s) neighbor handler"
-                  % (host.hostname, host.address, handler_type))
+                  % (host.hostname, host.get_address(), handler_type))
         # Initialize .info with empty neighbor data to prep for real data
         host.info.update({"neighbors": []})
         # Pass connection and options to handler to get neighbor data
         neighbor_dict = handler(host.connections[handler_type],
                                 options.crawl_lldp, options.crawl_cdp)
         log.debug("crawl.crawl: Neighbors on (%s) (%s):\n%s"
-                  % (host.hostname, host.address,
+                  % (host.hostname, host.get_address(),
                      json.dumps(neighbor_dict, indent=4)))
         # Drop neighbor data into .info so it can be dumped to JSON
         host.info.update({"neighbors": neighbor_dict})
@@ -282,7 +282,9 @@ def crawl(parent, host, ball):
                         if newhost:
                             log.info("crawl.crawl:\
  Added new host (%s) (%s) found on (%s) (%s). Queueing for neighbor crawl"
-                                     % (neighbor_instance.sysname.Value,
-                                        neighbor_instance.addresses.Value,
-                                        host.hostname, host.address))
+                                     % (neighbor_instance.get_attrib(
+                                            "sysname"),
+                                        neighbor_instance.get_attrib(
+                                            "addresses"),
+                                        host.hostname, host.get_address()))
                             options.queue.put(newhost)

@@ -26,16 +26,16 @@ def connect(parent, con_instance, credentials, returner):
     if not con_instance.host.type:
         log.warning("connectors.cli.connect:\
  Host (%s) has no device_type.\
- Will use credential or try autodetection" % con_instance.address)
+ Will use credential or try autodetection" % con_instance.get_address())
     elif con_instance.host.type not in netmiko.platforms:
         log.info("connectors.cli.connect:\
  Host (%s) device_type (%s) not in Netmiko platforms list. Discarding.\
- Supported platforms are: \n%s" % (con_instance.address,
+ Supported platforms are: \n%s" % (con_instance.get_address(),
                                    con_instance.host.type,
                                    " ".join(netmiko.platforms)))
         return None
     log.info("connectors.cli.connect: Connecting to address (%s)"
-             % con_instance.address)
+             % con_instance.get_address())
     # Create ordered list of types so we can prefer credentials with
     #  matching types if they exist.
     pref_types = [con_instance.host.type] + netmiko.platforms
@@ -86,7 +86,7 @@ def disconnect(parent, con_instance, returner):
     # Send disconnect command to Netmiko
     con_instance.connection.disconnect()
     log.info("connectors.cli.disconnect: Disconnected from (%s) (%s)"
-             % (con_instance.host.hostname, con_instance.host.address))
+             % (con_instance.host.hostname, con_instance.host.get_address()))
     returner.append(con_instance)
 
 
@@ -106,7 +106,7 @@ def _assemble_credential(con_instance, credential):
             log.warning("connectors.cli._assemble_credential:\
  Address (%s) device_type (%s) not in Netmiko platforms.\
  Setting device_type to None.\
- Supported platforms are: \n%s" % (con_instance.host.address,
+ Supported platforms are: \n%s" % (con_instance.host.get_address(),
                                    con_instance.host.type,
                                    " ".join(netmiko.platforms)))
         else:
@@ -168,7 +168,7 @@ def _execute(con_instance, credential):
         if credential["device_type"] == "autodetect":
             log.debug("connectors.cli._execute:\
  Connecting to address (%s) to detect device type..." %
-                      (con_instance.address, ))
+                      (con_instance.get_address(), ))
             # Trip idle flag since we are working on this connection now
             con_instance.idle = False
             # Connect to device to start type detection
@@ -179,7 +179,7 @@ def _execute(con_instance, credential):
             if not dtype:
                 log.warning("connectors.cli._execute:\
  Authentication succeeded, but Auto Detection failed on address (%s).\
- Discarding host" % (con_instance.address, ))
+ Discarding host" % (con_instance.get_address(), ))
                 # Gracefully disconnect from the host, set the failed flag
                 #  to prevent further connection attempts, and reset idle
                 device.connection.disconnect()
@@ -194,10 +194,10 @@ def _execute(con_instance, credential):
             device.connection.disconnect()
             log.debug("connectors.cli._execute:\
  Detected device type (%s) on address (%s)" % (credential["device_type"],
-                                               con_instance.address))
+                                               con_instance.get_address()))
         log.debug("connectors.cli._execute:\
  Trying host (%s) with credential:\n%s"
-                  % (con_instance.address, json.dumps(credential, indent=4)))
+                  % (con_instance.get_address(), json.dumps(credential, indent=4)))
         con_instance.idle = False
         # Make Netmiko connection via SSH or TELNET
         device = netmiko.ConnectHandler(**credential)
@@ -206,7 +206,7 @@ def _execute(con_instance, credential):
         hostname = hostname.replace(">", "")
         log.info(
             "connectors.cli._execute: Connected to (%s) with address (%s)"
-            % (hostname, con_instance.address))
+            % (hostname, con_instance.get_address()))
         # Set all known values on the connection instance attributes
         con_instance.type = "cli"
         con_instance.connected = True
@@ -226,7 +226,7 @@ def _execute(con_instance, credential):
         #  different credential.
         log.warning(
             "connectors.cli._execute: Device (%s) timed out. Discarding"
-            % con_instance.address)
+            % con_instance.get_address())
         con_instance.idle = True
         con_instance.failed = True
         return False
@@ -235,14 +235,14 @@ def _execute(con_instance, credential):
         #  since we may have another credential to try
         log.warning(
             "connectors.cli._execute: Device (%s) authentication failed"
-            % con_instance.address)
+            % con_instance.get_address())
         con_instance.idle = True
         return False
     except Exception as e:
         # Unexpected exception thrown. Log it and continue with next cred
         log.exception(
             "connectors.cli._execute: Device (%s) connection exception raised:"
-            % con_instance.address)
+            % con_instance.get_address())
         con_instance.idle = True
         return False
     # Return False here in case we fell out of above code without a return
