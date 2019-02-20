@@ -1,5 +1,5 @@
 ###  [< (Back) to Autoshell ReadMe](README.md)
-###  [(Next) to Module Writing Instructions >](TUTORIAL-2.md)
+###  [(Next) to Install Autoshell and Write Module >](TUTORIAL-2.md)
 
 # Autoshell Tutorial (Page 1 of 2) ![Rocket](img/rocket_100.png)
 
