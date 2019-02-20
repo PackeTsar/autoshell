@@ -1,6 +1,6 @@
 ###  [< (Back) to Python Install Instructions](TUTORIAL-1.md)
 
-# Autoshell Tutorial ![Rocket](img/rocket_100.png)
+# Autoshell Tutorial (Page 2 of 2) ![Rocket](img/rocket_100.png)
 
 # **Install Autoshell** ![Autoshell](img/autoshell_65.png)
 Now we can use PIP to install the Autoshell library and scripts

@@ -1,11 +1,16 @@
 ###  [< (Back) to Autoshell ReadMe](README.md)
 ###  [(Next) to Module Writing Instructions >](TUTORIAL-2.md)
 
-# Autoshell Tutorial ![Rocket](img/rocket_100.png)
+# Autoshell Tutorial (Page 1 of 2) ![Rocket](img/rocket_100.png)
 
+The first thing we need to do for Autoshell to operate properly is install a Python interpreter on our machine.
 
 # **Install Python** ![Python](img/python_65.png)
-The first step is to install the Python interpreter on your PC
+
+1. [Install on Windows](#windows-)
+2. [Install on MacOS](#macos-)
+3. [Install on Linux](#linux)
+
 
 ## **Windows** ![Windows](img/windows_65.png)
 ### 1. If you have not yet installed Python on your Windows OS, then download and install the latest Python2 or Python3 from [Python Downloads Page](https://www.python.org/downloads/)
