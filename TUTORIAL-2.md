@@ -1,4 +1,4 @@
-###  [< (Back) to Python Install Instructions](TUTORIAL-1.md)
+###  [< (Back) to Python Install Instructions <](TUTORIAL-1.md)
 
 # Autoshell Tutorial (Page 2 of 2) ![Rocket](img/rocket_100.png)
 
