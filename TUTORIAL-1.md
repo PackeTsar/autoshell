@@ -9,7 +9,7 @@ The first thing we need to do for Autoshell to operate properly is install a Pyt
 
 1. [Install on Windows](#windows-)
 2. [Install on MacOS](#macos-)
-3. [Install on Linux](#linux)
+3. [Install on Linux](#linux-)
 
 
 ## **Windows** ![Windows](img/windows_65.png)
