@@ -51,4 +51,4 @@ MacOS often comes with a native version of Python, but we likely want to upgrade
 	- ### Install PIP: `sudo yum install -y python-pip`
 
 
-###  [(Next) to Module Writing Instructions >](TUTORIAL-2.md)
+###  [> (Next) to Install Autoshell and Write Module >](TUTORIAL-2.md)
