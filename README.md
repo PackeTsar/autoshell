@@ -144,7 +144,7 @@ The power and flexibility of Autoshell is realized by the use of modules. Module
 Modules may [optionally] introduce their own arguments into the argument parser when they are imported. These module-specific arguments are recognized by the argparser and will have a help-menu displayed when using the `-h` argument. You can see an example of this by issuing `autoshell -m crawl -h`.
 
 ### Bundled Modules
-Bundled modules are included in the default installation of Autoshell and can be imported for use immediately after installation. The bundled module files can be found in the `autoshell/modules/` folder under the project folder. You can use these bundled modules as a reference when writing your own module as they both must adhere to the Autoshell module API.
+Bundled modules are included in the default installation of Autoshell and can be imported for use immediately after installation. The bundled module files can be found in the `autoshell/modules/` folder under the project folder. You can use these bundled modules as a reference when writing your own module as they too must adhere to the Autoshell module API.
 
 ### User-Written Modules
 If you are not able to accomplish the automation tasks you want using the bundled modules (which is common), then you can write your own module to accomplish your task. Autoshell makes this quite easy since much of the difficult work will have been done by the time the code in your module is called. User-written modules can be imported using its file path (ie: `-m mymods/mymodule.py`) or you can reference the file name in a config-file.
