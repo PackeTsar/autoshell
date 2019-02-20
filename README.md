@@ -128,7 +128,7 @@ Addresses are provided to Autoshell at the command-line using positional argumen
 
 
 ### Using Config Files
-Since you may often need to define many command-line arguments, it is often easier to provide command-line arguments using a config file. You can use a structured JSON or YAML config file (examples can be found at [examples/example_config_file.json](#examplesexample_config_filejson) and [examples/example_config_file.yml](#examplesexample_config_fileyml)) to define your arguments and reference the config file using `-f` or `--config_file` at the command-line (like `-f example_config_file.json`). The example config files can also be found in the `examples/` project folder.
+Since you may often need to define many command-line arguments, it is often easier to provide command-line arguments using a config file. You can use a structured JSON or YAML config file (examples can be found at [examples/example_config_file.json](#examplesexample_config_filejson) and [examples/example_config_file.yml](#examplesexample_config_fileyml)) to define your arguments and reference the config file using `-f` or `--config_file` at the command-line (like `-f example_config_file.json`). The example config files can also be found in the [examples project folder](examples).
 
 You can define known or unknown arguments in the config file and both will be passed into the program and into any modules you import. You can also define multiple config files which will either overwrite or append to each others settings (depending on if the argument can have multiple values).
 
@@ -144,7 +144,7 @@ The power and flexibility of Autoshell is realized by the use of modules. Module
 Modules may [optionally] introduce their own arguments into the argument parser when they are imported. These module-specific arguments are recognized by the argparser and will have a help-menu displayed when using the `-h` argument. You can see an example of this by issuing `autoshell -m crawl -h`.
 
 ### Bundled Modules
-Bundled modules are included in the default installation of Autoshell and can be imported for use immediately after installation. The bundled module files can be found in the `autoshell/modules/` folder under the project folder. You can use these bundled modules as a reference when writing your own module as they too must adhere to the Autoshell module API.
+Bundled modules are included in the default installation of Autoshell and can be imported for use immediately after installation. The bundled module files can be found in the [modules folder](autoshell/modules) at path `autoshell/modules/`. You can use these bundled modules as a reference when writing your own module as they too must adhere to the Autoshell module API.
 
 ### User-Written Modules
 If you are not able to accomplish the automation tasks you want using the bundled modules (which is common), then you can write your own module to accomplish your task. Autoshell makes this quite easy since much of the difficult work will have been done by the time the code in your module is called. User-written modules can be imported using its file path (ie: `-m mymods/mymodule.py`) or you can reference the file name in a config-file.
@@ -175,7 +175,7 @@ Once the queue has been instantiated, it will begin waiting for items to be put 
 
 -----------------------------------------
 ##   EXAMPLE FILES   ##
-Below are some example files you can use for reference. You can find these files in the `examples/` folder.
+Below are some example files you can use for reference. You can find these files in the [examples project folder](examples).
 
 
 ### examples/example_structured_credentials_file.json
