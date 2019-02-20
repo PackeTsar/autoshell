@@ -137,7 +137,7 @@ Arguments can still be defined at the command-line even when using config files.
 
 -----------------------------------------
 ##   MODULES   ##
-The power and flexibility of Autoshell is realized by the use of modules. Modules are python files or libraries which are used to manipulate the hosts connected to by Autoshell. Autoshell includes some modules bundled in the installation. These bundled modules can be found in the [modules folder](modules) at path `autoshell/modules/`. Modules can also be user-written using Python to do whatever the user wants. Modules can be imported in two different ways:
+The power and flexibility of Autoshell is realized by the use of modules. Modules are python files or libraries which are used to manipulate the hosts connected to by Autoshell. Autoshell includes some modules bundled in the installation. These bundled modules can be found in the [modules folder](autoshell/modules) at path `autoshell/modules/`. Modules can also be user-written using Python to do whatever the user wants. Modules can be imported in two different ways:
 1. Using a command-line argument like `-m neighbors`.
 2. Using a config-file. See the [Using Config Files](#Using-Config-Files) section for more info.
 
