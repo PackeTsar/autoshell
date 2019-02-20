@@ -35,6 +35,8 @@ Autoshell is a "shell" application in that it handles a part of the automation p
 -----------------------------------------
 ##   INSTALLATION   ##
 
+The installation process is also covered in the **[Autoshell Tutorial](TUTORIAL-1.md)**
+
 ### Autoshell Binaries (Easiest)
 You can download and use the Autoshell binaries if you do not want to install the Python interpreter. This is the quickest way to start using Autoshell, but since more advanced usage of Autoshell requires you to write your own modules using Python, it is recommended that you follow the below process to install Python and PIP on your operating system, then use PIP to install Autoshell.
 
@@ -97,6 +99,9 @@ MacOS often comes with a native version of Python, but we likely want to upgrade
 
 -----------------------------------------
 ##   GETTING STARTED   ##
+
+Below are some nuts and bolts to help you understand how to use Autoshell. If you want a quick 'how-to', then check out the **[Autoshell Tutorial](TUTORIAL-1.md)**.
+
 Once you have installed Autoshell, you can see the command guide with `autoshell -h`.
 
 Since modules are able to add their own arguments into the argument parser when they are imported, you can see a module's help by importing it (ie: `-m crawl`) and then adding the `-h` argument. You can see this by trying `autoshell -m crawl -h`, there you will see a section of argument descriptions for the Crawl module.
