@@ -23,7 +23,7 @@ The version of Autoshell documented here is: **0.0.14**
 3. [Installation](#installation)
 4. [Getting Started](#getting-started)
 5. [Contributing](#contributing)
-
+6. [Autoshell Tutorial](TUTORIAL-1.md)
 
 -----------------------------------------
 ##   WHAT IS AUTOSHELL   ##
