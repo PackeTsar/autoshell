@@ -1,12 +1,7 @@
 ###  [< (Back) to Autoshell ReadMe](README.md)
 ###  [(Next) to Module Writing Instructions >](TUTORIAL-2.md)
 
-# Getting Started with Autoshell ![Rocket](img/rocket_100.png)
-
-### Get started with [Autoshell](https://github.com/PackeTsar/autoshell) by writing your own module!
-
-
-Autoshell is a shell utility which can be used to ease SSH-based automation tasks by handling many of the pedestrian functions (handling credentials, addresses, CLI arugments, logging, etc) inherent to SSH-based automation. Autoshell relies on user-written (or bundled) modules to do the real work, but allows you to keep your module code terse while multiplying its efficacy.
+# Autoshell Tutorial ![Rocket](img/rocket_100.png)
 
 
 # **Install Python** ![Python](img/python_65.png)
