@@ -9,7 +9,7 @@ A simple, fully programmable, shell-based network automation utility
 
 Quick Install: `pip install autoshell`
 
-Get started fast with the [Autoshell Tutorial](TUTORIAL-1.md)
+Get started fast with the **[Autoshell Tutorial](TUTORIAL-1.md)**
 
 -----------------------------------------
 ##   VERSION   ##
