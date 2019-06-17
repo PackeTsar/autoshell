@@ -86,9 +86,11 @@ def _add_file(file, delineators):
         try:
             for each in yaml.load_all(raw_data):
                 # If YAML returned a regular string, then it is unstructured
-                if type(each) == str or type(each) == unicode:
+                if type(each) == str or type(each) == type(u""):
+                    # type(u"") is for Py2 unicode compatibility
                     log.debug("common.expressions._add_file:\
- File (%s) contains unstructured data. Processig each unstructured line as a string." % file)
+ File (%s) contains unstructured data.\
+ Processig each unstructured line as a string." % file)
                     for entry in raw_data.split("\n"):
                         if entry:  # If not empty
                             entry = entry.replace("\r", "")

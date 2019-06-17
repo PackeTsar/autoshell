@@ -162,7 +162,8 @@ def import_modules(startlogs, parser, config_file_data):
             module_names = module_names + config_file_data["modules"]
         elif type(config_file_data["modules"]) == str:
             module_names.append(config_file_data["modules"])
-        elif type(config_file_data["modules"]) == unicode:
+        elif type(config_file_data["modules"]) == type(u""):
+            # type(u"") is for Py2 unicode compatibility
             module_names.append(config_file_data["modules"])
     # ######################
     for name in module_names:
@@ -252,7 +253,8 @@ def start_logging(startlogs, args):
     datalog.addHandler(dataHandler)
     # If any logfiles were pased in the arguments
     if args.logfiles:
-        if type(args.logfiles) == str or type(args.logfiles) == unicode:
+        if type(args.logfiles) == str or type(args.logfiles) == type(u""):
+            # type(u"") is for Py2 unicode compatibility
             args.logfiles = [args.logfiles]
         for file in args.logfiles:
             # Create a handler, set the format, and apply that handler to
@@ -326,7 +328,8 @@ def merge_args(primary_value, secondary_value):
         elif type(secondary_value) == str:
             primary_value.append(secondary_value)
             return primary_value
-        elif type(secondary_value) == str:
+        elif type(secondary_value) == type(u""):
+            # type(u"") is for Py2 unicode compatibility
             primary_value.append(secondary_value)
             return primary_value
 
