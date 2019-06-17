@@ -326,7 +326,7 @@ def merge_args(primary_value, secondary_value):
         elif type(secondary_value) == str:
             primary_value.append(secondary_value)
             return primary_value
-        elif type(secondary_value) == unicode:
+        elif type(secondary_value) == str:
             primary_value.append(secondary_value)
             return primary_value
 

@@ -13,7 +13,7 @@ Get started fast with the **[Autoshell Tutorial](TUTORIAL-1.md)**
 
 -----------------------------------------
 ##   VERSION   ##
-The version of Autoshell documented here is: **0.0.16**
+The version of Autoshell documented here is: **0.0.17**
 
 
 -----------------------------------------
@@ -133,6 +133,8 @@ Since you may often need to define many command-line arguments, it is often easi
 You can define known or unknown arguments in the config file and both will be passed into the program and into any modules you import. You can also define multiple config files which will either overwrite or append to each others settings (depending on if the argument can have multiple values).
 
 Arguments can still be defined at the command-line even when using config files. If the argument is a single value (like the debugging level) then the command-line value will overwrite any config file values. If the argument allows multiple entries (like credentials) then the command-line values will prepend any config-file values.
+
+> **TIP:** If you want to take your working autoshell command and convert the inline options to a config file, you can run your command with level 4 (``-dddd``) or level 5 (``-ddddd``) debugging enabled and look for the ``###### INPUT ARGUMENTS #######`` section. You can copy that JSON data into a file and use that file as your config file. Remember to readjust your debugging level in the config file as it will show as 4 or 5.
 
 
 -----------------------------------------
