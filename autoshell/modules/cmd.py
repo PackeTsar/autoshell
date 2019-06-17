@@ -50,18 +50,33 @@ Execute commands on all connected devices"""
 #  after it has finished connecting to all the hosts.
 def run(ball):
     log.debug("cmd.run: Starting the CMD module")
-    try:
-        while True:
-            command = input("cmd> ")
-            queue = autoshell.common.autoqueue.autoqueue(10,
-                                                         cmd,
-                                                         (command, ))
-            for host in ball.hosts.ready_hosts():
-                queue.put(host)
-            queue.block()
-    except KeyboardInterrupt:
-        log.warning("cmd.run:\
+    # If command(s) were provided from the shell, we don't prompt the user
+    if ball.args.command:
+        log.info("cmd.run:\
+ Command(s) provided from core. Skipping user interaction")
+        for command in ball.args.command:
+            execute(ball, command)
+    # Otherwise we need to prompt the user repetitively for commands
+    else:
+        # Use try/except to allow user to break loop with CTRL+C
+        try:
+            # Use a while loop to keep asking until user is done
+            while True:
+                command = input("cmd> ")
+                execute(ball, command)
+        except KeyboardInterrupt:
+            log.warning("cmd.run:\
  User interrupt detected. Returning control to the AutoShell core")
+
+
+def execute(ball, command):
+    log.info("cmd.execute: Executing command ()")
+    queue = autoshell.common.autoqueue.autoqueue(10,
+                                                 cmd,
+                                                 (command, ))
+    for host in ball.hosts.ready_hosts():
+        queue.put(host)
+    queue.block()
 
 
 def wrap_output(host, output):
