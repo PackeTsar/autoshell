@@ -34,11 +34,11 @@ def add_parser_options(parser):
     modparser = parser.add_argument_group(
         'Cmd Arguments',
         description="""\
-Execute commands on all connected devices"""
+Execute commands on all connected devices. Shell will be prompted by default"""
         )
     modparser.add_argument(
                     '-C', "--command",
-                    help="Provide commands as an argument instead of being\
+                    help="(Optional) Provide commands as an argument instead of being\
  prompted",
                     metavar='COMMAND',
                     dest="command",
