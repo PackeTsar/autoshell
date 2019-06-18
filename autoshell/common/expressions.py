@@ -81,10 +81,20 @@ def _add_file(file, delineators):
     f = open(file, "r")
     raw_data = f.read()
     f.close()
-    # Try YAML
+    # Try JSON
     if not entries:
         try:
-            for each in yaml.load_all(raw_data):
+            entries = json.loads(raw_data)
+            subtype = "json"
+            log.debug(
+                "common.expressions._add_file:\
+ File (%s) contains JSON data" % file)
+        except Exception as e:
+            exceptions.append(str(e))
+    # If JSON failed, then attempt YAML
+    if not entries:
+        try:
+            for each in yaml.load_all(raw_data, Loader=yaml.Loader):
                 # If YAML returned a regular string, then it is unstructured
                 if type(each) == str or type(each) == type(u""):
                     # type(u"") is for Py2 unicode compatibility
@@ -102,16 +112,6 @@ def _add_file(file, delineators):
                     log.debug("common.expressions._add_file:\
  File (%s) contains YAML data" % file)
                 break
-        except Exception as e:
-            exceptions.append(str(e))
-    # If YAML failed, then attempt JSON
-    if not entries:
-        try:
-            entries = json.loads(raw_data)
-            subtype = "json"
-            log.debug(
-                "common.expressions._add_file:\
- File (%s) contains JSON data" % file)
         except Exception as e:
             exceptions.append(str(e))
     if entries:
