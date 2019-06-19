@@ -207,9 +207,10 @@ class output_files:
         if host not in self._host_map:
             # Add the hosts list of output files to the host map
             hostfiles = self._build_host_files(host)
-            log.debug('cmd.output_files.write:\
- Mapping host ({}) to files ({})'.format(host.hostname, hostfiles))
-            self._host_map.update({host: hostfiles})
+            if hostfiles:
+                log.debug('cmd.output_files.write:\
+     Mapping host ({}) to files ({})'.format(host.hostname, hostfiles))
+                self._host_map.update({host: hostfiles})
         for file in self._host_map[host]:  # For each file mapped to the host
             file.write(output)  # Write (append) the output to the file
             file.flush()  # Flush the object state to write the changes
