@@ -72,13 +72,6 @@ Execute commands on all connected devices. Shell will be prompted
 def run(ball):
     log.debug("cmd.run: Starting the CMD module")
     # Instantiate the output files
-    log.info("cmd.run:\
- Instantiating our file outputs with\n {}".format(
-        json.dumps({
-            "output_file": ball.args.output_file,
-            "per_device_output_file": ball.args.per_device_output_file},
-            indent=4)
-                ))
     out_files = output_files(
         ball.args.output_file,
         ball.args.per_device_output_file)
@@ -234,7 +227,7 @@ class output_files:
 
 
 def execute(ball, command, out_files):
-    log.info("cmd.execute: Executing command ()")
+    log.info("cmd.execute: Executing command ({})".format(command))
     queue = autoshell.common.autoqueue.autoqueue(10,
                                                  cmd,
                                                  (command, out_files))
