@@ -172,8 +172,13 @@ def import_modules(startlogs, parser, config_file_data):
             isfile = os.path.isfile(name)
             # Check if the module is a directory path
             isdir = os.path.isdir(name)
-            # If the args was a file or directory path
+            # If the arg was a file or directory path
             if isfile or isdir:
+                startlogs.append({
+                    "level": "debug",
+                    "message": "autoshell.import_modules:\
+ Module ({}) is a file".format(name)
+                    })
                 # Build the absolute path
                 fullpath = os.path.abspath(name)
                 # Split it into the filename and directory path
@@ -184,6 +189,11 @@ def import_modules(startlogs, parser, config_file_data):
                 modname = filename.replace(".py", "")
             # If the args was not a file or directory path
             else:
+                startlogs.append({
+                    "level": "debug",
+                    "message": "autoshell.import_modules:\
+ Module ({}) is not a file".format(name)
+                    })
                 # Just use the name for the import
                 modname = name
             # Import the module by its name
