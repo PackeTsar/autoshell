@@ -40,7 +40,7 @@ def add_parser_options(parser):
     modparser = parser.add_argument_group(
         'Cmd Arguments',
         description="""\
-Execute commands on all connected devices. Shell will be prompted
+Execute commands on all connected hosts. Shell will be prompted
    for commands by default"""
         )
     modparser.add_argument(
@@ -52,17 +52,17 @@ Execute commands on all connected devices. Shell will be prompted
                     action="append")
     modparser.add_argument(
                     '-O', "--output_file",
-                    help="Write output from all devices\
+                    help="Write output from all hosts\
  to the same file",
                     metavar='PATH',
                     dest="output_file",
                     action="append")
     modparser.add_argument(
-                    '-P', "--per_device_output_file",
-                    help="Write output from each device\
+                    '-P', "--per_host_output_file",
+                    help="Write output from each host\
  to a unique output file using Jinja2",
                     metavar='JINJA2_PATH',
-                    dest="per_device_output_file",
+                    dest="per_host_output_file",
                     action="append")
 
 
@@ -74,7 +74,7 @@ def run(ball):
     # Instantiate the output files
     out_files = output_files(
         ball.args.output_file,
-        ball.args.per_device_output_file)
+        ball.args.per_host_output_file)
     # If command(s) were provided from the shell, we don't prompt the user
     if ball.args.command:
         log.info("cmd.run:\
@@ -98,13 +98,13 @@ def run(ball):
 
 class output_files:
     """
-    cmd.output_files handles writing the shell output from devices into
+    cmd.output_files handles writing the shell output from hosts into
     statically or dynamically (Jinja2) named file paths.
     """
-    def __init__(self, output_file_list, per_device_output_file_list):
+    def __init__(self, output_file_list, per_host_output_file_list):
         self._output_file_list = output_file_list  # Static filepath list
         # Dynamic (Jinja2) filepath list
-        self._per_device_output_file_list = per_device_output_file_list
+        self._per_host_output_file_list = per_host_output_file_list
         # Maps host objects to a list of file objects
         # Used to list the output files assigned to a particular host
         self._host_map = {}
@@ -116,7 +116,7 @@ class output_files:
         """
         cmd.output_files._build_host_files uses the user-input output file
         paths combined with information from a connected host (and host.info
-        when generating per-device files) to generate a list of file objects
+        when generating per-host files) to generate a list of file objects
         which should be assigned to a particular host, returning that list
         """
         file_list = []  # List of file objects to be assigned to this host
@@ -127,9 +127,9 @@ class output_files:
                 newfile = self._get_file(filepath)
                 if newfile:  # Just in case _get_file could not create the file
                     file_list.append(newfile)  # Add to the list
-        if self._per_device_output_file_list:  # If there are dynamic filepaths
+        if self._per_host_output_file_list:  # If there are dynamic filepaths
             # Then iterate them
-            for filepath in self._per_device_output_file_list:
+            for filepath in self._per_host_output_file_list:
                 # Render the Jinja2 path from available info
                 #     with _build_j2_path
                 filepath = self._build_j2_path(host, filepath)
@@ -177,7 +177,7 @@ class output_files:
         """
         cmd.output_files._build_j2_path uses the user-input Jinja2 string
         along with all available attributes of the host.info and the current
-        datetime to generate an output file path for the individual device
+        datetime to generate an output file path for the individual host
         """
         log.debug('cmd.output_files._build_j2_path:\
  Processing dynamic filepath ({}) for host ({})'.format(j2path, host.hostname))
@@ -201,7 +201,7 @@ class output_files:
     def write(self, host, output):
         """
         cmd.output_files.write is an external facing function used to write
-        device output data to all output files assigned to a particular host
+        host output data to all output files assigned to a particular host
         """
         # If we have not generated the output files for this host yet
         if host not in self._host_map:
