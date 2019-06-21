@@ -147,7 +147,10 @@ Modules may [optionally] introduce their own arguments into the argument parser 
 
 ### Bundled Modules
 Bundled modules are included in the default installation of Autoshell and can be imported for use immediately after installation. The bundled module files can be found in the [modules folder](autoshell/modules) at path `autoshell/modules/`. You can use these bundled modules as a reference when writing your own module as they too must adhere to the [Autoshell Module API](#autoshell-module-api).
-- **cmd**: `cmd` is a bundled module and can be imported with `-m cmd`. You can also use `-m cmd -h` to see all options and switches related to it. 
+- **cmd**: `cmd` is a bundled module and can be imported with `-m cmd`. You can also use `-m cmd -h` to see all options and switches related to it. When no options are used, the `cmd` module will prompt the user for a command to execute on all connected hosts. It will then execute the command and return the output.
+	- The `-C` option can be used to run one or more commands without user interaction.
+	- The `-O` option can be used to write host output (from all hosts) to a filepath.
+	- The `-P` option can be used to write each hosts output to a different file. In this option you can use the Jinja2 language to templatize the names of the files/folders where the output is written. For example: `-P /root/{{hostname}}.txt` will write the output for each host into a file named from the hosts hostname. All attributes from the `host.info` dictionary are available here as well as the `now` function from the `datetime` library. This allows you to structure file/folder names with a timestamp like `-P /root/{{now.strftime('%Y-%m-%d_%H.%M.%S')}}.txt`.
 
 ### User-Written Modules
 If you are not able to accomplish the automation tasks you want using the bundled modules (which is common), then you can write your own module to accomplish your task. Autoshell makes this quite easy since much of the difficult work will have been done by the time the code in your module is called. User-written modules can be imported using its file path (ie: `-m mymods/mymodule.py`) or you can reference the file name in a config-file.
