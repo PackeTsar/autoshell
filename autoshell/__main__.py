@@ -505,10 +505,14 @@ def start():
                         action="version",
                         version="AutoShell {}\n\
     Bundled Modules: {}\n\
-Python {}".format(
+Python: {}\n\
+Netmiko: {}\n\
+    Netmiko Platforms:\n        {}".format(
                             __version__.version,
                             " ".join(bundled_mods),
-                            sys.version))
+                            sys.version.replace("\n", "\n    "),
+                            connectors.cli.netmiko.__version__,
+                            "\n        ".join(connectors.cli.netmiko.platforms)))
     required.add_argument(
                         'addresses',
                         help="""Target hosts (strings or files) (positional)'
