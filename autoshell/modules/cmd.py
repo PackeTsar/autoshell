@@ -237,12 +237,26 @@ def execute(ball, command, out_files):
     queue.block()
 
 
-def wrap_output(host, output):
-    header = "############ {} ({}) ############".format(host.hostname,
-                                                        host.get_address())
-    liner = "#"*len(header)
+def wrap_output(host, output, command):
+    headercore = " {} ({}) ".format(host.hostname, host.get_address())
+    cmdlinecore = " {} ".format(command)
+    sourcelen = len(cmdlinecore)
+    if len(headercore) > len(cmdlinecore):
+        sourcelen = len(headercore)
+    sourcelen += 10
+    headside = (sourcelen-len(headercore))/2
+    headside = "#"*int(headside)
+    cmdside = (sourcelen-len(cmdlinecore))/2
+    cmdside = "#"*int(cmdside)
+    header = headside+headercore+headside
+    commandline = cmdside+cmdlinecore+cmdside
+    if len(commandline) < sourcelen:
+        commandline += "#"*(sourcelen-len(commandline))
+    if len(header) < sourcelen:
+        header += "#"*(sourcelen-len(header))
+    liner = "#"*sourcelen
     trailer = liner + "\n" + liner
-    return "\n".join(["\n\n", header, liner, output, liner, liner, "\n\n"])
+    return "\n".join(["\n\n", header, commandline, liner, output, liner, liner, "\n\n"])
 
 
 def cmd(parent, host, command, out_files):
@@ -251,6 +265,6 @@ def cmd(parent, host, command, out_files):
     """
     connection = host.connections["cli"].connection
     output = connection.send_command(command)
-    wrapped_output = wrap_output(host, output)
+    wrapped_output = wrap_output(host, output, command)
     datalog.info(wrapped_output)
     out_files.write(host, wrapped_output)
