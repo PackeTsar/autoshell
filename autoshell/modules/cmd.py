@@ -264,7 +264,16 @@ def cmd(parent, host, command, out_files):
     cmd.cmd is the worker function for cmd.
     """
     connection = host.connections["cli"].connection
-    output = connection.send_command(command)
+    output = ""
+    config = False
+    if command[:7] == "config:":
+        config = True
+        command = command[7:]
+    if config:
+        output += connection.config_mode()
+    output += connection.send_command(command)
+    if config:
+        output += connection.exit_config_mode()
     wrapped_output = wrap_output(host, output, command)
     datalog.info(wrapped_output)
     out_files.write(host, wrapped_output)

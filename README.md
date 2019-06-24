@@ -13,7 +13,7 @@ Get started fast with the **[Autoshell Tutorial](TUTORIAL-1.md)**
 
 -----------------------------------------
 ##   VERSION   ##
-The version of Autoshell documented here is: **0.0.24**
+The version of Autoshell documented here is: **0.0.25**
 
 
 -----------------------------------------
@@ -149,6 +149,7 @@ Modules may [optionally] introduce their own arguments into the argument parser 
 Bundled modules are included in the default installation of Autoshell and can be imported for use immediately after installation. The bundled module files can be found in the [modules folder](autoshell/modules) at path `autoshell/modules/`. You can use these bundled modules as a reference when writing your own module as they too must adhere to the [Autoshell Module API](#autoshell-module-api).
 - **cmd**: `cmd` is a bundled module and can be imported with `-m cmd`. You can also use `-m cmd -h` to see all options and switches related to it. When no options are used, the `cmd` module will prompt the user for a command to execute on all connected hosts. It will then execute the command and return the output.
 	- The `-C` option can be used to run one or more commands without user interaction.
+		- You can prepend the term `config:` to a command to have it run in config mode on the device. Example: `config: router ospf 1`
 	- The `-O` option can be used to write host output (from all hosts) to a filepath.
 	- The `-P` option can be used to write each hosts output to a different file. In this option you can use the Jinja2 language to templatize the names of the files/folders where the output is written. For example: `-P /root/{{hostname}}.txt` will write the output for each host into a file named from the hosts hostname. All attributes from the `host.info` dictionary are available here as well as the `now` function from the `datetime` library. This allows you to structure file/folder names with a timestamp like `-P /root/{{now.strftime('%Y-%m-%d_%H.%M.%S')}}.txt`.
 
