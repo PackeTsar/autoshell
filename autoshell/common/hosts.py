@@ -51,7 +51,7 @@ class connection_class(hosts_shared):
     common.hosts.connection_class is a simple namespace object used to hold
     values for an individual connection to a host using a specific connector.
     """
-    def __init__(self, address, host, port=None, con_type=None):
+    def __init__(self, address, host, port=None, con_type=None, timeout=None):
         self.address = address  # DNS or IP Address string or list
         self.host = host  # Parent host_class object
         self.port = port  # TCP port number
@@ -60,6 +60,10 @@ class connection_class(hosts_shared):
         self.failed = False  # Did the connection fail to establish?
         self.idle = False  # Flag used to indicate host is not ready for use
         self.connection = None  # Actual Netmiko connection object
+        if not timeout:
+            self.timeout = 10
+        else:
+            self.timeout = timeout
 
 
 class host_class(hosts_shared):
@@ -119,7 +123,7 @@ class hosts_class:
                                          self.connectors[con].connect,
                                          (self.credentials, self.hosts))})
 
-    def load(self, address_args):
+    def load(self, address_args, timeout):
         """
         common.hosts.load runs the user-provided address entries (from the
         arg parser) through the expression parser to pull out the defined
@@ -130,13 +134,13 @@ class hosts_class:
         address_dicts = _add_hosts_exp(address_args)
         # Load each address into connector queues
         for address_dict in address_dicts:
-            self.add_host(address_dict)
+            self.add_host(address_dict, timeout)
         # Call the autoqueue blocker for each of the connectors to hang the
         #  main thread until all connection attempts complete.
         for con in self.connectors:
             self.queues[con].block(kill=False)
 
-    def add_host(self, address_dict):
+    def add_host(self, address_dict, timeout):
         """
         common.hosts.add_host uses an address dict to instantiate a host_class
         instance, fills it with connection_class instanaces for each
@@ -177,7 +181,8 @@ class hosts_class:
                 address_dict["address"],
                 host=new_host,
                 port=address_dict["port"],
-                con_type=con
+                con_type=con,
+                timeout=timeout
             )
             # Add the connection to host's connections dict
             new_host.connections.update({con: new_con})

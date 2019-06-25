@@ -140,14 +140,14 @@ def _assemble_credential(con_instance, credential):
     else:  # If no port was defined
         # Set port 22 as the default
         port = 22
-    # Build final assembled Netmiko-compatible crrdential/address set
+    # Build final assembled Netmiko-compatible credential/address set
     assembled = {
         "ip": con_instance.address,
         "device_type": device_type,
         "username": credential["username"],
         "password": credential["password"],
         "secret": credential["secret"],
-        "timeout": 10,
+        "timeout": con_instance.timeout,
         "port": port
     }
     log.debug("connectors.cli._assemble_credential: Returning:\n%s"

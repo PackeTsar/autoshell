@@ -104,7 +104,7 @@ def main(args, modules):
     load_modules(modules, ball)
     # Load the host addresses into the hosts instance, starting the
     #  process of connecting to each user-provided host using connectors
-    hosts_instance.load(args.addresses)
+    hosts_instance.load(args.addresses, args.timeout)
     # After control is returned from the host instance, pass control to
     #  each module in the order in which they were input in the args
     run_modules(modules, ball)
@@ -579,15 +579,21 @@ Netmiko: {}\n\
                         dest="logfiles",
                         action="append")
     optional.add_argument(
-                        '-t', "--default_type",
-                        help="""Define default host type(s) (Experimental)
-    Examples:
-        '-t cisco_ios'
-            - Disables autodiscovery and uses 'cisco_ios'
-        '-t :cisco_ios'
-            - Uses 'cisco_ios' if autodiscovery fails""",
-                        metavar='TYPE',
-                        dest="default_type")
+                        '-t', "--timeout",
+                        help="Set timeout for SSH session (in seconds)",
+                        metavar='TIMEOUT',
+                        type=int,
+                        dest="timeout")
+#    optional.add_argument(
+#                        '-dt', "--default_type",
+#                        help="""Define default host type(s) (Experimental)
+#    Examples:
+#        '-t cisco_ios'
+#            - Disables autodiscovery and uses 'cisco_ios'
+#        '-t :cisco_ios'
+#            - Uses 'cisco_ios' if autodiscovery fails""",
+#                        metavar='TYPE',
+#                        dest="default_type")
     args = parser.parse_args()
     # Add any arguments found in config files to args
     process_config_files(startlogs, args, config_file_data)
