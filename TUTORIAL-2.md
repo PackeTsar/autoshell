@@ -27,7 +27,7 @@ access-list 1 permit any
 access-list 1 deny any
 ```
 
-### Now, download the [Example Module File](https://cdn.rawgit.com/PackeTsar/Autoshell-Getting-Started/95a6394b/example.py) and open it in a text editor
+### Now, download the [Example Module File](https://cdn.jsdelivr.net/gh/PackeTsar/autoshell@latest/examples/example_module.py) and open it in a text editor
 
 If you use Notepad (Windows) or TextEdit (MacOS) to edit text files, please go download a proper editor. I recommend **[Atom](https://atom.io/)**
 
