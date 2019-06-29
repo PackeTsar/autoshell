@@ -36,10 +36,10 @@ Autoshell is a "shell" application in that it handles a part of the automation p
 ##   INSTALLATION   ##
 
 The installation process is also covered in the **[Autoshell Tutorial](TUTORIAL-1.md)**
-
-### Autoshell Binaries (Easiest)
+<!--
+< ### Autoshell Binaries (Easiest)
 You can download and use the Autoshell binaries if you do not want to install the Python interpreter. This is the quickest way to start using Autoshell, but since more advanced usage of Autoshell requires you to write your own modules using Python, it is recommended that you follow the below process to install Python and PIP on your operating system, then use PIP to install Autoshell.
-
+-->
 
 ### Prepare Your OS
 #### Windows
