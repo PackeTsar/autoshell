@@ -88,9 +88,13 @@ def main(args, modules):
         # Exclude anything in __dict__ with an underscore (like "__doc__")
         if name[0] != "_":
             connector_dict.update({name: connectors.__dict__[name]})
+    # Check timeout argument to see if it was set
+    if not args.timeout:
+        args.timeout = 30
     # Instantiate hosts with credentials and connectors, no host addresses yet
     hosts_instance = common.hosts.hosts_class(credentials,
-                                              connector_dict)
+                                              connector_dict,
+                                              args.timeout)
     # ball is a namespace object used to store all the main data in the program
     #  to make passing those data to modules easier.
     # Here, ball is instantiated as a simple ad-hoc namespace object instance
@@ -104,7 +108,7 @@ def main(args, modules):
     load_modules(modules, ball)
     # Load the host addresses into the hosts instance, starting the
     #  process of connecting to each user-provided host using connectors
-    hosts_instance.load(args.addresses, args.timeout)
+    hosts_instance.load(args.addresses)
     # After control is returned from the host instance, pass control to
     #  each module in the order in which they were input in the args
     run_modules(modules, ball)

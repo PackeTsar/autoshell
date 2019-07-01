@@ -63,9 +63,9 @@ Crawl LLDP/CDP neighbors and attempt to log in to each one"""
                     help="""Regex filters for crawling hosts (optional)
 Attributes: %s
 Examples:
-    Only Switches:    '-f platform:WS'
-    Only 192.168 IPs: '-f addresses:192.168.*'
-    Switches OR IPs:  '-f platform:WS -f addresses:192.168.*'""" %
+    Only Switches:    '-F platform:WS'
+    Only 192.168 IPs: '-F addresses:192.168.*'
+    Switches OR IPs:  '-F platform:WS -f addresses:192.168.*'""" %
                     ",".join(autoshell.common.neighbors.allowed_attributes),
                     metavar='ATTRIB:REGEX',
                     dest="crawl_filter",
