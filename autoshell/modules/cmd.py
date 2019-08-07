@@ -92,7 +92,8 @@ def run(ball):
             # Use a while loop to keep asking until user is done
             while True:
                 command = input("cmd> ")
-                execute(ball, command, out_files)
+                if command:
+                    execute(ball, command, out_files)
         except KeyboardInterrupt:
             log.warning("cmd.run:\
  User interrupt detected. Returning control to the AutoShell core")
