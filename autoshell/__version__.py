@@ -2,4 +2,4 @@
 
 
 # Single-sourced Autoshell release version is informed here
-version = "0.0.28b"
+version = "0.0.29"
