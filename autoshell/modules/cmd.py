@@ -12,6 +12,7 @@ import os
 import json
 import logging
 import datetime
+import readline
 from builtins import input
 
 # Autoshell Libraries
