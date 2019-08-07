@@ -2,4 +2,4 @@
 
 
 # Single-sourced Autoshell release version is informed here
-version = "0.0.28"
+version = "0.0.28a"

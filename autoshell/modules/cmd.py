@@ -71,6 +71,9 @@ Execute commands on all connected hosts. Shell will be prompted
 #  after it has finished connecting to all the hosts.
 def run(ball):
     log.debug("cmd.run: Starting the CMD module")
+    if not ball.hosts.ready_hosts():  # If there are no connected hosts
+        log.warning("cmd.run: No connected hosts exist. Aborting CMD module")
+        return None
     # Instantiate the output files
     out_files = output_files(
         ball.args.output_file,
