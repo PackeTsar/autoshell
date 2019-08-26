@@ -12,7 +12,6 @@ import os
 import json
 import logging
 import datetime
-import readline
 from builtins import input
 
 # Autoshell Libraries
@@ -20,6 +19,12 @@ import autoshell
 
 # Installed Libraries
 from jinja2 import Template
+
+# Linux-only Libraries
+try:
+    import readline
+except:
+    pass
 
 
 # log (shared) is used for logging inside of user-written modules

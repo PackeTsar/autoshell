@@ -13,7 +13,7 @@ Get started fast with the **[Autoshell Tutorial](TUTORIAL-1.md)**
 
 -----------------------------------------
 ##   VERSION   ##
-The version of Autoshell documented here is: **0.0.32**
+The version of Autoshell documented here is: **0.0.33**
 
 
 -----------------------------------------
