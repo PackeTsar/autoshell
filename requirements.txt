@@ -1,3 +1,4 @@
 future
+pyyaml
 netmiko
 jinja2
