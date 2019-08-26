@@ -270,15 +270,26 @@ def cmd(parent, host, command, out_files):
     """
     connection = host.connections["cli"].connection
     output = ""
+    command_head = str(command)
     config = False
     if command[:7] == "config:":
         config = True
         command = command[7:]
+    command_set = command.split("\\n")
+        # command = command.replace("\\n", "\n")
     if config:
-        output += connection.config_mode()
-    output += connection.send_command(command)
-    if config:
-        output += connection.exit_config_mode()
-    wrapped_output = wrap_output(host, output, command)
+        output += connection.find_prompt()
+        output += connection.send_config_set(command_set)
+    else:
+        for cmd in command_set:
+            # Insert current prompt into output
+            output += connection.find_prompt()
+            # Insert current command into output
+            output += cmd + "\n"
+            # Send command and add returned data to output
+            output += connection.send_command(cmd)
+            # Add line break in case another command is coming
+            output += "\n"
+    wrapped_output = wrap_output(host, output, command_head)
     datalog.info(wrapped_output)
     out_files.write(host, wrapped_output)
