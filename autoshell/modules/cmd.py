@@ -287,7 +287,7 @@ def cmd(parent, host, ball, command, out_files):
         config = True
         command = command[7:]
     command_set = command.split("\\n")
-    if ball.args.newline_split:  # If we are splitting lines
+    if not ball.args.newline_split:  # If we are splitting lines
         command = command.replace("\\n", "\n")
     if config:
         output += connection.find_prompt()
