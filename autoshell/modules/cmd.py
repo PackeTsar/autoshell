@@ -57,6 +57,12 @@ Execute commands on all connected hosts. Shell will be prompted
                     dest="command",
                     action="append")
     modparser.add_argument(
+                    '-NS', "--newline_split",
+                    help="Split commands on newline(\\n) characters and\
+ send as seperate commands",
+                    dest="newline_split",
+                    action="store_true")
+    modparser.add_argument(
                     '-O', "--output_file",
                     help="Write output from all hosts\
  to the same file",
@@ -241,7 +247,7 @@ def execute(ball, command, out_files):
     log.info("cmd.execute: Executing command ({})".format(command))
     queue = autoshell.common.autoqueue.autoqueue(10,
                                                  cmd,
-                                                 (command, out_files))
+                                                 (ball, command, out_files))
     for host in ball.hosts.ready_hosts():
         queue.put(host)
     queue.block()
@@ -269,7 +275,7 @@ def wrap_output(host, output, command):
     return "\n".join(["\n\n", header, commandline, liner, output, liner, liner, "\n\n"])
 
 
-def cmd(parent, host, command, out_files):
+def cmd(parent, host, ball, command, out_files):
     """
     cmd.cmd is the worker function for cmd.
     """
@@ -284,17 +290,26 @@ def cmd(parent, host, command, out_files):
         # command = command.replace("\\n", "\n")
     if config:
         output += connection.find_prompt()
-        output += connection.send_config_set(command_set)
+        if ball.args.newline_split:  # If we are splitting lines
+            output += connection.send_config_set(command_set)
+        else:
+            output += connection.send_command(command)
     else:
-        for cmd in command_set:
-            # Insert current prompt into output
-            output += connection.find_prompt()
+        # Insert current prompt into output
+        output += connection.find_prompt()
+        if ball.args.newline_split:  # If we are splitting lines
+            for cmd in command_set:
+                # Insert current command into output
+                output += cmd + "\n"
+                # Send command and add returned data to output
+                output += connection.send_command(cmd)
+                # Add line break in case another command is coming
+                output += "\n"
+        else:
             # Insert current command into output
-            output += cmd + "\n"
+            output += command + "\n"
             # Send command and add returned data to output
-            output += connection.send_command(cmd)
-            # Add line break in case another command is coming
-            output += "\n"
+            output += connection.send_command(command)
     wrapped_output = wrap_output(host, output, command_head)
     datalog.info(wrapped_output)
     out_files.write(host, wrapped_output)
