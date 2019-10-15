@@ -61,7 +61,7 @@ def load_modules(modules, ball):
     all the hosts are connected and the run() function is called.
     """
     log.debug("autoshell.load_modules: Loading modules with user data")
-    for module in modules:
+    for module in list(modules):  # Use a copy in case load() modifys the list
         # Check if the module has a load() function
         if "load" in module["module"].__dict__:
             log.debug("autoshell.load_modules: Loading module (%s)" %
