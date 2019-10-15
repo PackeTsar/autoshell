@@ -13,7 +13,7 @@ Get started fast with the **[Autoshell Tutorial](TUTORIAL-1.md)**
 
 -----------------------------------------
 ##   VERSION   ##
-The version of Autoshell documented here is: **0.0.36**
+The version of Autoshell documented here is: **0.0.37**
 
 
 -----------------------------------------
@@ -44,18 +44,18 @@ You can download and use the Autoshell binaries if you do not want to install th
 ### Prepare Your OS
 #### Windows
 1. If you have not yet installed Python on your Windows OS, then download and install the latest Python2 or Python3 from [Python Downloads Page](https://www.python.org/downloads/)
-	- Make sure to check the box during installation which adds Python to PATH. Labeled something like `Add Python 3.7 to PATH`
+  - Make sure to check the box during installation which adds Python to PATH. Labeled something like `Add Python 3.7 to PATH`
 2. Once Python is installed, you should be able to open a command window, type `python`, hit ENTER, and see a Python prompt opened. Type `quit()` to exit it. You should also be able to run the command `pip` and see its options. If both of these work, then move on to install Autoshell.
-	- If this does not work, you will need to add the Python installation directory path to the Windows PATH variable
-		- The easiest way to do this is to find the new shortcut for Python in your start menu, right-click on the shortcut, and find the folder path for the `python.exe` file
-			- For Python2, this will likely be something like `C:\Python27`
-			- For Python3, this will likely be something like `C:\Users\<USERNAME>\AppData\Local\Programs\Python\Python37`
-		- Open your Advanced System Settings window, navigate to the "Advanced" tab, and click the "Environment Variables" button
-		- Create a new system variable:
-			- Variable name: `PYTHON_HOME`
-			- Variable value: <your_python_installation_directory>
-		- Now modify the PATH system variable by appending the text `;%PYTHON_HOME%\;%PYTHON_HOME%;%PYTHON_HOME%\Scripts\` to the end of it.
-		- Close out your windows, open a command window and make sure you can run the commands `python` and `pip`
+  - If this does not work, you will need to add the Python installation directory path to the Windows PATH variable
+    - The easiest way to do this is to find the new shortcut for Python in your start menu, right-click on the shortcut, and find the folder path for the `python.exe` file
+      - For Python2, this will likely be something like `C:\Python27`
+      - For Python3, this will likely be something like `C:\Users\<USERNAME>\AppData\Local\Programs\Python\Python37`
+    - Open your Advanced System Settings window, navigate to the "Advanced" tab, and click the "Environment Variables" button
+    - Create a new system variable:
+      - Variable name: `PYTHON_HOME`
+      - Variable value: <your_python_installation_directory>
+    - Now modify the PATH system variable by appending the text `;%PYTHON_HOME%\;%PYTHON_HOME%;%PYTHON_HOME%\Scripts\` to the end of it.
+    - Close out your windows, open a command window and make sure you can run the commands `python` and `pip`
 
 #### MacOS
 MacOS often comes with a native version of Python, but we likely want to upgrade that and install PIP. The best way to do this is with a MacOS Linux-like package manager called [Homebrew](https://brew.sh/). You can visit the below pages to walk you through installing Homebrew and an updated Python interpreter along with it
@@ -66,17 +66,17 @@ MacOS often comes with a native version of Python, but we likely want to upgrade
 5. Link your default Python path to the new install `brew link --overwrite python`
 6. Close Terminal and reopen it. You should see Python 2.7.15 when you run `python -V`
 7. Once Python is installed, you should be able to open Terminal, type `python`, hit ENTER, and see a Python prompt opened. Type `quit()` to exit it. You should also be able to run the command `pip` and see its options. If both of these work, then move on to [Install Autoshell](#install-autoshell-using-pip-recommended)
-	- Additional resources on [Installing Python 2 on Mac OS X](https://docs.python-guide.org/starting/install/osx/)
-	- Additional resources on [Installing Python 3 on Mac OS X](https://docs.python-guide.org/starting/install3/osx/)
+  - Additional resources on [Installing Python 2 on Mac OS X](https://docs.python-guide.org/starting/install/osx/)
+  - Additional resources on [Installing Python 3 on Mac OS X](https://docs.python-guide.org/starting/install3/osx/)
 
 #### Linux
 1. Install required OS packages
-	- **Raspberry Pi** may need Python and PIP `sudo apt install -y python-pip` as well as `sudo apt-get install libffi-dev`
-	- **Debian (Ubuntu)** distributions may need Python and PIP
-		- Install Python and PIP: `sudo apt install -y python-pip`
-	- **RHEL (CentOS)** distributions usually need PIP
-		- Install the EPEL package: `sudo yum install -y epel-release`
-		- Install PIP: `sudo yum install -y python-pip`
+  - **Raspberry Pi** may need Python and PIP `sudo apt install -y python-pip` as well as `sudo apt-get install libffi-dev`
+  - **Debian (Ubuntu)** distributions may need Python and PIP
+    - Install Python and PIP: `sudo apt install -y python-pip`
+  - **RHEL (CentOS)** distributions usually need PIP
+    - Install the EPEL package: `sudo yum install -y epel-release`
+    - Install PIP: `sudo yum install -y python-pip`
 
 
 ### Install Autoshell using PIP (Recommended)
@@ -87,10 +87,10 @@ MacOS often comes with a native version of Python, but we likely want to upgrade
 
 ### Install Autoshell from source (Advanced)
 1. Retrieve the source code repository using one of the two below methods
-	- **Method #1**: Install a Git client (process differs depending on OS) and clone the Autoshell repository using Git `git clone https://github.com/packetsar/autoshell.git`
-		- Change to the branch you want to install using `git checkout <branch_name>`
-	- **Method #2**: Download and extract the repository files from the [Github Repo](https://github.com/PackeTsar/autoshell)
-		- Make sure to download the branch you want to install
+  - **Method #1**: Install a Git client (process differs depending on OS) and clone the Autoshell repository using Git `git clone https://github.com/packetsar/autoshell.git`
+    - Change to the branch you want to install using `git checkout <branch_name>`
+  - **Method #2**: Download and extract the repository files from the [Github Repo](https://github.com/PackeTsar/autoshell)
+    - Make sure to download the branch you want to install
 2. Move into the autoshell project directory `cd autoshell`
 3. Run the setup.py file to build the package into the ./build/ directory `python setup.py build`
 4. Use PIP to install the package `pip install .`
@@ -148,10 +148,10 @@ Modules may [optionally] introduce their own arguments into the argument parser 
 ### Bundled Modules
 Bundled modules are included in the default installation of Autoshell and can be imported for use immediately after installation. The bundled module files can be found in the [modules folder](autoshell/modules) at path `autoshell/modules/`. You can use these bundled modules as a reference when writing your own module as they too must adhere to the [Autoshell Module API](#autoshell-module-api).
 - **cmd**: `cmd` is a bundled module and can be imported with `-m cmd`. You can also use `-m cmd -h` to see all options and switches related to it. When no options are used, the `cmd` module will prompt the user for a command to execute on all connected hosts. It will then execute the command and return the output.
-	- The `-C` option can be used to run one or more commands without user interaction.
-		- You can prepend the term `config:` to a command to have it run in config mode on the device. Example: `config: router ospf 1`
-	- The `-O` option can be used to write host output (from all hosts) to a filepath.
-	- The `-P` option can be used to write each hosts output to a different file. In this option you can use the Jinja2 language to templatize the names of the files/folders where the output is written. For example: `-P /root/{{hostname}}.txt` will write the output for each host into a file named from the hosts hostname. All attributes from the `host.info` dictionary are available here as well as the `now` function from the `datetime` library. This allows you to structure file/folder names with a timestamp like `-P /root/{{now.strftime('%Y-%m-%d_%H.%M.%S')}}.txt`.
+  - The `-C` option can be used to run one or more commands without user interaction.
+    - You can prepend the term `config:` to a command to have it run in config mode on the device. Example: `config: router ospf 1`
+  - The `-O` option can be used to write host output (from all hosts) to a filepath.
+  - The `-P` option can be used to write each hosts output to a different file. In this option you can use the Jinja2 language to templatize the names of the files/folders where the output is written. For example: `-P /root/{{hostname}}.txt` will write the output for each host into a file named from the hosts hostname. All attributes from the `host.info` dictionary are available here as well as the `now` function from the `datetime` library. This allows you to structure file/folder names with a timestamp like `-P /root/{{now.strftime('%Y-%m-%d_%H.%M.%S')}}.txt`.
 
 ### User-Written Modules
 If you are not able to accomplish the automation tasks you want using the bundled modules (which is common), then you can write your own module to accomplish your task. Autoshell makes this quite easy since much of the difficult work will have been done by the time the code in your module is called. User-written modules can be imported using its file path (ie: `-m mymods/mymodule.py`) or you can reference the file name in a config-file.
@@ -163,7 +163,7 @@ Autoshell will attempt to call any imported module at three (3) points during ex
 
 2. `load(ball)` (*optional*): The second call against your module will be done against your `load` function. This is an *optional* call and will only be done if the `load` function exists in your code. This call will hand program control over to your module to allow you to perform input checks on user-provided arguments before Autoshell starts connecting to hosts. The `load` call exists to permit your module to perform input checks and throw warnings/errors early on in the program instead of waiting until all hosts have been connected and all other modules have run. You can also use the `load` function to do some pre-processing of user inputs and store them in a namespace object to be used later when the module is run.
 3. `run(ball)` (*required*): The third and final call against your module will be done against your `run` function. This is a *required* call and your module must include a `run` function in order to operate. The `run` function is called after all hosts have been processed/connected and after all previously imported modules (since modules are processed in the order in which they are referenced from the CLI) have completed. The `run` function is where you want to perform your custom tasks on connected hosts.
-	- **Threading**: Autoshell includes a queueing/threading library called `autoqueue` which can be very useful when wanting to perform your custom tasks on many hosts in parallel. Autoqueue can be imported and used in your module by importing the autoshell library (`import autoshell`) and instantiating an autoqueue object (`autoshell.common.autoqueue.autoqueue(<arguments>)`). You can reference the example modules for examples on how to use autoqueue.
+  - **Threading**: Autoshell includes a queueing/threading library called `autoqueue` which can be very useful when wanting to perform your custom tasks on many hosts in parallel. Autoqueue can be imported and used in your module by importing the autoshell library (`import autoshell`) and instantiating an autoqueue object (`autoshell.common.autoqueue.autoqueue(<arguments>)`). You can reference the example modules for examples on how to use autoqueue.
 
 Once the module's `run` function returns control of the main thread back to the Autoshell program, Autoshell will call the `run` function of the next module if there is a module in order after this one. Once all modules complete and the last module returns control, Autoshell will perform a final processing of all active hosts by gracefully disconnecting from them and quitting the program.
 
@@ -188,14 +188,14 @@ Below are some example files you can use for reference. You can find these files
 ### examples/example_structured_credentials_file.json
 ```
 [
-	{
-		"username": "file_admin1",
-		"password": "file_password1"
-	},
-	{
-		"username": "file_admin2",
-		"password": "file_password2"
-	}
+  {
+    "username": "file_admin1",
+    "password": "file_password1"
+  },
+  {
+    "username": "file_admin2",
+    "password": "file_password2"
+  }
 ]
 ```
 
@@ -216,13 +216,13 @@ unst_admin2:unst_password2@cisco_ios
 ### examples/example_structured_addresses_file.json
 ```
 [
-	{
-		"address": "192.168.1.1",
-		"type": "cisco_ios"
-	},
-	{
-		"address": "192.168.1.2"
-	}
+  {
+    "address": "192.168.1.1",
+    "type": "cisco_ios"
+  },
+  {
+    "address": "192.168.1.2"
+  }
 ]
 ```
 
@@ -242,25 +242,25 @@ unst_admin2:unst_password2@cisco_ios
 ### examples/example_config_file.json
 ```
 {
-	"modules": [
-		"neighbors",
-		"cli"
-	],
-	"debug": 5,
-	"addresses": [
-		"192.168.1.1",
-		"192.168.1.2"
-	],
-	"credentials": [
-		"cfg_file_admin1:cfg_file_password1",
-		"cfg_file_admin2:cfg_file_password2@cisco_ios",
-		"examples/example_structured_credentials_file.json"
-	],
-	"dump_hostinfo": false,
-	"logfiles": [
-		"autoshell_log1.log",
-		"autoshell_log2.log"
-	]
+  "modules": [
+    "neighbors",
+    "cli"
+  ],
+  "debug": 5,
+  "addresses": [
+    "192.168.1.1",
+    "192.168.1.2"
+  ],
+  "credentials": [
+    "cfg_file_admin1:cfg_file_password1",
+    "cfg_file_admin2:cfg_file_password2@cisco_ios",
+    "examples/example_structured_credentials_file.json"
+  ],
+  "dump_hostinfo": false,
+  "logfiles": [
+    "autoshell_log1.log",
+    "autoshell_log2.log"
+  ]
 }
 ```
 
