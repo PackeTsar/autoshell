@@ -294,7 +294,9 @@ def cmd(parent, host, ball, command, out_files):
         if ball.args.newline_split:  # If we are splitting lines
             output += connection.send_config_set(command_set)
         else:
+            output += connection.config_mode()
             output += connection.send_command(command)
+            output += connection.exit_config_mode()
     else:
         # Insert current prompt into output
         output += connection.find_prompt()
