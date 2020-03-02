@@ -295,6 +295,7 @@ def cmd(parent, host, ball, command, out_files):
             output += connection.send_config_set(command_set)
         else:
             output += connection.config_mode()
+            output += "\n"+connection.find_prompt()+command+"\n"
             output += connection.send_command(command)
             output += connection.exit_config_mode()
     else:
