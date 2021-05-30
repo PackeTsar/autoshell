@@ -76,6 +76,12 @@ Execute commands on all connected hosts. Shell will be prompted
                     metavar='JINJA2_PATH',
                     dest="per_host_output_file",
                     action="append")
+    modparser.add_argument(
+                    '-A', "--append_output_files",
+                    help="Append to output file if it exists\
+ (overwrite by default)",
+                    dest="append_output_files",
+                    action="store_true")
 
 
 # <module_name>.run is a *REQUIRED* reserved name which is called by
@@ -89,7 +95,8 @@ def run(ball):
     # Instantiate the output files
     out_files = output_files(
         ball.args.output_file,
-        ball.args.per_host_output_file)
+        ball.args.per_host_output_file,
+        ball.args.append_output_files)
     # If command(s) were provided from the shell, we don't prompt the user
     if ball.args.command:
         log.info("cmd.run:\
@@ -117,7 +124,10 @@ class output_files:
     cmd.output_files handles writing the shell output from hosts into
     statically or dynamically (Jinja2) named file paths.
     """
-    def __init__(self, output_file_list, per_host_output_file_list):
+    def __init__(self,
+                 output_file_list,
+                 per_host_output_file_list,
+                 append_output_files=False):
         self._output_file_list = output_file_list  # Static filepath list
         # Dynamic (Jinja2) filepath list
         self._per_host_output_file_list = per_host_output_file_list
@@ -127,6 +137,7 @@ class output_files:
         # Maps file paths to a list of file objects
         # Used to keep track of all opened files and not open one twice
         self._file_map = {}
+        self._append_output_files = append_output_files
 
     def _build_host_files(self, host):
         """
@@ -175,7 +186,9 @@ class output_files:
                         os.makedirs(os.path.dirname(filepath), exist_ok=True)
                 log.info('cmd.output_files._get_file:\
  Creating new output file ({})'.format(filepath))
-                file_obj = open(filepath, "a")  # Create the file object
+                # Create the file object
+                file_obj = open(filepath,
+                                ('a' if self._append_output_files else 'w'))
                 # Add the file object and path to the map so we can
                 #    find it later
                 self._file_map.update({filepath: file_obj})
