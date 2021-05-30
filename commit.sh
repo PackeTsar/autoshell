@@ -1,9 +1,11 @@
 # BASH script for commiting Autoshell code to PyPi
 
 nano autoshell/__version__.py
-virtualenv commit_env
+python3 -m venv commit_env
 source ./commit_env/bin/activate
-python setup.py sdist bdist_wheel
+python2 setup.py sdist bdist_wheel
+python3 -m pip install wheel
+python3 -m pip install twine
 python3 setup.py sdist bdist_wheel
 twine upload dist/*
 
