@@ -82,6 +82,11 @@ Execute commands on all connected hosts. Shell will be prompted
  (overwrite by default)",
                     dest="append_output_files",
                     action="store_true")
+    modparser.add_argument(
+                    '-E', "--enable",
+                    help="Enter privileged mode (network devices)",
+                    dest="enable",
+                    action="store_true")
 
 
 # <module_name>.run is a *REQUIRED* reserved name which is called by
@@ -315,6 +320,10 @@ def cmd(parent, host, ball, command, out_files):
     command_set = command.split("\\n")
     if not ball.args.newline_split:  # If we are not splitting lines
         command = command.replace("\\n", "\n")
+    if ball.args.enable:
+        output += connection.find_prompt()
+        output += connection.enable()
+        output += "\n"
     if config:
         output += connection.find_prompt()
         if ball.args.newline_split:  # If we are splitting lines
