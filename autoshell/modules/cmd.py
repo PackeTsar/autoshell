@@ -293,8 +293,13 @@ def _clean_first_line(output):
     Remove an empty first line from output if it exists. Added this to remove
         output inconsistencies of data retrieved.
     """
-    if output[:1] == '\r\n':
-        return output[2:]
+    if not output:
+        return output
+    elif output[0] == '\r':
+        if output[1] == '\n':
+            return output[2:]
+        else:
+            return output[1:]
     elif output[0] == '\n':
         return output[1:]
     else:
