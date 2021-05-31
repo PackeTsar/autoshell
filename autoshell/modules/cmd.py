@@ -288,22 +288,17 @@ def wrap_output(host, output, command):
     return "\n".join(["\n\n", header, commandline, liner, output, liner, liner, "\n\n"])
 
 
-def _clean_first_line(output):
+def _clean_blank_lines(output):
     """
     Remove an empty first line from output if it exists. Added this to remove
         output inconsistencies of data retrieved.
     """
     if not output:
         return output
-    elif output[0] == '\r':
-        if output[1] == '\n':
-            return output[2:]
-        else:
-            return output[1:]
-    elif output[0] == '\n':
-        return output[1:]
-    else:
-        return output
+    for i, line in enumerate(output.splitlines()):
+        if line:
+            return '\n'.join(output.splitlines()[i:])
+    return output
 
 
 def cmd(parent, host, ball, command, out_files):
@@ -327,7 +322,7 @@ def cmd(parent, host, ball, command, out_files):
         else:
             output += connection.config_mode()
             output += "\n"+connection.find_prompt()+command+"\n"
-            output += _clean_first_line(connection.send_command(command))
+            output += _clean_blank_lines(connection.send_command(command))
             output += connection.exit_config_mode()
     else:
         # Insert current prompt into output
@@ -344,7 +339,7 @@ def cmd(parent, host, ball, command, out_files):
             # Insert current command into output
             output += command + "\n"
             # Send command and add returned data to output
-            output += _clean_first_line(connection.send_command(command))
+            output += _clean_blank_lines(connection.send_command(command))
     wrapped_output = wrap_output(host, output, command_head)
     datalog.info(wrapped_output)
     out_files.write(host, wrapped_output)
