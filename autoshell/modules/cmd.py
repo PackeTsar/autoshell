@@ -325,14 +325,18 @@ def cmd(parent, host, ball, command, out_files):
         output += connection.enable()
         output += "\n"
     if config:
-        output += connection.find_prompt()
-        if ball.args.newline_split:  # If we are splitting lines
-            output += connection.send_config_set(command_set)
-        else:
-            output += connection.config_mode()
-            output += "\n"+connection.find_prompt()+command+"\n"
-            output += _clean_blank_lines(connection.send_command(command))
-            output += connection.exit_config_mode()
+        try:
+            output += connection.find_prompt()
+            if ball.args.newline_split:  # If we are splitting lines
+                output += connection.send_config_set(command_set)
+            else:
+                output += connection.config_mode()
+                output += "\n"+connection.find_prompt()+command+"\n"
+                output += _clean_blank_lines(connection.send_command(command))
+                output += connection.exit_config_mode()
+        except Exception as e:
+            log.exception(f'cmd.cmd: Exception raised on host '
+                          f'({host.address}) ({host.hostname})')
     else:
         # Insert current prompt into output
         output += connection.find_prompt()

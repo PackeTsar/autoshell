@@ -10,7 +10,6 @@ termination, and user interruption of activity.
 import time
 import logging
 import threading
-from builtins import input
 
 try:
     import Queue as queue  # For Python2
