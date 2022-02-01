@@ -1,6 +1,6 @@
 # Autoshell ![Autoshell][logo]
 
-[![Build Status](https://travis-ci.org/PackeTsar/autoshell.svg?branch=master)](https://travis-ci.org/PackeTsar/autoshell)
+[![Build Status](https://github.com/PackeTsar/autoshell/actions/workflows/python-package.yml/badge.svg)](https://github.com/PackeTsar/autoshell/actions/workflows/python-package.yml)
 [![PyPI](https://img.shields.io/pypi/v/autoshell.svg)](https://pypi.python.org/pypi/autoshell)
 [![Python Versions](https://img.shields.io/pypi/pyversions/autoshell.svg)](https://pypi.python.org/pypi/autoshell)
 
@@ -13,7 +13,7 @@ Get started fast with the **[Autoshell Tutorial](TUTORIAL-1.md)**
 
 -----------------------------------------
 ##   VERSION   ##
-The version of Autoshell documented here is: **0.0.44**
+The version of Autoshell documented here is: **0.0.45**
 
 
 -----------------------------------------
