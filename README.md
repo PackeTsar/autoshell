@@ -285,4 +285,4 @@ logfiles:
 
 
 
-[logo]: http://www.packetsar.com/wp-content/uploads/autoshell_logo4_100.png
+[logo]: /autoshell_logo4_100.png
