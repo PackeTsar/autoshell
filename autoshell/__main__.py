@@ -10,7 +10,6 @@ import argparse
 import importlib
 
 # Autoshell Libraries
-from . import cisco
 from . import common
 from . import connectors
 from . import modules
@@ -31,7 +30,7 @@ consoleHandler = logging.StreamHandler()
 # Standard format for informational logging
 format = logging.Formatter(
     "%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s"
-    )
+)
 # Standard format used for console (non-std.out) output
 consoleHandler.setFormatter(format)
 # Console output (non-std.out) handler used on log, modlog, and paramiko
@@ -142,7 +141,7 @@ def import_modules(startlogs, parser, config_file_data):
     startlogs.append({
         "level": "debug",
         "message": "autoshell.import_modules: Starting module imports"
-        })
+    })
     # ##### Add Paths ######
     # Check if we have a directory in this file's working directory
     #  named "modules"
@@ -166,7 +165,7 @@ def import_modules(startlogs, parser, config_file_data):
             module_names = module_names + config_file_data["modules"]
         elif type(config_file_data["modules"]) == str:
             module_names.append(config_file_data["modules"])
-        elif type(config_file_data["modules"]) == type(u""):
+        elif isinstance(config_file_data["modules"], str):
             # type(u"") is for Py2 unicode compatibility
             module_names.append(config_file_data["modules"])
     # ######################
@@ -182,7 +181,7 @@ def import_modules(startlogs, parser, config_file_data):
                     "level": "debug",
                     "message": "autoshell.import_modules:\
  Module ({}) is a file".format(name)
-                    })
+                })
                 # Build the absolute path
                 fullpath = os.path.abspath(name)
                 # Split it into the filename and directory path
@@ -197,7 +196,7 @@ def import_modules(startlogs, parser, config_file_data):
                     "level": "debug",
                     "message": "autoshell.import_modules:\
  Module ({}) is not a file".format(name)
-                    })
+                })
                 # Just use the name for the import
                 modname = name
             # Import the module by its name
@@ -209,7 +208,7 @@ def import_modules(startlogs, parser, config_file_data):
                     "message": """autoshell.import_modules:\
  Module (%s) is adding arguments to the parser""" %
                     modname
-                    })
+                })
                 module.add_parser_options(parser)
             # Add the module into the modules list
             modules.append({
@@ -219,23 +218,23 @@ def import_modules(startlogs, parser, config_file_data):
                 "level": "debug",
                 "message": "autoshell.import_modules:\
  Imported module (%s)" % modname
-                })
+            })
         except ImportError as e:
             startlogs.append({
                 "level": "error",
                 "message": "autoshell.import_modules:\
  Error importing module (%s): %s" % (modname, e)
-                })
+            })
         except TypeError as e:
             startlogs.append({
                 "level": "error",
                 "message": "autoshell.import_modules:\
  Error importing module (%s): %s" % (modname, e)
-                })
+            })
     startlogs.append({
         "level": "debug",
         "message": "autoshell.import_modules: Module imports complete"
-        })
+    })
     return modules
 
 
@@ -249,7 +248,7 @@ def start_logging(startlogs, args):
     startlogs.append({
         "level": "debug",
         "message": "autoshell.start_logging: Starting logger"
-        })
+    })
     # datalog logging level is always info as it is not used for
     #  debugging or reporting warning and errors
     datalog.setLevel(logging.INFO)
@@ -267,7 +266,7 @@ def start_logging(startlogs, args):
     datalog.addHandler(dataHandler)
     # If any logfiles were pased in the arguments
     if args.logfiles:
-        if type(args.logfiles) == str or type(args.logfiles) == type(u""):
+        if isinstance(args.logfiles, str):
             # type(u"") is for Py2 unicode compatibility
             args.logfiles = [args.logfiles]
         for file in args.logfiles:
@@ -322,11 +321,11 @@ def start_logging(startlogs, args):
         logging.getLogger("netmiko").setLevel(logging.DEBUG)
     # Mappings for startlog entries to be passed properly into the log facility
     maps = {
-           "debug": logging.DEBUG,
-           "info": logging.INFO,
-           "warning": logging.WARNING,
-           "error": logging.ERROR,
-           "critical": logging.CRITICAL
+        "debug": logging.DEBUG,
+        "info": logging.INFO,
+        "warning": logging.WARNING,
+        "error": logging.ERROR,
+        "critical": logging.CRITICAL
     }
     # Pass the startlogs into the loggin facility under the proper level
     for msg in startlogs:
@@ -342,7 +341,7 @@ def merge_args(primary_value, secondary_value):
         elif type(secondary_value) == str:
             primary_value.append(secondary_value)
             return primary_value
-        elif type(secondary_value) == type(u""):
+        elif isinstance(secondary_value, str):
             # type(u"") is for Py2 unicode compatibility
             primary_value.append(secondary_value)
             return primary_value
@@ -370,7 +369,7 @@ def get_config_files(startlogs):
             "level": "debug",
             "message": "autoshell.process_config_files:\
  No config files defined"
-            })
+        })
         return config_file_data
     else:
         for filename in config_files:
@@ -380,14 +379,14 @@ def get_config_files(startlogs):
                     "level": "debug",
                     "message": "autoshell.process_config_files:\
  Defined config file ({}) does not exist or is not a file".format(filename)
-                    })
+                })
             # If it is a file
             else:
                 startlogs.append({
                     "level": "debug",
                     "message": "autoshell.process_config_files:\
  Defined config file ({}) exists. Processing...".format(filename)
-                    })
+                })
                 # Process it through the expressions library
                 exp_output = common.expressions.parse_expression(
                     [filename], ["-", ":", "@"])
@@ -396,7 +395,7 @@ def get_config_files(startlogs):
                     "message": "autoshell.process_config_files:\
  Config file ({}) interpreted by common.expressions:\
  \n{}".format(filename, json.dumps(exp_output, indent=4))
-                    })
+                })
                 # exp_output should be a list of results with one entry
                 if exp_output:
                     if type(exp_output[0]["value"]) != dict:
@@ -404,7 +403,7 @@ def get_config_files(startlogs):
                             "level": "error",
                             "message": "autoshell.process_config_files:\
  Config file ({}) must be a dictionary type! Discarding".format(filename)
-                            })
+                        })
                     else:
                         for key in exp_output[0]["value"]:
                             # If the key doesnt exist yet
@@ -471,7 +470,7 @@ def start():
     startlogs.append({
         "level": "debug",
         "message": "autoshell.start: Starting Up"
-        })
+    })
     # Main arg parser for autoshell
     #  Formatter is removed to prevent whitespace loss
     #  Auto help is removed so it can be added into an argument group
@@ -499,44 +498,44 @@ def start():
     startlogs.append({
         "level": "debug",
         "message": "autoshell.start: Starting argument parsing"
-        })
+    })
     misc.add_argument(
-                        "-h", "--help",
-                        help="show this help message and exit",
-                        action="help")
+        "-h", "--help",
+        help="show this help message and exit",
+        action="help")
     misc.add_argument(
-                        "-v", "--version",
-                        action="version",
-                        version="AutoShell {}\n\
+        "-v", "--version",
+        action="version",
+        version="AutoShell {}\n\
     Bundled Modules: {}\n\
 Python: {}\n\
 Netmiko: {}\n\
     Netmiko Platforms:\n        {}".format(
-                            __version__.version,
-                            " ".join(bundled_mods),
-                            sys.version.replace("\n", "\n    "),
-                            connectors.cli.netmiko.__version__,
-                            "\n        ".join(connectors.cli.netmiko.platforms)))
+            __version__.version,
+            " ".join(bundled_mods),
+            sys.version.replace("\n", "\n    "),
+            connectors.cli.netmiko.__version__,
+            "\n        ".join(connectors.cli.netmiko.platforms)))
     required.add_argument(
-                        'addresses',
-                        help="""Target hosts (strings or files) (positional)'
+        'addresses',
+        help="""Target hosts (strings or files) (positional)'
     Examples:
         Use a file:       'myhosts.txt'
         Use IP w/ type:   '192.168.1.1@cisco_ios'
         Use IPs w/o type: '192.168.1.1 192.168.1.2'
         Use file and IP:  'myhosts.txt 192.168.1.1'""",
-                        metavar='FILE/HOST_ADDRESS',
-                        nargs='*')
+        metavar='FILE/HOST_ADDRESS',
+        nargs='*')
     optional.add_argument(
-                        '-f', "--config_file",
-                        help="""JSON/YAML file containing\
+        '-f', "--config_file",
+        help="""JSON/YAML file containing\
  key/value pairs for Autoshell arguments""",
-                        metavar='CONFIG_FILE',
-                        dest="config_file",
-                        action="append")
+        metavar='CONFIG_FILE',
+        dest="config_file",
+        action="append")
     optional.add_argument(
-                        '-c', "--credential",
-                        help="""Credentials (string or file)
+        '-c', "--credential",
+        help="""Credentials (string or file)
     Examples:
         '-c admin:password123'
         '-c admin:password123:enablepass123'
@@ -544,17 +543,17 @@ Netmiko: {}\n\
         '-c ;$--admin;password123;enablepass$cisco_ios'
         '-c credfile.json'
         '-c credfile.yml'""",
-                        metavar='CRED_STRING/FILE',
-                        dest="credentials",
-                        action="append")
+        metavar='CRED_STRING/FILE',
+        dest="credentials",
+        action="append")
     optional.add_argument(
-                        '-u', "--dump_hostinfo",
-                        help="Dump all host data to stdout as JSON",
-                        dest="dump_hostinfo",
-                        action='store_true')
+        '-u', "--dump_hostinfo",
+        help="Dump all host data to stdout as JSON",
+        dest="dump_hostinfo",
+        action='store_true')
     optional.add_argument(
-                        '-d', "--debug",
-                        help="""Set debug level (off by default)
+        '-d', "--debug",
+        help="""Set debug level (off by default)
     Examples for debug levels in main,modules,netmiko:
         defaults are WARNING,WARNING,ERROR
             Debug levels WARNING,INFO,WARNING: '-d'
@@ -563,31 +562,31 @@ Netmiko: {}\n\
             Debug levels DEBUG,DEBUG,WARNING:  '-dddd'
             Debug levels DEBUG,DEBUG,INFO:     '-ddddd'
             Debug levels DEBUG,DEBUG,DEBUG:    '-dddddd'""",
-                        dest="debug",
-                        action='count')
+        dest="debug",
+        action='count')
     optional.add_argument(
-                        '-m', "--module",
-                        help="""Import and use an external module
+        '-m', "--module",
+        help="""Import and use an external module
     Examples:
         '-m crawl'
         '-m /home/user/mymodule.py'""",
-                        metavar='MODULE_NAME',
-                        dest="modules",
-                        action="append")
+        metavar='MODULE_NAME',
+        dest="modules",
+        action="append")
     optional.add_argument(
-                        '-l', "--logfile",
-                        help="""File for logging output
+        '-l', "--logfile",
+        help="""File for logging output
     Examples:
         '-l /home/user/logs/mylogfile.txt'""",
-                        metavar='PATH',
-                        dest="logfiles",
-                        action="append")
+        metavar='PATH',
+        dest="logfiles",
+        action="append")
     optional.add_argument(
-                        '-t', "--timeout",
-                        help="Set timeout for SSH session (in seconds)",
-                        metavar='TIMEOUT',
-                        type=int,
-                        dest="timeout")
+        '-t', "--timeout",
+        help="Set timeout for SSH session (in seconds)",
+        metavar='TIMEOUT',
+        type=int,
+        dest="timeout")
 #    optional.add_argument(
 #                        '-dt', "--default_type",
 #                        help="""Define default host type(s) (Experimental)
@@ -604,9 +603,9 @@ Netmiko: {}\n\
     # Set up the logging facilities, which will dump in the startlogs
     start_logging(startlogs, args)
     # Output all the parsed arguments for debugging
-    log.debug("autoshell.start: \n###### INPUT ARGUMENTS #######\n" +
-              json.dumps(args.__dict__, indent=4) +
-              "\n##############################\n")
+    log.debug("autoshell.start: \n###### INPUT ARGUMENTS #######\n"
+              + json.dumps(args.__dict__, indent=4)
+              + "\n##############################\n")
     # Check for arguments. If none were provided, print help and quit
     check_args(parser, args)
     try:
