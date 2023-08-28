@@ -116,7 +116,7 @@ class hosts_class:
             #  will remain idle until we load addresses into the queues
             #  using add_host() or load().
             self.queues.update({
-                con: autoqueue.autoqueue(10,
+                con: autoqueue.autoqueue(50,
                                          self.connectors[con].connect,
                                          (self.credentials, self.hosts))})
         self.timeout = timeout

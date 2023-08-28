@@ -220,7 +220,7 @@ def _execute(con_instance, credential):
         con_instance.host.type = credential["device_type"]
         # Return True since we successfully connected
         return True
-    except netmiko.ssh_exception.NetMikoTimeoutException:
+    except netmiko.exceptions.NetmikoTimeoutException:
         # Exception thrown when TCP connectivity cannot establish. Set failed
         #  and return since there is no use in trying to connect with a
         #  different credential.
@@ -230,7 +230,7 @@ def _execute(con_instance, credential):
         con_instance.idle = True
         con_instance.failed = True
         return False
-    except netmiko.ssh_exception.NetMikoAuthenticationException:
+    except netmiko.exceptions.NetmikoAuthenticationException:
         # Exception thrown when authentication fails. Do not set as failed
         #  since we may have another credential to try
         log.warning(
